@@ -1,5 +1,4 @@
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React from 'react';
 
@@ -11,10 +10,10 @@ import Footer from './components/Footer';
 function App() {
   return (
     <div className='App'>
-      <Header/>
+      {/* <Header/>
       <Navigation/>
       <Project/>
-      <Footer/>
+      <Footer/> */}
     </div>
   );
 }
