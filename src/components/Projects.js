@@ -1,14 +1,19 @@
 import React from 'react';
+import project1 from '../assets/images/planner.png'
+import project2 from '../assets/images/maskeraid.png'
+import project3 from '../assets/images/techblog.png'
+import project4 from '../assets/images/marvel.png'
 // import Project from './project'
 
 function Projects() {
   return (
     <section class="sub-section-alternative" id="projects">
       <h2>Projects</h2>
+      <br></br>
         <div class="project-container">
           <article class="project-card">
               <a href="https://abalcs.github.io/Day-Planner/" target="_blank" rel="noreferrer">
-              <img class="project-image" src="src/images/planner.png" alt="day planner app"/></a>
+              <img class="project-image" src={project1} alt="day planner app"/></a>
               <h3>Day Planner</h3>
               <p class="subtext">Help keep your tasks on track with this workday planner made with HTML, CSS, JavaScript, and Moment.js.</p>
               <hr/>
@@ -18,7 +23,7 @@ function Projects() {
           </article>
           <article class="project-card">
             <a href="https://aqueous-harbor-96616.herokuapp.com/" target="_blank" rel="noreferrer">
-            <img class="project-image" src="src/images/maskeraid.png" alt="Masker-Aid Project"/></a>
+            <img class="project-image" src={project2} alt="Masker-Aid Project"/></a>
             <h3>Masker-Aid</h3>
             <p class="subtext">A facemask info app to help users prepare for their visit. Made with JavaScript, Google Places API, Express, Node.js, and MySQL</p>
             <hr/>
@@ -28,7 +33,7 @@ function Projects() {
           </article>
           <article class="project-card">
             <a href="https://glacial-badlands-18828.herokuapp.com/" target="_blank" rel="noreferrer">
-            <img class="project-image" src="src/images/techblog.png" alt="Tech Blog Site"/></a>
+            <img class="project-image" src={project3} alt="Tech Blog Site"/></a>
             <h3>Tech Blog Site</h3>
             <p class="subtext">A full stack CRUD blog made with the MVC model and Node.js, Handlebars, Express, & Sequelize.</p>
             <hr/>
@@ -38,7 +43,7 @@ function Projects() {
           </article>
           <article class="project-card">
             <a href="https://abalcs.github.io/Marvel-Archive/" target="_blank" rel="noreferrer">
-            <img class="project-image" src="src/images/marvel.png" alt="Marvel App"/></a>
+            <img class="project-image" src={project4} alt="Marvel App"/></a>
             <h3>Marvel Archive</h3>
             <p class="subtext">A Marvel Hero Character Information Hub made with JavaScript, Marvel API, CSS, & HTML</p>
             <hr/>

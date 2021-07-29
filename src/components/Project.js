@@ -1,3 +1,5 @@
+//Creating the project cards to pass as props to Project.js
+
 // import React from 'react';
 
 

@@ -10,13 +10,11 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-//Figure out what to do with this later
+const hamburgerButton = document.getElementById('hamburger')
+const navList = document.getElementById('nav-list')
 
-// const hamburgerButton = document.getElementById('hamburger')
-// const navList = document.getElementById('nav-list')
+function toggleButton() {
+  navList.classList.toggle('show')
+}
 
-// function toggleButton() {
-//     navList.classList.toggle('show')
-// }
-
-// hamburgerButton.addEventListener('click', toggleButton)
+hamburgerButton.addEventListener('click', toggleButton)
