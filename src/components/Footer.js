@@ -4,7 +4,7 @@ import React from 'react';
 function Footer() {
     return (
         <footer id="contact-me">
-            <h2>contact me</h2>
+            <a href="mailto:abalcom23@gmail.com"><h2>contact me</h2></a>
             <p class="email" >abalcom23@gmail.com</p>
             <div class="top">
                 <a href="#home">

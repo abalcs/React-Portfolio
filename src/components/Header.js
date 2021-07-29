@@ -4,7 +4,7 @@ import logo from '../assets/images/ablogo.png'
 function Header() {
     return (
       <div className='header'>
-        <nav>
+        <nav id="home">
         <img class="logo" src={logo} alt="Alan Balcom's logo"/>
             <ul id="nav-list">
                 <li><a href="#about-me">About me</a></li>
