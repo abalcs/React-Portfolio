@@ -16,7 +16,7 @@ My portfolio was made with React.js and is constantly evolving as my projects an
 
 ![React-Portfolio](src/assets/images/portfolioRM.png)
 
-[Link to Deployed Site]()
+[Link to Deployed Site](https://abalcs.github.io/React-Portfolio/)
 
 ## Installation:
 After cloning the repo, run `npm install` to install dependencies. Then run `npm start` to run the application locally.
