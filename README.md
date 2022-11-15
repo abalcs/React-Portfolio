@@ -27,9 +27,6 @@ Please submit a pull request.  For large changes please email me first. All feed
 ## License:
 For more information about the License, click on the link below.
 
-## Issues:
-N/A
-
 - [License](https://opensource.org/licenses/ISC)
 
 ##  Questions:
