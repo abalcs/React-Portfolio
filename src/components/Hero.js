@@ -10,7 +10,7 @@ function Hero() {
             <div class="hero-text">
                 <h1>Alan Balcom</h1>
                 <p>Web Developer</p>
-                <div class="button"><a href="#about-me">About me</a></div>
+                <div class="button"><a href="#about-me">ABOUT ME</a></div>
             </div>
             <aside class="socials">
                  <div><a href="https://www.github.com/abalcs" target="_blank" class="social" alt="my github repo link" rel="noreferrer">

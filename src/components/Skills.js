@@ -15,7 +15,7 @@ import webpack from '../assets/images/skills/webpack.png';
 function Skills() {
     return (
       <section className="skills"> 
-      <h2>Technical Skills</h2>
+      <h2>TECHNICAL SKILLS</h2>
       <div className="skill-list">
         <ul className="list">
           <li><a href="https://en.wikipedia.org/wiki/HTML" target="_blank" rel="noreferrer"><img src={html} className="skill-icon" alt="html"/></a></li>

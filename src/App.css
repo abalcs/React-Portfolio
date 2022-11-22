@@ -3,7 +3,7 @@
     scroll-behavior: smooth;
   }
   
-  body {
+body {
     font-family: 'Poppins', sans-serif;
     margin: 0px;
   }
@@ -24,34 +24,19 @@
     background-color: black;
     color: white;
     padding: 80px;
-  }
-  
-  nav {
-    display: flex;
-    justify-content: space-between;
-  }
-  
+  } 
+
   ul {
-    display: flex;
-    list-style-type: none;
-    width: 650px;
-    justify-content: space-around;
-    font-size: 25px;
+    list-style: none;
+    margin: 0px;
   }
-  
-  li {
-    text-decoration: none;
-    /* margin-left: 10px; */
+
+  .navList li {
+    padding: 10px;
   }
-  
-  nav li a:hover {
-    border-bottom: 3px solid rgb(49, 172, 44);
-    transition: ease-in-out 100ms;
-    color: rgb(49, 172, 44);
-  }
-  
-  nav li a:hover::before {
-    width: 100%;
+
+  .navList a:hover {
+    color: rgb(33, 119, 30)
   }
   
   h1 {
@@ -60,13 +45,18 @@
   }
   
   h2 {
-    font-size: 50px;
+    font-size: 24px;
+  }
+
+  h3 {
+    font-family: 'Lora';
   }
   
   p {
     margin: 0 10 0 0;
-    font-size: 30px;
+    font-size: 18px;
     font-weight: 300;
+    line-height: 1.5;
   }
   
   .subtext {
@@ -97,16 +87,24 @@
     font-weight: 300;
     padding-top: 5px;
     margin-top: 20px;
+    transition: all ease 500ms;
   }
   
   .button:hover {
     background-color: rgb(25, 90, 23);
+    border-radius: 0%;
+    transition: all ease 500ms;
+  }
+
+  .button a {
+    color: white;
+    font-size: 24px;
   }
   
-  .button:active {
+  /* .button:active {
     background-color: #A9A9A9;
     color: #808080;
-  }
+  } */
   
   .socials {
     padding-bottom: 200px;
@@ -114,7 +112,7 @@
   
   .logo {
     height: 70px;
-    margin: 20px;
+    margin: 10px 0;
   }
   .social {
     margin: 20px;
@@ -135,8 +133,9 @@
   }
   
   .headshot {
-    width: 300px;
-    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+    border-radius: 10%;
   }
   
   .headshot-container {
@@ -169,6 +168,15 @@
     flex-wrap: wrap;
     padding-right: 0px;
     padding-left: 0px;
+  }
+
+  .list li {
+    transition: all ease 400ms;
+  }
+
+  .list li:hover {
+    transform: scale(1.5);
+    transition: all ease 400ms;
   }
   
   .sql {
@@ -229,51 +237,19 @@
     color: white;
   }
   
-  .hamburger {
-    display: none;
-  }
-  
-  .hamburger:focus{
-    outline: 0;
-  }
-  
   .information p {
     padding-right: 2em;
   }
-  
-  @media only screen and (max-width: 1000px) {
-    .hamburger {
-        display: block;
-        border: 0;
-        /* background-color: transparent; */
-        color: white;
-        font-size: 30px;
-        margin: 20px;
-        align-self: flex-end;
-    }
-  
-    ul {
-        display: none;
-        /* background-color: #2b2c38; */
-        margin: 0px;
-    }
-  
-    ul.show {
-        display: block;
-        width: 22rem;
-    }
-  
-    nav {
-        display: flex;
-        flex-direction: column-reverse;
-        background-color: #2b2c38;
-    }
-  
+
+  @media only screen and (max-width: 899px) { 
     .logo {
         display: none;
     }
+    .navList {
+      visibility: hidden;
+    }
   }
-  
+    
   @media only screen and (max-width: 600px) {
     .information p {
       padding: 0px;
@@ -309,6 +285,5 @@
       width: 200px;
     }
   }
-    
   
   
