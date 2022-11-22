@@ -21,7 +21,7 @@ body {
   
   footer {
     text-align: center;
-    background-color: black;
+    background-color: #1c1d25;
     color: white;
     padding: 80px;
   } 
@@ -48,9 +48,9 @@ body {
     font-size: 24px;
   }
 
-  h3 {
-    font-family: 'Lora';
-  }
+  /* h3 {
+    font-family: '';
+  } */
   
   p {
     margin: 0 10 0 0;
@@ -290,9 +290,9 @@ body {
       width: 75%;
     } */
   
-    .email {
+    /* .email {
       font-size: 1.5rem;
-    }
+    } */
   }
   
   @media only screen and (max-width: 450px) {
@@ -300,9 +300,9 @@ body {
       display: none;
     }
   
-    .email {
+    /* .email {
       font-size: 1rem;
-    }
+    } */
   
     p {
       font-size: 1rem;

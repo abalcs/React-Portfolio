@@ -25,14 +25,13 @@ function Projects() {
       >
       <CardHeader
         title="LIST MANAGER"
-        style={{backgroundColor: "black", color: 'white'}}
+        style={{backgroundColor: "rgb(33, 119, 30)", color: 'white', textAlign: 'center'}}
       />
       <CardMedia
         component="img"
         height="194"
         image={listManager}
         alt="List Manager"
-        style={{ marginTop: '10px' }}
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -69,7 +68,7 @@ function Projects() {
       >
       <CardHeader
         title="ERIE COUNTY FIRE DEPT"
-        style={{backgroundColor: "black", color: 'white'}}
+        style={{backgroundColor: "rgb(33, 119, 30)", color: 'white', textAlign: 'center'}}
       />
       <CardMedia
         component="img"
@@ -113,7 +112,7 @@ function Projects() {
       >
       <CardHeader
         title="SpaceX Launches"
-        style={{backgroundColor: "black", color: 'white'}}
+        style={{backgroundColor: "rgb(33, 119, 30)", color: 'white', textAlign: 'center'}}
       />
       <CardMedia
         component="img"
@@ -157,7 +156,7 @@ function Projects() {
       >
       <CardHeader
         title="MARVEL ARCHIVE"
-        style={{backgroundColor: "black", color: 'white'}}
+        style={{backgroundColor: "rgb(33, 119, 30)", color: 'white', textAlign: 'center'}}
       />
       <CardMedia
         component="img"
@@ -168,7 +167,8 @@ function Projects() {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          .
+          A fun project that uses the Marvel API to show background, history, media and comic book appearances of the
+          most popular heros in the Marvel universe. 
         </Typography>
         <br></br>
         <Typography variant="body2" color="text.secondary">
@@ -198,14 +198,14 @@ function Projects() {
 
   const callback = function(index){
     console.log("callback",index);
-}
+  }
 
   return (
-    <>
-    <h2 style={{ textAlign: 'center'}}>PROJECTS</h2>
-    <br></br>
-    <Carousel slides={slides} autoplay={true} interval={5000} onSlideChange={callback}/>
-    </>
+    <div id='projects' style={{ marginBottom: '25px' }}>
+      <h2 style={{ textAlign: 'center'}}>PROJECTS</h2>
+      <br></br>
+      <Carousel slides={slides} autoplay={true} interval={5000} onSlideChange={callback}/>
+    </div>
   );
 }
 
