@@ -190,17 +190,44 @@ body {
     margin: 10px;
     border-radius: 10px;
   }
+  .slider-single-content {
+    width: 345px !important;
+    margin: auto !important ;
+  }
+
+  .fa-arrow-right, .fa-arrow-left {
+    background-color: rgb(25, 90, 23) ;
+  }
+
+  /* .react-3d-carousel {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .slider-single-content {
+    width: 345px !important;
+  }
+
+  .slider-container {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .slider-single {
+    display: flex !important;
+    justify-content: center !important ;
+  } */
   
-  .project-container {
+  /* .project-container {
     display: flex;
     justify-content: space-around;
-  }
+  } */
   
   .top a{
     color: rgb(49, 172, 44);
   }
   
-  @media only screen and (max-width: 1000px) {
+  /* @media only screen and (max-width: 1000px) {
     .sub-section {
       display: flex;
       flex-wrap: wrap;
@@ -209,7 +236,7 @@ body {
   
     .project-container {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: wrap;`
     }
     .project-card, .project-card1 {
       width: 100%;
@@ -220,7 +247,7 @@ body {
     margin-top: 25px;
     width: 250px;
     border-radius: 125px;
-  }
+  } */
   
   hr {
     margin-left: 20px;
@@ -259,9 +286,9 @@ body {
       font-size: 4rem;
     }
   
-    .project-card img {
+    /* .project-card img {
       width: 75%;
-    }
+    } */
   
     .email {
       font-size: 1.5rem;
