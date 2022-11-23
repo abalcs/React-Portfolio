@@ -27,7 +27,7 @@ function Header() {
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#1c1d25' }}>
       <Container maxWidth="xl" center>
-        <Toolbar disableGutters>
+        <Toolbar disableGutters className={`${style.toolbar}`}>
           <img 
           src={ablogo} 
           alt='Alan Logo' 

@@ -13,11 +13,6 @@ ul {
   margin: 0px;
 }
 
-h1 {
-  font-size: 90px;
-  margin: 0;
-}
-
 h2 {
   font-size: 24px;
 }
@@ -36,6 +31,11 @@ p {
 }
 
 // Override carousel default style
+.slider-content {
+  display: flex;
+  justify-content: center;
+}
+
 .slider-single-content {
   width: 345px !important;
   margin: auto !important ;
@@ -43,4 +43,21 @@ p {
 
 .fa-arrow-right, .fa-arrow-left {
   background-color: rgb(25, 90, 23) ;
+}
+
+@media screen and (max-width: 400px) {
+  .slider-content {
+      width: 145px !important;
+      margin-left: -150px;
+      transform: scale(.8) !important;
+    }
+}
+
+@media screen and (max-width: 700px) {
+  .slider-right, 
+  .slider-left, 
+  .fa-arrow-right, 
+  .fa-arrow-left {
+    visibility: hidden;
+  }
 }

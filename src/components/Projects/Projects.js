@@ -16,6 +16,8 @@ import ecfd from './images/ecfd.jpg';
 import spacex from './images/spacex.jpg';
 import marvel from './images/marvel.png';
 
+import style from './projects.module.scss';
+
 function Projects() {
 
   let slides = [
@@ -24,7 +26,7 @@ function Projects() {
       style={{ borderRadius: '10px', border: '1px solid black' }}
       >
       <CardHeader
-        title="LIST MANAGER"
+        title="List Manager"
         style={{backgroundColor: "rgb(33, 119, 30)", color: 'white', textAlign: 'center'}}
       />
       <CardMedia
@@ -35,7 +37,7 @@ function Projects() {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          I built this CRUD list manager to have an easy way for my family to keep track of the items we need.
+          The classic project! <br></br> I built this CRUD list manager to have an easy way for my family to keep track of the items we need.
         </Typography>
         <br></br>
         <Typography variant="body2" color="text.secondary">
@@ -201,10 +203,10 @@ function Projects() {
   }
 
   return (
-    <div id='projects' style={{ marginBottom: '25px' }}>
-      <h2 style={{ textAlign: 'center'}}>PROJECTS</h2>
+    <div id='projects' className={`${style.projects}`}>
+      <h2 style={{ textAlign: 'center'}}><strong>PROJECTS</strong></h2>
       <br></br>
-      <Carousel slides={slides} autoplay={true} interval={5000} onSlideChange={callback}/>
+      <Carousel slides={slides} autoplay={true} interval={8000} onSlideChange={callback}/>
     </div>
   );
 }

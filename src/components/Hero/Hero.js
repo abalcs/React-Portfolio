@@ -7,7 +7,6 @@ function Hero() {
 
   return (
     <div className={`${styles.hero}`}>
-      <Header/>
       <main className={`${styles.hero__area}`}>
         <div className={`${styles.hero__text}`}>
             <h1>Alan Balcom</h1>

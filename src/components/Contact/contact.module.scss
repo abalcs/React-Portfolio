@@ -71,3 +71,9 @@ footer {
 .contactUs {
   min-height: 37vh;
 }
+
+@media screen and (max-width: 440px) {
+  form {
+   max-width: 12rem !important;
+  }
+}
