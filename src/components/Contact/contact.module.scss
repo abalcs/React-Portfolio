@@ -1,62 +1,73 @@
+footer {
+  text-align: center;
+  background-color: #1c1d25;
+  color: white;
+  padding: 80px;
+} 
+
+.contact {
+  background-color: black;
+}
+
 .notification {
     font-size: 14px;
     position: fixed;
     z-index: 10;
     bottom: 1rem;
     right: 1rem;
-  }
+}
   
-  .toastNotice{
-    margin-bottom: 1rem;
-    border-radius: 4px;
-    box-shadow: 0 0 10px #999;
-    color: #fff;
-    opacity: .9;
-    padding: 20px;
-    transition: .3x ease;
-  }
+.toastNotice{
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 10px #999;
+  color: #fff;
+  opacity: .9;
+  padding: 20px;
+  transition: .3x ease;
+}
   
-  .toastNotice:hover {
-    box-shadow: 0 0 12px;
-    opacity: 1;
-  }
+.toastNotice:hover {
+  box-shadow: 0 0 12px;
+  opacity: 1;
+}
   
-  .popin {
-    height: 80px;
-    width: 365px;
-    color: white;
-    padding: 20px;
-    animation: toastRight .7s;
-  }
+.popin {
+  height: 80px;
+  width: 365px;
+  color: white;
+  padding: 20px;
+  animation: toastRight .7s;
+}
   
-  .popout {
-    animation: toastLeft .7s;
-  }
-  
-  .notifClose {
-    float: right;
-    background: none;
-    border: none;
-    color: white;
-    opacity: .8;
-    cursor: pointer;
-  }
-  
-  .notificationTitle {
-    font-weight: 700;
-    font-size: 1rem;
-    text-align: left;
-    margin-top: 0;
-    margin-bottom: 6px;
-    width: 300px;
-    height: 18px;
-  }
-  
-  .notificationDesc {
-    margin: 0;
-    text-align: left;
-  }
+.popout {
+  animation: toastLeft .7s;
+}
 
-  .contactUs {
-    min-height: 37vh;
-  }
+.notifClose {
+  float: right;
+  background: none;
+  border: none;
+  color: white;
+  opacity: .8;
+  cursor: pointer;
+}
+
+.notificationTitle {
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 6px;
+  width: 300px;
+  height: 18px;
+}
+
+.notificationDesc {
+  margin: 0;
+  text-align: left;
+}
+
+.contactUs {
+  min-height: 37vh;
+}

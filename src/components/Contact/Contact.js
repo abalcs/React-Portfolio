@@ -1,8 +1,11 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
-import styled from 'styled-components';
 
-import './contact.module.scss'
+import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
+
+import style from './contact.module.scss';
+import styled from 'styled-components';
 
 function Contact() {
     const [list, setList] = useState([]);
@@ -43,7 +46,7 @@ function Contact() {
     const sendEmail = (e) => {
       e.preventDefault();
   
-      emailjs.sendForm('service_4l9lttf', 'template_a60mqid', form.current, 'XmtPk8I0OJdOV7HJB').then(
+      emailjs.sendForm('service_xoshamr', 'template_a60mqid', form.current, 'XmtPk8I0OJdOV7HJB').then(
         (result) => {
           console.log(result.text);
           e.target.reset();
@@ -56,50 +59,48 @@ function Contact() {
     };
 
     return (
-    <>
-    <footer id='contact-me'>
-        <h3>CONTACT ME</h3>
-        <div className="notification">
-            {list.map((toast, i) => (
-            <div key={i} className="toastNotice popin">
-                <button className="notifClose" onClick={() => deleteToast(toast.id)}>
-                x
-                </button>
-                <div>
-                <p className="notificationTitle">{toast.title}</p>
-                <p className="notificationDesc">{toast.description}</p>
-                </div>
-            </div>
-            ))}
-        </div>
+      <footer id='contact-me'>
+          <h3>CONTACT ME</h3>
+          <div className={`${style.notification}`}>
+              {list.map((toast, i) => (
+              <div key={i} className={`${style.toastNotice}`}>
+                <span className={`${style.popin}`}>
+                  <button className={`${style.notifClose}`} onClick={() => deleteToast(toast.id)}>
+                    x
+                    </button>
+                    <div>
+                    <p className={`${style.notificationTitle}`}>{toast.title}</p>
+                    <p className={`${style.notificationDesc}`}>{toast.description}</p>
+                  </div>
+                </span>
+              </div>
+              ))}
+          </div>
 
-        <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
-            <div
-            className="card  z-depth-3"
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '600px',
-                borderRadius: '10px',
-                color: 'black',
-            }}
-            >
-            <StyledContactForm className="container">
-                <form ref={form} onSubmit={sendEmail}>
-                <label>Name</label>
-                <input className="white-text" type="text" name="user_name" required />
-                <label>Email</label>
-                <input className="white-text" type="email" name="user_email" required />
-                <label>Message</label>
-                <textarea className="white-text" name="message" required />
-                <input type="submit" value="Send" />
-                </form>
-            </StyledContactForm>
-            </div>
-        </div>
-    </footer>
-     
-    </>
+          <Box style={{ display: 'flex', justifyContent: 'center' }}>
+              <Card
+              style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '600px',
+                  borderRadius: '10px',
+                  color: 'black',
+              }}
+              >
+                <StyledContactForm className="container">
+                    <form ref={form} onSubmit={sendEmail}>
+                    <label>Name</label>
+                    <input type="text" name="user_name" required />
+                    <label>Email</label>
+                    <input type="email" name="user_email" required />
+                    <label>Message</label>
+                    <textarea name="message" required />
+                    <input type="submit" value="Send" />
+                    </form>
+                </StyledContactForm>
+              </Card>
+          </Box>
+      </footer>
     );
   }
 
@@ -157,6 +158,5 @@ function Contact() {
       }
     }
   `;
-
 
 export default Contact;

@@ -11,6 +11,8 @@ import MenuItem from '@mui/material/MenuItem';
 import ablogo from './images/ablogo.png';
 import resume from './images/AlanBalcomResume.pdf'
 
+import style from './header.module.scss';
+
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
@@ -29,7 +31,7 @@ function Header() {
           <img 
           src={ablogo} 
           alt='Alan Logo' 
-          class='logo'
+          className={`${style.logo}`}
           />
 
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -72,8 +74,8 @@ function Header() {
             </Menu>
           </Box>
 
-          <Box class='navList' style={{ display: 'flex', alignItems: 'center'}}>
-            <ul class='navList' style={{ color: 'white', display: 'flex', fontSize: '1rem' }}>
+          <Box className={`${style.navList}`} style={{ display: 'flex', alignItems: 'center'}}>
+            <ul className={`${style.navList}`} style={{ color: 'white', display: 'flex', fontSize: '1rem' }}>
               <li><a href='#about-me'>ABOUT ME</a></li>
               <li><a href='#projects' >PROJECTS</a></li>
               <li><a href='#contact-me' >CONTACT</a></li>

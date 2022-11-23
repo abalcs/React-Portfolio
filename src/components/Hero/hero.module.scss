@@ -1,0 +1,52 @@
+.hero {
+    background-color: #1c1d25;
+    height: 100vh;
+    color: white;
+    font-size: 40px;
+
+    &__area {
+        display: flex;
+        height: 100%;
+        justify-content: space-between;
+        align-items: center;
+    }
+      
+    &__text {
+        margin-left: 80px;
+        margin-bottom: 200px;
+    }
+
+    &__button {
+        width: 200px;
+        height: 55px;
+        border-radius: 30px;
+        background-color: rgb(33, 119, 30);
+        text-align: center;
+        font-size: 30px;
+        font-weight: 300;
+        padding-top: 5px;
+        margin-top: 20px;
+        transition: all ease 500ms;
+    }
+      
+    &__button:hover {
+        background-color: rgb(25, 90, 23);
+        border-radius: 0%;
+        transition: all ease 500ms;
+    }
+    
+    &__button a {
+        color: white;
+        font-size: 24px;
+        text-decoration: none;
+    }
+
+    &__socials {
+        padding-bottom: 200px;
+    }
+
+    &__social {
+    margin: 20px;
+    }
+}
+
