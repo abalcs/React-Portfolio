@@ -1,15 +1,15 @@
 import React from 'react';
-import html from '../assets/images/skills/HTML.png';
-import js from '../assets/images/skills/JS.png';
-import bootstrap from '../assets/images/skills/bootstrap.png';
-import css from '../assets/images/skills/CSS.png';
-import git from '../assets/images/skills/git.png';
-import jquery from '../assets/images/skills/jquery.png';
-import mongodb from '../assets/images/skills/mongodb.png';
-import node from '../assets/images/skills/node.png';
-import react from '../assets/images/skills/react.png';
-import sql from '../assets/images/skills/sql.png';
-import webpack from '../assets/images/skills/webpack.png';
+import html from './images/HTML.png';
+import js from './images/JS.png';
+import bootstrap from './images/bootstrap.png';
+import css from './images/CSS.png';
+import git from './images/git.png';
+import jquery from './images/jquery.png';
+import mongodb from './images/mongodb.png';
+import node from './images/node.png';
+import react from './images/react.png';
+import sql from './images/sql.png';
+import webpack from './images/webpack.png';
 
 
 function Skills() {

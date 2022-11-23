@@ -2,9 +2,9 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import styled from 'styled-components';
 
-import '/Users/alanbalcom/Desktop/React-Portfolio/src/contact.scss'
+import './contact.module.scss'
 
-function Footer() {
+function Contact() {
     const [list, setList] = useState([]);
     let toastProperties = null;
     // SETS PROPERTIES FOR THE TOAST NOTIFICATION
@@ -159,4 +159,4 @@ function Footer() {
   `;
 
 
-export default Footer;
+export default Contact;

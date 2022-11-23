@@ -1,5 +1,5 @@
 import React from 'react';
-import newMe from '../assets/images/newme.jpg'
+import newMe from './images/newme.jpg'
 
 
 function About() {

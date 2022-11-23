@@ -11,10 +11,10 @@ import WebIcon from '@mui/icons-material/Web';
 
 import {Carousel} from '3d-react-carousal';
 
-import listManager from '../assets/images/ListManager.jpg';
-import ecfd from '../assets/images/ecfd.jpg';
-import spacex from '../assets/images/spacex.jpg';
-import marvel from '../assets/images/marvel.png';
+import listManager from './images/ListManager.jpg';
+import ecfd from './images/ecfd.jpg';
+import spacex from './images/spacex.jpg';
+import marvel from './images/marvel.png';
 
 function Projects() {
 

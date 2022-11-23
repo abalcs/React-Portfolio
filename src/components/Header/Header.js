@@ -7,8 +7,9 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
-import ablogo from '../assets/images/ablogo.png';
-import resume from '../assets/images/AlanBalcomResume.pdf'
+
+import ablogo from './images/ablogo.png';
+import resume from './images/AlanBalcomResume.pdf'
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

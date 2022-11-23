@@ -1,11 +1,11 @@
-import './App.css';
+import './App.scss';
 import React from 'react';
 
-import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Projects from './components/Projects';
-import Footer from './components/Footer';
+import Hero from '../src/components/Hero/Hero';
+import About from './components/About/About';
+import Skills from './components/Skills/Skills';
+import Projects from './components/Projects/Projects';
+import Contact from './components/Contact/Contact';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <About/>
       <Skills/>
       <Projects/>
-      <Footer/>
+      <Contact/>
     </div>
   );
 }
