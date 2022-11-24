@@ -42,6 +42,10 @@
         text-decoration: none;
     }
 
+    &__button a:hover {
+        color: orange;
+    }
+
     &__socials {
         padding-bottom: 200px;
     }
