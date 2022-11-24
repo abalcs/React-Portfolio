@@ -1,0 +1,34 @@
+.skills {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 40px;
+    background-color: #dcdcdc;
+}
+  
+.skillIcon {
+    padding: 25px;
+    width: 100px;
+}
+  
+.list {
+    display:flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.list li {
+    transition: all ease 400ms;
+}
+
+.list li:hover {
+    transform: scale(1.5);
+    transition: all ease 400ms;
+}
+
+.sql {
+    width: 100px;
+}

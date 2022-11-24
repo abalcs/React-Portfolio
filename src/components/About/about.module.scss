@@ -1,0 +1,32 @@
+.sub_section {
+    display: flex;
+    justify-content: space-around;
+    padding: 80px;
+
+    &__p {
+        padding-right: 2em;
+        line-height: 1.5em;
+    }
+}
+
+.headshot {
+    height: 200px;
+    width: 200px;
+    border-radius: 10%;
+
+    &__container {
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .sub_section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem;
+        text-align: center;
+    }
+}
+
