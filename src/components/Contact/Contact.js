@@ -1,6 +1,8 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 
+import {HiChevronDoubleUp} from 'react-icons/hi2'
+
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 
@@ -100,6 +102,11 @@ function Contact() {
                 </StyledContactForm>
               </Card>
           </Box>
+          
+          <div className={`${style.homeChevron}`} style={{ paddingTop: '60px' }}>
+            <a href='#home'><HiChevronDoubleUp/></a>
+          </div>
+          
       </footer>
     );
   }

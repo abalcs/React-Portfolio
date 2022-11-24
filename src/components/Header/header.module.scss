@@ -1,31 +1,14 @@
-.toolbar {
-    min-width: 100% !important;
-}
 
-.navList li {
-    padding: 10px;
-}
-
-.navList li a {
+a {
     text-decoration: none;
     color: white;
 }
 
-.navList a:hover {
-    color: rgb(33, 119, 30)
+a:hover, Button:hover {
+    color: rgb(33, 119, 30);
 }
 
 .logo {
     height: 70px;
     margin: 10px 0;
-}
-
-@media only screen and (max-width: 899px) { 
-    .logo {
-        display: none;
-    }
-    
-    .navList {
-      visibility: hidden;
-    }
 }

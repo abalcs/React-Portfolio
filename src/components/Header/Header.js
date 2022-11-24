@@ -1,91 +1,112 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
+import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import MenuItem from '@mui/material/MenuItem';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 import ablogo from './images/ablogo.png';
-import resume from './images/AlanBalcomResume.pdf'
-
 import style from './header.module.scss';
 
-function Header() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+const drawerWidth = 240;
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+function Header(props) {
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const drawer = (
+    <Box onClick={handleDrawerToggle} id='home' sx={{ textAlign: 'center', background: '#1c1d25', color: 'white', height: '100vh' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        <img src={ablogo} alt='intials logo' style={{ height: '70px'}}/>
+      </Typography>
+      
+      <List>
+          <ListItem  disablePadding>
+            <ListItemButton sx={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
+              <ListItemText><a href='#about-me'>ABOUT ME</a></ListItemText>
+              <ListItemText><a href='#skills'>SKILLS</a></ListItemText>
+              <ListItemText><a href='#projects'>PROJECTS</a></ListItemText>
+              <ListItemText><a href='#contact-me'>CONTACT</a></ListItemText>
+              <ListItemText><a href='./images/AlanBalcomResume.pdf' target='_blank' download='ABalcomResume'>DOWNLOAD RESUME</a></ListItemText>
+            </ListItemButton>
+          </ListItem>
+      </List>
+    </Box>
+  );
+
+  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: '#1c1d25' }}>
-      <Container maxWidth="xl" center>
-        <Toolbar disableGutters className={`${style.toolbar}`}>
-          <img 
-          src={ablogo} 
-          alt='Alan Logo' 
-          className={`${style.logo}`}
-          />
+    <Box sx={{ display: 'flex' }}>
+      <AppBar component="nav" style={{ background: '#1c1d25' }} elevation={0}>
+        <Toolbar style={{ height: '70px'}}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            <img src={ablogo} alt='intials logo' className={`${style.logo}`}/>
+          </Typography>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
 
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <ul>
-                  <li><a href='#about-me' style={{ color: 'black', marginLeft: '-30px'}}>ABOUT ME</a></li>
-                  <li><a href='#projects' style={{ color: 'black', marginLeft: '-30px'}}>PROJECTS</a></li>
-                  <li><a href='#contact-me' style={{ color: 'black', marginLeft: '-30px'}}>CONTACT</a></li>
-                  <li><a href={resume} download style={{ color: 'black', marginLeft: '-30px'}}>DOWNLOAD RESUME</a></li>
-                </ul>
-              </MenuItem>
-            </Menu>
-          </Box>
+            <Button href='#about-me' sx={{ color: '#fff' }}>
+              ABOUT ME
+            </Button>
+            <Button href='#skills' sx={{ color: '#fff' }}>
+              SKILLS
+            </Button>
+            <Button href='#projects' sx={{ color: '#fff' }}>
+              PROJECTS
+            </Button>
+            <Button href='#contact-me' sx={{ color: '#fff' }}>
+              CONTACT
+            </Button>
 
-          <Box className={`${style.navList}`} style={{ display: 'flex', alignItems: 'center'}}>
-            <ul className={`${style.navList}`} style={{ color: 'white', display: 'flex', fontSize: '1rem' }}>
-              <li><a href='#about-me'>ABOUT ME</a></li>
-              <li><a href='#projects' >PROJECTS</a></li>
-              <li><a href='#contact-me' >CONTACT</a></li>
-              <li><a href={resume} download>DOWNLOAD RESUME</a></li>
-            </ul>
           </Box>
-          
         </Toolbar>
-      </Container>
-    </AppBar>
+      </AppBar>
+      <Box component="nav">
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+      <Box component="main" sx={{ p: 3 }}>
+        <Toolbar />
+      </Box>
+    </Box>
   );
 }
+
 export default Header;

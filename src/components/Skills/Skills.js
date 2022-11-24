@@ -16,7 +16,7 @@ import style from './skill.module.scss';
 
 function Skills() {
     return (
-      <section className={`${style.skills}`}> 
+      <section className={`${style.skills}`} id='skills'> 
 
       <h2><strong>TECHNICAL SKILLS</strong></h2>
 
