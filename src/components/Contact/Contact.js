@@ -103,7 +103,7 @@ function Contact() {
               </Card>
           </Box>
           
-          <div className={`${style.homeChevron}`} style={{ paddingTop: '60px' }}>
+          <div style={{ paddingTop: '60px' }}>
             <a href='#home'><HiChevronDoubleUp/></a>
           </div>
           

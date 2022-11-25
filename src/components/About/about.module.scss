@@ -1,11 +1,15 @@
 .sub_section {
     display: flex;
-    justify-content: space-around;
-    padding: 80px;
+    justify-content: space-between;
+    padding: 20px;
 
     &__p {
         padding-right: 2em;
         line-height: 1.5em;
+    }
+
+    &__div {
+        width: 50%;
     }
 }
 
@@ -15,7 +19,9 @@
     border-radius: 10%;
 
     &__container {
+        width: 50%;
         display: flex;
+        justify-content: center;
         align-items: center;
     }
 }
@@ -25,8 +31,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 2rem;
+        padding: 20px 0;
         text-align: center;
+
+        &__p {
+            padding: 0px
+        }
     }
 }
 

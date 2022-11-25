@@ -33,12 +33,12 @@ function Header(props) {
       
       <List>
           <ListItem  disablePadding>
-            <ListItemButton sx={{ textAlign: 'left', display: 'flex', flexDirection: 'column' }}>
+            <ListItemButton sx={{ display: 'flex', flexDirection: 'column' }}>
               <ListItemText><a href='#about-me'>ABOUT ME</a></ListItemText>
               <ListItemText><a href='#skills'>SKILLS</a></ListItemText>
               <ListItemText><a href='#projects'>PROJECTS</a></ListItemText>
               <ListItemText><a href='#contact-me'>CONTACT</a></ListItemText>
-              <ListItemText><a href='./images/AlanBalcomResume.pdf' target='_blank' download='ABalcomResume'>DOWNLOAD RESUME</a></ListItemText>
+              <ListItemText><a href='https://drive.google.com/file/d/1vMwuzViwCIyJH5R4lav5Gwps2GCG8kg1/view?usp=share_link' target='_blank'>VIEW RESUME</a></ListItemText>
             </ListItemButton>
           </ListItem>
       </List>
@@ -80,6 +80,9 @@ function Header(props) {
             </Button>
             <Button href='#contact-me' sx={{ color: '#fff' }}>
               CONTACT
+            </Button>
+            <Button href='https://drive.google.com/file/d/1vMwuzViwCIyJH5R4lav5Gwps2GCG8kg1/view?usp=share_link' target='_blank' sx={{ color: '#fff' }}>
+              RESUME
             </Button>
 
           </Box>
