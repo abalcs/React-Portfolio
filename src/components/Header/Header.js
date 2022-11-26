@@ -38,7 +38,7 @@ function Header(props) {
               <ListItemText><a href='#skills'>SKILLS</a></ListItemText>
               <ListItemText><a href='#projects'>PROJECTS</a></ListItemText>
               <ListItemText><a href='#contact-me'>CONTACT</a></ListItemText>
-              <ListItemText><a href='https://drive.google.com/file/d/1vMwuzViwCIyJH5R4lav5Gwps2GCG8kg1/view?usp=share_link' target='_blank'>VIEW RESUME</a></ListItemText>
+              <ListItemText><a href='https://drive.google.com/file/d/1vMwuzViwCIyJH5R4lav5Gwps2GCG8kg1/view?usp=share_link' target='_blank' rel='noreferrer'>VIEW RESUME</a></ListItemText>
             </ListItemButton>
           </ListItem>
       </List>
