@@ -12,7 +12,7 @@
 ## Description:
 ![License](https://img.shields.io/badge/License-ISC-blue.svg "License Badge")
 
-My portfolio was made with React.js and is constantly evolving as my projects and abilities increase. Thanks for checking it out.  I hope you like it and be sure to check back in the future for new updates.
+My portfolio was made with React, Material UI, and Sass. Thanks for checking it out.
 
 ![React-Portfolio](src/assets/images/portfolioRM.png)
 
@@ -22,7 +22,7 @@ My portfolio was made with React.js and is constantly evolving as my projects an
 After cloning the repo, run `npm install` to install dependencies. Then run `npm start` to run the application locally.
 
 ## Contributing:
-Please submit a pull request.  For large changes please email me first. All feedback and input on making my portfolio are welcomed.
+Please submit a pull request.
 
 ## License:
 For more information about the License, click on the link below.
