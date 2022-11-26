@@ -9,7 +9,7 @@ function Hero() {
       <main className={`${styles.hero__area}`}>
         <div className={`${styles.hero__text}`}>
             <h1>Alan Balcom</h1>
-            <p>Web Developer</p>
+            <h3>Web Developer</h3>
             <div className={`${styles.hero__button}`}><a href="#about-me">ABOUT ME</a></div>
         </div>
         <aside className={`${styles.hero__socials}`}>

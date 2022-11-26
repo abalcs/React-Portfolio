@@ -8,8 +8,8 @@ function About() {
     return (
       <section className={`${style.sub_section}`} id="about-me">
         <div className={`${style.sub_section__div}`}>
-            <h2><strong>MY STORY</strong></h2>
-            <h3><em>It's never too late to follow your passion.</em></h3>
+            
+            <h3><strong>IT'S NEVER TOO LATE TO START.</strong></h3>
             <p  className={`${style.sub_section__p}`}>I'm a web developer living in Andover, Massachusetts. I spend my days coding, drinking coffee, and spending time my with my wife and daugher. 
               My goal is to bring creativity and great user experience to the projects I work on.</p>
 

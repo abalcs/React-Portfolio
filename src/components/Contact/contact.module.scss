@@ -2,11 +2,15 @@ footer {
   text-align: center;
   background-color: #1c1d25;
   color: white;
-  padding: 80px;
+  padding: 40px;
 } 
 
 .contact {
   background-color: black;
+
+  &__me {
+    padding-bottom: 40px;
+  }
 }
 
 .notification {

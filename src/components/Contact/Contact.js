@@ -62,7 +62,7 @@ function Contact() {
 
     return (
       <footer id='contact-me'>
-          <h3>CONTACT ME</h3>
+          <h3 className={`${style.contact__me}`}><strong>CONTACT ME</strong></h3>
           <div className={`${style.notification}`}>
               {list.map((toast, i) => (
               <div key={i} className={`${style.toastNotice}`}>

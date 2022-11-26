@@ -18,7 +18,7 @@ function Skills() {
     return (
       <section className={`${style.skills}`} id='skills'> 
 
-      <h2><strong>TECHNICAL SKILLS</strong></h2>
+      <h3><strong>TECHNICAL SKILLS</strong></h3>
 
       <div >
         <ul className={`${style.list}`}>

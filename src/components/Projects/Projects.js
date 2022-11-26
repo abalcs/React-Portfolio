@@ -204,7 +204,7 @@ function Projects() {
 
   return (
     <div id='projects' className={`${style.projects}`}>
-      <h2 style={{ textAlign: 'center'}}><strong>PROJECTS</strong></h2>
+      <h3 style={{ textAlign: 'center'}}><strong>PROJECTS</strong></h3>
       <br></br>
       <Carousel slides={slides} autoplay={true} interval={8000} onSlideChange={callback}/>
     </div>
