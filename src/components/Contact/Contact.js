@@ -113,7 +113,7 @@ function Contact() {
 
   // APPLIES STLYES TO THE CONTACT FORM AND
   const StyledContactForm = styled.div`
-    width: 400px;
+    width: 80%;
   
     form {
       display: flex;
