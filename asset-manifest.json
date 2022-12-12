@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/React-Portfolio/static/css/main.c778f997.chunk.css",
-    "main.js": "/React-Portfolio/static/js/main.f1572537.chunk.js",
-    "main.js.map": "/React-Portfolio/static/js/main.f1572537.chunk.js.map",
+    "main.js": "/React-Portfolio/static/js/main.f5e863e1.chunk.js",
+    "main.js.map": "/React-Portfolio/static/js/main.f5e863e1.chunk.js.map",
     "runtime-main.js": "/React-Portfolio/static/js/runtime-main.4b8dfcd6.js",
     "runtime-main.js.map": "/React-Portfolio/static/js/runtime-main.4b8dfcd6.js.map",
-    "static/js/2.29cf3cef.chunk.js": "/React-Portfolio/static/js/2.29cf3cef.chunk.js",
-    "static/js/2.29cf3cef.chunk.js.map": "/React-Portfolio/static/js/2.29cf3cef.chunk.js.map",
+    "static/js/2.189a613f.chunk.js": "/React-Portfolio/static/js/2.189a613f.chunk.js",
+    "static/js/2.189a613f.chunk.js.map": "/React-Portfolio/static/js/2.189a613f.chunk.js.map",
     "index.html": "/React-Portfolio/index.html",
     "static/css/main.c778f997.chunk.css.map": "/React-Portfolio/static/css/main.c778f997.chunk.css.map",
-    "static/js/2.29cf3cef.chunk.js.LICENSE.txt": "/React-Portfolio/static/js/2.29cf3cef.chunk.js.LICENSE.txt",
+    "static/js/2.189a613f.chunk.js.LICENSE.txt": "/React-Portfolio/static/js/2.189a613f.chunk.js.LICENSE.txt",
     "static/media/ListManager.a060a822.jpg": "/React-Portfolio/static/media/ListManager.a060a822.jpg",
     "static/media/Typescript.5929bb20.png": "/React-Portfolio/static/media/Typescript.5929bb20.png",
     "static/media/ablogo.b74c2647.png": "/React-Portfolio/static/media/ablogo.b74c2647.png",
@@ -18,12 +18,13 @@
     "static/media/marvel.59f4c781.png": "/React-Portfolio/static/media/marvel.59f4c781.png",
     "static/media/mui.785651cd.png": "/React-Portfolio/static/media/mui.785651cd.png",
     "static/media/newme.6a5574fb.jpg": "/React-Portfolio/static/media/newme.6a5574fb.jpg",
-    "static/media/spacex.20cb98a7.jpg": "/React-Portfolio/static/media/spacex.20cb98a7.jpg"
+    "static/media/spacex.20cb98a7.jpg": "/React-Portfolio/static/media/spacex.20cb98a7.jpg",
+    "static/media/vaulted.532103a9.png": "/React-Portfolio/static/media/vaulted.532103a9.png"
   },
   "entrypoints": [
     "static/js/runtime-main.4b8dfcd6.js",
-    "static/js/2.29cf3cef.chunk.js",
+    "static/js/2.189a613f.chunk.js",
     "static/css/main.c778f997.chunk.css",
-    "static/js/main.f1572537.chunk.js"
+    "static/js/main.f5e863e1.chunk.js"
   ]
 }
