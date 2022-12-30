@@ -17,6 +17,7 @@ import ecfd from './images/ecfd.jpg';
 import spacex from './images/spacex.jpg';
 import marvel from './images/marvel.png';
 import vaulted from './images/vaulted.png';
+import crypto from './images/crypto.png';
 
 import style from './projects.module.scss';
 
@@ -133,7 +134,7 @@ function Projects() {
         component="img"
         height="194"
         image={spacex}
-        alt="List Manager"
+        alt="Spacex Launches"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -182,7 +183,7 @@ function Projects() {
         component="img"
         height="194"
         image={marvel}
-        alt="List Manager"
+        alt="Marvel Archive"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -232,7 +233,7 @@ function Projects() {
         component="img"
         height="194"
         image={vaulted}
-        alt="List Manager"
+        alt="Vaulted Baseball"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -261,6 +262,56 @@ function Projects() {
         <IconButton 
         aria-label="share"
         href='https://www.vaultedbaseball.com'
+        target='_blank'>
+          <div style={{ marginTop: '-20px'}}>
+            <h6 style={{ marginBottom: '-5px'}}><strong>APP</strong></h6>
+            <WebIcon />
+          </div>
+        </IconButton>
+      </CardActions>
+    </Card>,
+
+    <Card 
+      sx={{ maxWidth: 345, height: 500 }}
+      style={{ borderRadius: '10px', border: '1px solid black' }}
+      >
+      <CardHeader
+        title="Crypto Dash"
+        style={{background: '#1c1d25', borderBottom: '1px solid white', color: 'white', textAlign: 'center'}}
+      />
+      <CardMedia
+        component="img"
+        height="194"
+        image={crypto}
+        alt="Crypto Dash"
+      />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+        Crypto Dash is a one-stop site built to show the top 100 crypto coins by market cap as well as a scrolling carousel of the
+        latest trending coins.
+        </Typography>
+        <br></br>
+        <Typography variant="body2" color="text.secondary">
+          Tech Used: <em>React, Javascript, SCSS, CoinGecko API</em>
+        </Typography>
+      </CardContent>
+      <CardActions 
+      disableSpacing
+      style={{ display: 'flex', justifyContent: 'center' }}
+      >
+        <IconButton 
+        aria-label="add to favorites"
+        href='https://github.com/abalcs/Crypto_Dashboard'
+        target='_blank'
+        >
+          <div style={{ marginTop: '-20px'}}>
+            <h6 style={{ marginBottom: '-5px'}}><strong>CODE</strong></h6>
+            <Github />
+          </div>
+        </IconButton>
+        <IconButton 
+        aria-label="share"
+        href='https://abalcs.github.io/Crypto_Dashboard/'
         target='_blank'>
           <div style={{ marginTop: '-20px'}}>
             <h6 style={{ marginBottom: '-5px'}}><strong>APP</strong></h6>
