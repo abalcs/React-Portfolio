@@ -2,16 +2,26 @@
     display: flex;
     justify-content: space-between;
     padding: 20px;
+    min-height: 100vh;
     background: linear-gradient(180deg, rgba(220,220,220,1) 0%, rgba(255,255,255,1) 100%);
+
+    &__h3 {
+        animation: fadeLeft 1500ms;
+    }
 
     &__p {
         padding-right: 2em;
         line-height: 1.5em;
+        animation: fadeLeft 1500ms;
     }
 
     &__div {
         width: 80%;
         padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
     }
 }
 
@@ -19,6 +29,7 @@
     height: 300px;
     width: 300px;
     border-radius: 10%;
+    animation: fadeRight 1500ms;
 
     &__container {
         width: 50%;
@@ -42,3 +53,22 @@
     }
 }
 
+@keyframes fadeLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+    }
+}

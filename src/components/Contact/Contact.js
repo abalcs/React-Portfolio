@@ -10,7 +10,18 @@ import style from './contact.module.scss';
 import styled from 'styled-components';
 
 function Contact() {
-    const [list, setList] = useState([]);
+  const myRef = useRef();
+  const [visible, setVisible] = useState();
+  const [list, setList] = useState([]);
+
+    useEffect(() => {
+      const observer = new IntersectionObserver((entries) => {
+        const entry = entries[0];
+        setVisible(entry.isIntersecting)
+      })
+      observer.observe(myRef.current)
+    }, [])
+
     let toastProperties = null;
     // SETS PROPERTIES FOR THE TOAST NOTIFICATION
     const showToast = () => {
@@ -61,8 +72,10 @@ function Contact() {
     };
 
     return (
-      <footer id='contact-me'>
-          <h3 className={`${style.contact__me}`}><strong>CONTACT ME</strong></h3>
+      <footer id='contact-me' ref={myRef}>
+      {visible && (
+        <>
+        <h3 className={`${style.contact__me}`}><strong>CONTACT ME</strong></h3>
           <div className={`${style.notification}`}>
               {list.map((toast, i) => (
               <div key={i} className={`${style.toastNotice}`}>
@@ -79,7 +92,7 @@ function Contact() {
               ))}
           </div>
 
-          <Box style={{ display: 'flex', justifyContent: 'center' }}>
+          <Box style={{ display: 'flex', justifyContent: 'center' }} className={`${style.contact}`}>
               <Card
               style={{
                   display: 'flex',
@@ -87,6 +100,7 @@ function Contact() {
                   width: '600px',
                   borderRadius: '10px',
                   color: 'black',
+                  boxShadow: '10px 5px 5px'
               }}
               >
                 <StyledContactForm className="container">
@@ -103,9 +117,13 @@ function Contact() {
               </Card>
           </Box>
           
-          <div style={{ paddingTop: '60px' }}>
+          <div style={{ paddingTop: '60px', display: 'flex', flexDirection: 'column' }}>
             <a href='#home'><HiChevronDoubleUp/></a>
+            BACK TO TOP
           </div>
+        </>
+      )}
+          
           
       </footer>
     );

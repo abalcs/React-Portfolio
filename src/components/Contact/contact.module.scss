@@ -7,7 +7,7 @@ footer {
 } 
 
 .contact {
-  background-color: black;
+  // background-color: black;
 
   &__me {
     padding-bottom: 40px;
@@ -75,4 +75,26 @@ footer {
 
 .contactUs {
   min-height: 37vh;
+}
+
+.contact {
+  animation: popIn 2000ms;
+}
+
+@keyframes popIn {
+  0% {
+      transform: scale(0);
+  }
+  80% {
+    transform: scale(1.1);
+  }
+  90% {
+    transform: scale(.9);
+  }
+  95% {
+    transform: scale(1.05);
+  }
+  100% {
+      transform: scale(1);
+  }
 }

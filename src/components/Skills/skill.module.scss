@@ -3,6 +3,11 @@
     flex-direction: column;
     text-align: center;
     padding: 40px;
+    min-height: 50vh;
+
+    &__h3 {
+        animation: fadeUp 2000ms;
+    }
 }
   
 .skillIcon {
@@ -17,10 +22,60 @@
     flex-wrap: wrap;
     padding-right: 0px;
     padding-left: 0px;
+
+    &__logo:nth-child(12) {
+        animation: fadeLeft 500ms;
+    }
+    
+    &__logo:nth-child(11) {
+        animation: fadeLeft 1000ms;
+    }
+    
+    &__logo:nth-child(10) {
+        animation: fadeLeft 1500ms;
+    }
+    
+    &__logo:nth-child(9) {
+        animation: fadeLeft 2000ms;
+    }
+    
+    &__logo:nth-child(8) {
+        animation: fadeLeft 2500ms;
+    }
+    
+    &__logo:nth-child(7) {
+        animation: fadeLeft 3000ms;
+    }
+    
+    &__logo:nth-child(6) {
+        animation: fadeLeft 3500ms;
+    }
+    
+    &__logo:nth-child(5) {
+        animation: fadeLeft 4000ms;
+    }
+    
+    &__logo:nth-child(4) {
+        animation: fadeLeft 4500ms;
+    }
+    
+    &__logo:nth-child(3) {
+        animation: fadeLeft 5000ms;
+    }
+    
+    &__logo:nth-child(2) {
+        animation: fadeLeft 5500ms;
+    }
+    
+    &__logo:nth-child(1) {
+        animation: fadeLeft 6000ms;
+    }
 }
 
 .list li {
     transition: all ease 400ms;
+    display: flex;
+    flex-direction: column;
 }
 
 .list li:hover {
@@ -30,4 +85,24 @@
 
 .sql {
     width: 100px;
+}
+
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(-75px);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-500px);
+    }
+    100% {
+        opacity: 1;
+    }
 }
