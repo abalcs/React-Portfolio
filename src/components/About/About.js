@@ -1,5 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
-import newMe from './images/newme.jpg'
+import meNoBg from './images/meNoBG.png'
+import bg from './images/bg.jpg'
+
 
 import style from './about.module.scss';
 
@@ -35,9 +37,13 @@ function About() {
           I am available for freelance work.</p>
             
       </div>
-      <div className={`${style.headshot__container}`}>
-          <img className={`${style.headshot}`} src={newMe} alt="Alan Balcom headshot"/>
+      <div className={`${style.container}`}>
+        <div className={`${style.background__container}`}>
+            <img className={`${style.background}`} src={bg} alt="Alan Balcom headshot"/>
+            <img className={`${style.background__me}`} src={meNoBg} alt="Alan Balcom headshot"/>
+        </div>
       </div>
+      
       </>
       )}
     </section>

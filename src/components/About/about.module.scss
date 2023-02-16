@@ -1,5 +1,6 @@
 .sub_section {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 20px;
     min-height: 100vh;
@@ -16,7 +17,7 @@
     }
 
     &__div {
-        width: 80%;
+        width: 60%;
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -25,11 +26,37 @@
     }
 }
 
-.headshot {
+.container {
+  position: relative;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 250px;
+  padding-bottom: 38px;
+  border-radius: 0 0 100vh 100vh;
+  width: 300px;
+  margin-inline: auto;
+  animation: fadeRight 2000ms;
+  overflow: hidden;
+  aspect-ratio: 1.25 / 2;
+}
+
+.background {
     height: 300px;
     width: 300px;
-    border-radius: 10%;
-    animation: fadeRight 1500ms;
+    border-radius: 50%;
+    position: absolute;
+    object-fit: cover;
+    overflow: hidden;
+    opacity: 1;
+
+
+    &__me {
+        position: relative;
+        z-index: 1;
+        transform: scale(1.65) translateY(-20px);
+    }
 
     &__container {
         width: 50%;
