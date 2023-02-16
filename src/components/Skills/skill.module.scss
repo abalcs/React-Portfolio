@@ -6,7 +6,7 @@
     min-height: 50vh;
 
     &__h3 {
-        animation: fadeUp 2000ms;
+        animation: fadeTop 2000ms;
     }
 }
   
@@ -24,51 +24,51 @@
     padding-left: 0px;
 
     &__logo:nth-child(12) {
-        animation: fadeLeft 500ms;
+        animation: fadeUp 2000ms;
     }
     
     &__logo:nth-child(11) {
-        animation: fadeLeft 1000ms;
+        animation: fadeDown 2000ms;
     }
     
     &__logo:nth-child(10) {
-        animation: fadeLeft 1500ms;
+        animation: fadeUp 2000ms;
     }
     
     &__logo:nth-child(9) {
-        animation: fadeLeft 2000ms;
+        animation: fadeDown 2000ms;
     }
     
     &__logo:nth-child(8) {
-        animation: fadeLeft 2500ms;
+        animation: fadeUp 2000ms;
     }
     
     &__logo:nth-child(7) {
-        animation: fadeLeft 3000ms;
+        animation: fadeDown 2000ms;
     }
     
     &__logo:nth-child(6) {
-        animation: fadeLeft 3500ms;
+        animation: fadeUp 2000ms;
     }
     
     &__logo:nth-child(5) {
-        animation: fadeLeft 4000ms;
+        animation: fadeDown 2000ms;
     }
     
     &__logo:nth-child(4) {
-        animation: fadeLeft 4500ms;
+        animation: fadeUp 2000ms;
     }
     
     &__logo:nth-child(3) {
-        animation: fadeLeft 5000ms;
+        animation: fadeDown 2000ms;
     }
     
     &__logo:nth-child(2) {
-        animation: fadeLeft 5500ms;
+        animation: fadeUp 2000ms;
     }
     
     &__logo:nth-child(1) {
-        animation: fadeLeft 6000ms;
+        animation: fadeDown 2000ms;
     }
 }
 
@@ -87,7 +87,7 @@
     width: 100px;
 }
 
-@keyframes fadeUp {
+@keyframes fadeTop {
     0% {
         opacity: 0;
         transform: translateY(-75px);
@@ -97,10 +97,20 @@
     }
 }
 
-@keyframes fadeLeft {
+@keyframes fadeUp {
     0% {
         opacity: 0;
-        transform: translateX(-500px);
+        transform: translateY(100px);
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px);
     }
     100% {
         opacity: 1;

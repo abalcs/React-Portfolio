@@ -94,13 +94,16 @@ function Contact() {
 
           <Box style={{ display: 'flex', justifyContent: 'center' }} className={`${style.contact}`}>
               <Card
+              className={`${style.form}`}
               style={{
                   display: 'flex',
                   flexDirection: 'column',
                   width: '600px',
                   borderRadius: '10px',
-                  color: 'black',
-                  boxShadow: '10px 5px 5px'
+                  border: '1px solid black',
+                  color: 'white',
+                  backgroundColor: 'grey',
+                  boxShadow: '10px 5px 5px lightgrey'
               }}
               >
                 <StyledContactForm className="container">
@@ -123,8 +126,6 @@ function Contact() {
           </div>
         </>
       )}
-          
-          
       </footer>
     );
   }
