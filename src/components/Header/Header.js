@@ -38,7 +38,7 @@ function Header(props) {
               <ListItemText><a href='#skills'>SKILLS</a></ListItemText>
               <ListItemText><a href='#projects'>PROJECTS</a></ListItemText>
               <ListItemText><a href='#contact-me'>CONTACT</a></ListItemText>
-              <ListItemText><a href='https://drive.google.com/file/d/1vMwuzViwCIyJH5R4lav5Gwps2GCG8kg1/view?usp=share_link' target='_blank' rel='noreferrer'>VIEW RESUME</a></ListItemText>
+              <ListItemText><a href='https://drive.google.com/file/d/10Kz_z-1TEoUq3ICCFtBEyg_QAGj2uGsP/view?usp=share_link' target='_blank' rel='noreferrer'>VIEW RESUME</a></ListItemText>
             </ListItemButton>
           </ListItem>
       </List>
@@ -81,7 +81,7 @@ function Header(props) {
             <Button href='#contact-me' sx={{ color: '#fff' }}>
               CONTACT
             </Button>
-            <Button href='https://drive.google.com/file/d/1vMwuzViwCIyJH5R4lav5Gwps2GCG8kg1/view?usp=share_link' target='_blank' sx={{ color: '#fff' }}>
+            <Button href='https://drive.google.com/file/d/10Kz_z-1TEoUq3ICCFtBEyg_QAGj2uGsP/view?usp=share_link' target='_blank' sx={{ color: '#fff' }}>
               RESUME
             </Button>
 
