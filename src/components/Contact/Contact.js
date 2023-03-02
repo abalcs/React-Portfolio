@@ -3,7 +3,6 @@ import emailjs from '@emailjs/browser';
 
 import {HiChevronDoubleUp} from 'react-icons/hi2'
 
-import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 
 import style from './contact.module.scss';
@@ -93,20 +92,8 @@ function Contact() {
           </div>
 
           <Box style={{ display: 'flex', justifyContent: 'center' }} className={`${style.contact}`}>
-              <Card
-              className={`${style.form}`}
-              style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: '600px',
-                  borderRadius: '10px',
-                  border: '1px solid black',
-                  color: 'white',
-                  backgroundColor: 'grey',
-                  boxShadow: '10px 5px 5px lightgrey'
-              }}
-              >
-                <StyledContactForm className="container">
+            
+                <StyledContactForm className="container w-50">
                     <form ref={form} onSubmit={sendEmail}>
                       <label>Name</label>
                       <input type="text" name="user_name" required />
@@ -117,7 +104,7 @@ function Contact() {
                       <input type="submit" value="Send" />
                     </form>
                 </StyledContactForm>
-              </Card>
+             
           </Box>
           
           <div style={{ paddingTop: '60px', display: 'flex', flexDirection: 'column' }}>
