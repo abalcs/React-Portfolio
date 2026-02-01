@@ -1,32 +1,27 @@
 {
   "files": {
-    "main.css": "/React-Portfolio/static/css/main.0a96a6b3.chunk.css",
-    "main.js": "/React-Portfolio/static/js/main.9993c5f5.chunk.js",
-    "main.js.map": "/React-Portfolio/static/js/main.9993c5f5.chunk.js.map",
-    "runtime-main.js": "/React-Portfolio/static/js/runtime-main.4b8dfcd6.js",
-    "runtime-main.js.map": "/React-Portfolio/static/js/runtime-main.4b8dfcd6.js.map",
-    "static/js/2.340f1b23.chunk.js": "/React-Portfolio/static/js/2.340f1b23.chunk.js",
-    "static/js/2.340f1b23.chunk.js.map": "/React-Portfolio/static/js/2.340f1b23.chunk.js.map",
+    "main.css": "/React-Portfolio/static/css/main.a2e4cca5.css",
+    "main.js": "/React-Portfolio/static/js/main.e1e192d8.js",
+    "static/media/profile.jpg": "/React-Portfolio/static/media/profile.919d1107fa068f8e9dd5.jpg",
+    "static/media/ecfd.jpg": "/React-Portfolio/static/media/ecfd.3acba96bed542023e880.jpg",
+    "static/media/weather.jpg": "/React-Portfolio/static/media/weather.e06f05ecfe09eeb4d830.jpg",
+    "static/media/marvel.jpg": "/React-Portfolio/static/media/marvel.0a5b62e93ff760808a0e.jpg",
+    "static/media/crypto.jpg": "/React-Portfolio/static/media/crypto.8556f1533d40bd5faf44.jpg",
+    "static/media/gth.jpg": "/React-Portfolio/static/media/gth.2dc0caaeb4affca67818.jpg",
+    "static/media/spacex.jpg": "/React-Portfolio/static/media/spacex.387bc6d5966f50d772f2.jpg",
+    "static/media/Typescript.png": "/React-Portfolio/static/media/Typescript.5929bb20944f0452ce05.png",
+    "static/media/ablogo.png": "/React-Portfolio/static/media/ablogo.211278089e3028ebda3d.png",
+    "static/media/postgresql.svg": "/React-Portfolio/static/media/postgresql.7bc394e86ea1f692d59a3d484ad156af.svg",
     "index.html": "/React-Portfolio/index.html",
-    "static/css/main.0a96a6b3.chunk.css.map": "/React-Portfolio/static/css/main.0a96a6b3.chunk.css.map",
-    "static/js/2.340f1b23.chunk.js.LICENSE.txt": "/React-Portfolio/static/js/2.340f1b23.chunk.js.LICENSE.txt",
-    "static/media/ListManager.a060a822.jpg": "/React-Portfolio/static/media/ListManager.a060a822.jpg",
-    "static/media/Typescript.5929bb20.png": "/React-Portfolio/static/media/Typescript.5929bb20.png",
-    "static/media/ablogo.b74c2647.png": "/React-Portfolio/static/media/ablogo.b74c2647.png",
-    "static/media/bg.24c23c75.jpg": "/React-Portfolio/static/media/bg.24c23c75.jpg",
-    "static/media/crypto.f530e78c.png": "/React-Portfolio/static/media/crypto.f530e78c.png",
-    "static/media/ecfd.d0cc9f86.jpg": "/React-Portfolio/static/media/ecfd.d0cc9f86.jpg",
-    "static/media/jquery.5fcdd3c6.png": "/React-Portfolio/static/media/jquery.5fcdd3c6.png",
-    "static/media/marvel.59f4c781.png": "/React-Portfolio/static/media/marvel.59f4c781.png",
-    "static/media/meNoBG.4db1bdf2.png": "/React-Portfolio/static/media/meNoBG.4db1bdf2.png",
-    "static/media/mui.785651cd.png": "/React-Portfolio/static/media/mui.785651cd.png",
-    "static/media/spacex.20cb98a7.jpg": "/React-Portfolio/static/media/spacex.20cb98a7.jpg",
-    "static/media/vaulted.532103a9.png": "/React-Portfolio/static/media/vaulted.532103a9.png"
+    "static/media/graphql.svg": "/React-Portfolio/static/media/graphql.14267f2ddb307badb38d0804e8151bcd.svg",
+    "static/media/vite.svg": "/React-Portfolio/static/media/vite.b30f410b464ac887c73c06e31add7f64.svg",
+    "static/media/express.svg": "/React-Portfolio/static/media/express.4925c0127df8857c18b38329795ce88f.svg",
+    "static/media/tailwind.svg": "/React-Portfolio/static/media/tailwind.8b3f5baf8ad130d320c59560114d0684.svg",
+    "main.a2e4cca5.css.map": "/React-Portfolio/static/css/main.a2e4cca5.css.map",
+    "main.e1e192d8.js.map": "/React-Portfolio/static/js/main.e1e192d8.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.4b8dfcd6.js",
-    "static/js/2.340f1b23.chunk.js",
-    "static/css/main.0a96a6b3.chunk.css",
-    "static/js/main.9993c5f5.chunk.js"
+    "static/css/main.a2e4cca5.css",
+    "static/js/main.e1e192d8.js"
   ]
 }
