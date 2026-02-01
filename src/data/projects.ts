@@ -1,10 +1,10 @@
 import { Project } from '../types';
 
 import gth from '../components/Projects/images/gth.jpg';
-import crypto from '../components/Projects/images/crypto.png';
+import crypto from '../components/Projects/images/crypto.jpg';
 import spacex from '../components/Projects/images/spacex.jpg';
-import weather from '../components/Projects/images/weather.png';
-import marvel from '../components/Projects/images/marvel.png';
+import weather from '../components/Projects/images/weather.jpg';
+import marvel from '../components/Projects/images/marvel.jpg';
 import ecfd from '../components/Projects/images/ecfd.jpg';
 
 export const projects: Project[] = [

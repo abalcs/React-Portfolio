@@ -46,52 +46,68 @@ export default function Projects() {
         >
           {projects.map((project) => (
             <motion.div key={project.id} variants={itemVariants}>
-              <div className="card h-full flex flex-col group">
-                <div className="relative overflow-hidden">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-secondary via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute bottom-4 left-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-primary/90 hover:bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                      aria-label={`View ${project.title} code on GitHub`}
-                    >
-                      <FaGithub /> Code
-                    </a>
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 bg-primary/90 hover:bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                      aria-label={`View ${project.title} live demo`}
-                    >
-                      <FaExternalLinkAlt /> Demo
-                    </a>
+              <div className="card h-full flex flex-col group bg-secondary/80 backdrop-blur-sm border border-gray-800/50 hover:border-accent/30">
+                {/* Image container with enhanced styling */}
+                <div className="relative overflow-hidden rounded-t-xl">
+                  {/* Image with gradient overlay */}
+                  <div className="relative aspect-video">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-110"
+                    />
+                    {/* Permanent subtle gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-transparent to-transparent" />
+                    {/* Hover overlay with buttons */}
+                    <div className="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                      <div className="flex gap-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 bg-secondary hover:bg-accent text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-accent/25"
+                          aria-label={`View ${project.title} code on GitHub`}
+                        >
+                          <FaGithub size={18} /> Code
+                        </a>
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 bg-accent hover:bg-accent-hover text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-accent/25"
+                          aria-label={`View ${project.title} live demo`}
+                        >
+                          <FaExternalLinkAlt size={16} /> Demo
+                        </a>
+                      </div>
+                    </div>
                   </div>
+                  {/* Accent line at bottom of image */}
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
+                {/* Content */}
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-accent transition-colors">
+                  <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-accent transition-colors duration-300">
                     {project.title}
                   </h3>
-                  <p className="text-gray-400 text-sm mb-4 flex-grow">
+                  <p className="text-gray-400 text-sm mb-4 flex-grow leading-relaxed">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech, index) => (
+                    {project.technologies.slice(0, 4).map((tech, index) => (
                       <span
                         key={index}
-                        className="text-xs px-3 py-1 bg-primary rounded-full text-gray-400 border border-gray-700"
+                        className="text-xs px-3 py-1.5 bg-primary/80 rounded-full text-gray-300 border border-gray-700/50 hover:border-accent/30 transition-colors duration-200"
                       >
                         {tech}
                       </span>
                     ))}
+                    {project.technologies.length > 4 && (
+                      <span className="text-xs px-3 py-1.5 bg-primary/80 rounded-full text-accent border border-accent/30">
+                        +{project.technologies.length - 4}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
