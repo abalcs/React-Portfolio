@@ -36,7 +36,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h2 className="text-xl md:text-2xl text-white/90 dark:text-text-secondary mb-8 drop-shadow-md">
-            Web Developer
+            Developer
           </h2>
         </motion.div>
 

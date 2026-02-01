@@ -32,10 +32,10 @@ export default function GitHubStats() {
     },
   };
 
-  // Using github-profile-summary-cards as alternative (more reliable)
-  const statsUrl = `https://github-profile-summary-cards.vercel.app/api/cards/stats?username=${GITHUB_USERNAME}&theme=github_dark`;
-  const langsUrl = `https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=${GITHUB_USERNAME}&theme=github_dark`;
-  const streakUrl = `https://streak-stats.demolab.com/?user=${GITHUB_USERNAME}&theme=dark&hide_border=true&ring=22c55e&fire=22c55e&currStreakLabel=22c55e&sideLabels=9ca3af&currStreakNum=ffffff&sideNums=ffffff&dates=6b7280&background=1e293b`;
+  // Using multiple API sources for reliability
+  const statsUrl = `https://github-readme-stats.vercel.app/api?username=${GITHUB_USERNAME}&show_icons=true&theme=dark&hide_border=true&title_color=22c55e&icon_color=22c55e&text_color=9ca3af&bg_color=1e293b&count_private=true`;
+  const langsUrl = `https://github-readme-stats.vercel.app/api/top-langs/?username=${GITHUB_USERNAME}&layout=compact&theme=dark&hide_border=true&title_color=22c55e&text_color=9ca3af&bg_color=1e293b`;
+  const streakUrl = `https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USERNAME}&theme=dark&hide_border=true&ring=22c55e&fire=22c55e&currStreakLabel=22c55e&sideLabels=9ca3af&currStreakNum=ffffff&sideNums=ffffff&dates=6b7280&background=1e293b`;
 
   return (
     <section

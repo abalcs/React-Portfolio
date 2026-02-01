@@ -57,7 +57,7 @@ export default function About() {
             </h3>
 
             <p className="text-text-secondary leading-relaxed text-sm sm:text-base">
-              I'm a web developer living in Andover, Massachusetts. I spend my
+              I'm a developer living in Andover, Massachusetts. I spend my
               days coding, drinking coffee, and spending time with my wife and
               daughter. My goal is to bring creativity and great user experience
               to the projects I work on.
