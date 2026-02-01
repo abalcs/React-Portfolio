@@ -2,73 +2,76 @@ import { Skill } from '../types';
 
 import html from '../components/Skills/images/HTML.png';
 import js from '../components/Skills/images/JS.png';
-import bootstrap from '../components/Skills/images/bootstrap.png';
+import ts from '../components/Skills/images/Typescript.png';
+import reactIcon from '../components/Skills/images/react.png';
+import node from '../components/Skills/images/node.png';
 import css from '../components/Skills/images/CSS.png';
 import git from '../components/Skills/images/git.png';
-import jquery from '../components/Skills/images/jquery.png';
 import mongodb from '../components/Skills/images/mongodb.png';
-import node from '../components/Skills/images/node.png';
-import reactIcon from '../components/Skills/images/react.png';
 import sql from '../components/Skills/images/sql.png';
-import ts from '../components/Skills/images/Typescript.png';
-import mui from '../components/Skills/images/mui.png';
+import bootstrap from '../components/Skills/images/bootstrap.png';
+import tailwind from '../components/Skills/images/tailwind.svg';
+import graphql from '../components/Skills/images/graphql.svg';
+import express from '../components/Skills/images/express.svg';
+import vite from '../components/Skills/images/vite.svg';
+import postgresql from '../components/Skills/images/postgresql.svg';
 
 export const skills: Skill[] = [
   {
     id: 1,
-    name: 'HTML',
-    icon: html,
-    url: 'https://en.wikipedia.org/wiki/HTML',
+    name: 'React',
+    icon: reactIcon,
+    url: 'https://reactjs.org/',
     category: 'frontend',
   },
   {
     id: 2,
-    name: 'JavaScript',
-    icon: js,
-    url: 'https://www.javascript.com',
-    category: 'frontend',
-  },
-  {
-    id: 3,
     name: 'TypeScript',
     icon: ts,
     url: 'https://www.typescriptlang.org/',
     category: 'frontend',
   },
   {
+    id: 3,
+    name: 'JavaScript',
+    icon: js,
+    url: 'https://www.javascript.com',
+    category: 'frontend',
+  },
+  {
     id: 4,
-    name: 'Bootstrap',
-    icon: bootstrap,
-    url: 'https://getbootstrap.com/',
+    name: 'Tailwind CSS',
+    icon: tailwind,
+    url: 'https://tailwindcss.com/',
     category: 'frontend',
   },
   {
     id: 5,
-    name: 'Material UI',
-    icon: mui,
-    url: 'https://mui.com/',
-    category: 'frontend',
+    name: 'Node.js',
+    icon: node,
+    url: 'https://nodejs.org/',
+    category: 'backend',
   },
   {
     id: 6,
-    name: 'CSS',
-    icon: css,
-    url: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
-    category: 'frontend',
+    name: 'Express',
+    icon: express,
+    url: 'https://expressjs.com/',
+    category: 'backend',
   },
   {
     id: 7,
-    name: 'Git',
-    icon: git,
-    url: 'https://git-scm.com/',
-    category: 'tools',
+    name: 'GraphQL',
+    icon: graphql,
+    url: 'https://graphql.org/',
+    category: 'backend',
   },
   {
     id: 8,
-    name: 'jQuery',
-    icon: jquery,
-    url: 'https://jquery.com/',
-    category: 'frontend',
+    name: 'PostgreSQL',
+    icon: postgresql,
+    url: 'https://www.postgresql.org/',
+    category: 'backend',
   },
   {
     id: 9,
@@ -79,20 +82,41 @@ export const skills: Skill[] = [
   },
   {
     id: 10,
-    name: 'NodeJS',
-    icon: node,
-    url: 'https://nodejs.org/en/',
-    category: 'backend',
+    name: 'Vite',
+    icon: vite,
+    url: 'https://vitejs.dev/',
+    category: 'tools',
   },
   {
     id: 11,
-    name: 'React',
-    icon: reactIcon,
-    url: 'https://reactjs.org/',
-    category: 'frontend',
+    name: 'Git',
+    icon: git,
+    url: 'https://git-scm.com/',
+    category: 'tools',
   },
   {
     id: 12,
+    name: 'HTML',
+    icon: html,
+    url: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
+    category: 'frontend',
+  },
+  {
+    id: 13,
+    name: 'CSS',
+    icon: css,
+    url: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
+    category: 'frontend',
+  },
+  {
+    id: 14,
+    name: 'Bootstrap',
+    icon: bootstrap,
+    url: 'https://getbootstrap.com/',
+    category: 'frontend',
+  },
+  {
+    id: 15,
     name: 'SQL',
     icon: sql,
     url: 'https://en.wikipedia.org/wiki/SQL',

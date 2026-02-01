@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import { socialLinks } from '../../data/social';
+import MountainBackground from './MountainBackground';
 
 const iconMap = {
   github: FaGithub,
@@ -14,11 +15,7 @@ export default function Hero() {
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-primary" />
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-accent/20 rounded-full filter blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full filter blur-3xl" />
-      </div>
+      <MountainBackground />
 
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <motion.div
@@ -26,7 +23,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent drop-shadow-lg">
             Alan Balcom
           </h1>
         </motion.div>
@@ -36,7 +33,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-xl md:text-2xl text-gray-400 mb-8">
+          <h2 className="text-xl md:text-2xl text-gray-300 mb-8 drop-shadow-md">
             Web Developer
           </h2>
         </motion.div>
@@ -83,11 +80,11 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
       >
         <a
           href="#about"
-          className="flex flex-col items-center text-gray-500 hover:text-accent transition-colors"
+          className="flex flex-col items-center text-gray-400 hover:text-accent transition-colors"
         >
           <span className="text-sm mb-2">Scroll Down</span>
           <motion.div
