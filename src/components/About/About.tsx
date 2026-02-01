@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
-import meNoBg from './images/meNoBG.png';
+import profileImg from './images/profile.jpg';
 
 export default function About() {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.2 });
@@ -29,9 +29,9 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-br from-accent to-accent-hover rounded-full opacity-20 blur-2xl" />
               <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-accent/30">
                 <img
-                  src={meNoBg}
+                  src={profileImg}
                   alt="Alan Balcom"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover object-center"
                 />
               </div>
             </div>
