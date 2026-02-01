@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useTheme } from '../../hooks/useTheme';
 
 export default function MountainBackground() {
   const [scrollY, setScrollY] = useState(0);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,29 +17,39 @@ export default function MountainBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden">
       {/* Sky gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1a1a2e] via-[#16213e] to-[#0f172a]" />
+      <div
+        className={`absolute inset-0 transition-colors duration-500 ${
+          isDark
+            ? 'bg-gradient-to-b from-[#1a1a2e] via-[#16213e] to-[#0f172a]'
+            : 'bg-gradient-to-b from-[#87CEEB] via-[#B0E0E6] to-[#E0F4FF]'
+        }`}
+      />
 
-      {/* Stars */}
-      <div className="absolute inset-0 opacity-60">
-        {[...Array(50)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 40}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
-            }}
-          />
-        ))}
-      </div>
+      {/* Stars (dark mode only) */}
+      {isDark && (
+        <div className="absolute inset-0 opacity-60">
+          {[...Array(50)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 40}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
-      {/* Aurora effect */}
+      {/* Aurora effect (dark) / Sun glow (light) */}
       <div
         className="absolute top-0 left-0 right-0 h-64 opacity-20"
         style={{
-          background: 'linear-gradient(180deg, transparent 0%, rgba(34, 197, 94, 0.3) 50%, transparent 100%)',
+          background: isDark
+            ? 'linear-gradient(180deg, transparent 0%, rgba(34, 197, 94, 0.3) 50%, transparent 100%)'
+            : 'linear-gradient(180deg, rgba(255, 200, 50, 0.4) 0%, transparent 100%)',
           filter: 'blur(40px)',
           transform: `translateY(${scrollY * 0.1}px)`,
         }}
@@ -57,22 +70,40 @@ export default function MountainBackground() {
             <stop offset="100%" stopColor="#94a3b8" stopOpacity="0" />
           </linearGradient>
 
-          {/* Mountain gradients */}
-          <linearGradient id="mountain1" x1="0%" y1="0%" x2="0%" y2="100%">
+          {/* Mountain gradients - Dark mode */}
+          <linearGradient id="mountain1-dark" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#334155" />
             <stop offset="100%" stopColor="#1e293b" />
           </linearGradient>
-          <linearGradient id="mountain2" x1="0%" y1="0%" x2="0%" y2="100%">
+          <linearGradient id="mountain2-dark" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#475569" />
             <stop offset="100%" stopColor="#334155" />
           </linearGradient>
-          <linearGradient id="mountain3" x1="0%" y1="0%" x2="0%" y2="100%">
+          <linearGradient id="mountain3-dark" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#64748b" />
             <stop offset="100%" stopColor="#475569" />
           </linearGradient>
-          <linearGradient id="mountain4" x1="0%" y1="0%" x2="0%" y2="100%">
+          <linearGradient id="mountain4-dark" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#1e293b" />
             <stop offset="100%" stopColor="#0f172a" />
+          </linearGradient>
+
+          {/* Mountain gradients - Light mode */}
+          <linearGradient id="mountain1-light" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#6B8E9F" />
+            <stop offset="100%" stopColor="#4A6670" />
+          </linearGradient>
+          <linearGradient id="mountain2-light" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#7BA3B5" />
+            <stop offset="100%" stopColor="#5C8494" />
+          </linearGradient>
+          <linearGradient id="mountain3-light" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#8FBAC9" />
+            <stop offset="100%" stopColor="#6FA0B0" />
+          </linearGradient>
+          <linearGradient id="mountain4-light" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#5C8494" />
+            <stop offset="100%" stopColor="#4A6670" />
           </linearGradient>
         </defs>
 
@@ -80,7 +111,7 @@ export default function MountainBackground() {
         <g style={{ transform: `translateY(${scrollY * 0.05}px)` }}>
           <path
             d="M0,600 L0,350 L100,280 L200,320 L280,180 L320,200 L400,120 L480,180 L520,160 L600,220 L680,140 L720,160 L800,100 L880,150 L960,180 L1040,120 L1120,200 L1200,150 L1280,220 L1360,180 L1440,250 L1440,600 Z"
-            fill="url(#mountain1)"
+            fill={`url(#mountain1-${isDark ? 'dark' : 'light'})`}
           />
           {/* Snow caps */}
           <path
@@ -101,7 +132,7 @@ export default function MountainBackground() {
         <g style={{ transform: `translateY(${scrollY * 0.1}px)` }}>
           <path
             d="M0,600 L0,400 L150,350 L250,380 L350,280 L450,340 L550,260 L650,320 L750,240 L850,300 L950,220 L1050,280 L1150,200 L1250,260 L1350,220 L1440,280 L1440,600 Z"
-            fill="url(#mountain2)"
+            fill={`url(#mountain2-${isDark ? 'dark' : 'light'})`}
           />
           {/* Snow accents */}
           <path
@@ -120,7 +151,7 @@ export default function MountainBackground() {
         <g style={{ transform: `translateY(${scrollY * 0.15}px)` }}>
           <path
             d="M0,600 L0,450 L100,420 L200,380 L300,420 L400,350 L500,400 L600,340 L700,380 L800,320 L900,360 L1000,300 L1100,350 L1200,290 L1300,340 L1400,310 L1440,340 L1440,600 Z"
-            fill="url(#mountain3)"
+            fill={`url(#mountain3-${isDark ? 'dark' : 'light'})`}
           />
         </g>
 
@@ -128,14 +159,14 @@ export default function MountainBackground() {
         <g style={{ transform: `translateY(${scrollY * 0.2}px)` }}>
           <path
             d="M0,600 L0,500 L200,480 L400,450 L600,470 L800,440 L1000,460 L1200,430 L1440,450 L1440,600 Z"
-            fill="url(#mountain4)"
+            fill={`url(#mountain4-${isDark ? 'dark' : 'light'})`}
           />
         </g>
 
         {/* Ground/forest silhouette */}
         <path
           d="M0,600 L0,540 L50,535 L100,545 L150,530 L200,540 L250,525 L300,538 L350,520 L400,535 L450,518 L500,530 L550,515 L600,528 L650,512 L700,525 L750,510 L800,522 L850,508 L900,520 L950,505 L1000,518 L1050,502 L1100,515 L1150,500 L1200,512 L1250,498 L1300,510 L1350,495 L1400,508 L1440,500 L1440,600 Z"
-          fill="#0f172a"
+          fill={isDark ? '#0f172a' : '#4A6670'}
           style={{ transform: `translateY(${scrollY * 0.25}px)` }}
         />
       </svg>

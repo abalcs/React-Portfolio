@@ -61,7 +61,7 @@ export default function Contact() {
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-gray-400 text-center mb-10"
+          className="text-text-secondary text-center mb-10"
         >
           Have a project in mind or want to chat? Feel free to reach out!
         </motion.p>
@@ -78,7 +78,7 @@ export default function Contact() {
           <input type="checkbox" name="botcheck" className="hidden" />
 
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-text-secondary mb-2">
               Name
             </label>
             <input
@@ -92,7 +92,7 @@ export default function Contact() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-text-secondary mb-2">
               Email
             </label>
             <input
@@ -106,7 +106,7 @@ export default function Contact() {
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="message" className="block text-sm font-medium text-text-secondary mb-2">
               Message
             </label>
             <textarea

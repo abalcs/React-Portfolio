@@ -3,27 +3,52 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#0f172a" />
-    <meta name="description" content="Alan Balcom - Web Developer Portfolio. Specializing in React, TypeScript, NodeJS, and modern web development." />
-    <meta name="keywords" content="web developer, react developer, frontend developer, javascript, typescript, nodejs" />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
+    <meta name="description" content="Alan Balcom - Web Developer Portfolio. Specializing in React, TypeScript, NodeJS, and modern web development. Based in Andover, MA." />
+    <meta name="keywords" content="web developer, react developer, frontend developer, full stack developer, javascript, typescript, nodejs, postgresql, mongodb, graphql, andover, massachusetts" />
     <meta name="author" content="Alan Balcom" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://abalcs.github.io/React-Portfolio/" />
 
-    <meta property="og:title" content="Alan Balcom - Web Developer" />
-    <meta property="og:description" content="Web Developer specializing in React, TypeScript, and modern web technologies." />
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://abalcs.github.io/React-Portfolio/" />
+    <meta property="og:title" content="Alan Balcom | Web Developer" />
+    <meta property="og:description" content="Web Developer specializing in React, TypeScript, and modern web technologies. View my projects and get in touch!" />
+    <meta property="og:image" content="https://abalcs.github.io/React-Portfolio/android-chrome-256x256.png" />
+    <meta property="og:site_name" content="Alan Balcom Portfolio" />
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://abalcs.github.io/React-Portfolio/" />
+    <meta name="twitter:title" content="Alan Balcom | Web Developer" />
+    <meta name="twitter:description" content="Web Developer specializing in React, TypeScript, and modern web technologies. View my projects and get in touch!" />
+    <meta name="twitter:image" content="https://abalcs.github.io/React-Portfolio/android-chrome-256x256.png" />
+
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#22c55e" />
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <meta name="msapplication-TileColor" content="#0f172a" />
 
     <title>Alan Balcom | Web Developer</title>
+
+    <!-- Google Analytics - Replace GA_MEASUREMENT_ID with your actual ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
   </head>
   <body id="home">
     <noscript>You need to enable JavaScript to run this app.</noscript>

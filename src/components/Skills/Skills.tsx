@@ -64,7 +64,7 @@ export default function Skills() {
                     className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
-                <span className="text-sm font-medium text-gray-300 group-hover:text-accent transition-colors duration-300">
+                <span className="text-sm font-medium text-text-secondary group-hover:text-accent transition-colors duration-300">
                   {skill.name}
                 </span>
               </div>
