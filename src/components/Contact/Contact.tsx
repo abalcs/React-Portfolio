@@ -1,13 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 
+const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_xoshamr';
+const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_a60mqid';
+const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'XmtPk8I0OJdOV7HJB';
+
 export default function Contact() {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,14 +25,14 @@ export default function Contact() {
 
     try {
       await emailjs.sendForm(
-        process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_xoshamr',
-        process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_a60mqid',
-        formRef.current,
-        process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'XmtPk8I0OJdOV7HJB'
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current
       );
       toast.success('Message sent! I will get back to you soon.');
       formRef.current.reset();
-    } catch {
+    } catch (error) {
+      console.error('EmailJS error:', error);
       toast.error('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
