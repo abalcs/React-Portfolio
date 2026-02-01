@@ -1,21 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
 import toast from 'react-hot-toast';
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
 
-const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID || 'service_xoshamr';
-const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID || 'template_a60mqid';
-const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY || 'XmtPk8I0OJdOV7HJB';
+const WEB3FORMS_ACCESS_KEY = process.env.REACT_APP_WEB3FORMS_KEY || 'YOUR_ACCESS_KEY_HERE';
 
 export default function Contact() {
   const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,16 +16,25 @@ export default function Contact() {
 
     setIsSubmitting(true);
 
+    const formData = new FormData(formRef.current);
+    formData.append('access_key', WEB3FORMS_ACCESS_KEY);
+
     try {
-      await emailjs.sendForm(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        formRef.current
-      );
-      toast.success('Message sent! I will get back to you soon.');
-      formRef.current.reset();
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success('Message sent! I will get back to you soon.');
+        formRef.current.reset();
+      } else {
+        throw new Error(result.message || 'Failed to send');
+      }
     } catch (error) {
-      console.error('EmailJS error:', error);
+      console.error('Form error:', error);
       toast.error('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -72,14 +74,17 @@ export default function Contact() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="space-y-6"
         >
+          {/* Honeypot field for spam protection */}
+          <input type="checkbox" name="botcheck" className="hidden" />
+
           <div>
-            <label htmlFor="user_name" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
               Name
             </label>
             <input
               type="text"
-              id="user_name"
-              name="user_name"
+              id="name"
+              name="name"
               required
               className="input-field"
               placeholder="Your name"
@@ -87,13 +92,13 @@ export default function Contact() {
           </div>
 
           <div>
-            <label htmlFor="user_email" className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
               Email
             </label>
             <input
               type="email"
-              id="user_email"
-              name="user_email"
+              id="email"
+              name="email"
               required
               className="input-field"
               placeholder="your@email.com"
