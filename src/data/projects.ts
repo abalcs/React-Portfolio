@@ -4,7 +4,7 @@ import gth from '../components/Projects/images/gth.jpg';
 import crypto from '../components/Projects/images/crypto.jpg';
 import spacex from '../components/Projects/images/spacex.jpg';
 import weather from '../components/Projects/images/weather.jpg';
-import marvel from '../components/Projects/images/marvel.jpg';
+import sleeper from '../components/Projects/images/sleeper.jpg';
 import ecfd from '../components/Projects/images/ecfd.jpg';
 
 export const projects: Project[] = [
@@ -50,13 +50,13 @@ export const projects: Project[] = [
   },
   {
     id: 5,
-    title: 'Marvel Archive',
+    title: 'Sleeper App',
     description:
-      'A fun project that uses the Marvel API to show background, history, media and comic book appearances of popular Marvel heroes.',
-    image: marvel,
-    githubUrl: 'https://github.com/abalcs/Marvel-Archive',
-    liveUrl: 'https://abalcs.github.io/Marvel-Archive/',
-    technologies: ['JavaScript', 'Marvel API', 'CSS', 'HTML'],
+      'A full-stack fantasy football dashboard that integrates with the Sleeper API to provide league standings, weekly challenges, recaps, and position totals.',
+    image: sleeper,
+    githubUrl: 'https://github.com/abalcs/sleeper-app',
+    liveUrl: '',
+    technologies: ['React', 'JavaScript', 'Express', 'MongoDB', 'Sleeper API'],
   },
   {
     id: 6,
