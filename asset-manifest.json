@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/my-portfolio/static/css/main.42fb8bc4.css",
-    "main.js": "/my-portfolio/static/js/main.9b59c1ed.js",
+    "main.js": "/my-portfolio/static/js/main.3112513b.js",
+    "static/media/sleeper.jpg": "/my-portfolio/static/media/sleeper.33b4a7953b42af2c60db.jpg",
     "static/media/profile.jpg": "/my-portfolio/static/media/profile.919d1107fa068f8e9dd5.jpg",
     "static/media/ecfd.jpg": "/my-portfolio/static/media/ecfd.3acba96bed542023e880.jpg",
     "static/media/weather.jpg": "/my-portfolio/static/media/weather.e06f05ecfe09eeb4d830.jpg",
-    "static/media/marvel.jpg": "/my-portfolio/static/media/marvel.0a5b62e93ff760808a0e.jpg",
     "static/media/crypto.jpg": "/my-portfolio/static/media/crypto.8556f1533d40bd5faf44.jpg",
     "static/media/gth.jpg": "/my-portfolio/static/media/gth.2dc0caaeb4affca67818.jpg",
     "static/media/spacex.jpg": "/my-portfolio/static/media/spacex.387bc6d5966f50d772f2.jpg",
@@ -18,10 +18,10 @@
     "static/media/express.svg": "/my-portfolio/static/media/express.4925c0127df8857c18b38329795ce88f.svg",
     "static/media/tailwind.svg": "/my-portfolio/static/media/tailwind.8b3f5baf8ad130d320c59560114d0684.svg",
     "main.42fb8bc4.css.map": "/my-portfolio/static/css/main.42fb8bc4.css.map",
-    "main.9b59c1ed.js.map": "/my-portfolio/static/js/main.9b59c1ed.js.map"
+    "main.3112513b.js.map": "/my-portfolio/static/js/main.3112513b.js.map"
   },
   "entrypoints": [
     "static/css/main.42fb8bc4.css",
-    "static/js/main.9b59c1ed.js"
+    "static/js/main.3112513b.js"
   ]
 }
