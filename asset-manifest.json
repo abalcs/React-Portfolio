@@ -1,27 +1,30 @@
 {
   "files": {
-    "main.css": "/my-portfolio/static/css/main.42fb8bc4.css",
-    "main.js": "/my-portfolio/static/js/main.3112513b.js",
+    "main.css": "/my-portfolio/static/css/main.6e172871.css",
+    "main.js": "/my-portfolio/static/js/main.d9ef1c86.js",
+    "static/media/weather.jpg": "/my-portfolio/static/media/weather.f2e81c38288ab0fccf3b.jpg",
     "static/media/sleeper.jpg": "/my-portfolio/static/media/sleeper.33b4a7953b42af2c60db.jpg",
     "static/media/profile.jpg": "/my-portfolio/static/media/profile.919d1107fa068f8e9dd5.jpg",
     "static/media/ecfd.jpg": "/my-portfolio/static/media/ecfd.3acba96bed542023e880.jpg",
-    "static/media/weather.jpg": "/my-portfolio/static/media/weather.e06f05ecfe09eeb4d830.jpg",
     "static/media/crypto.jpg": "/my-portfolio/static/media/crypto.8556f1533d40bd5faf44.jpg",
     "static/media/gth.jpg": "/my-portfolio/static/media/gth.2dc0caaeb4affca67818.jpg",
     "static/media/spacex.jpg": "/my-portfolio/static/media/spacex.387bc6d5966f50d772f2.jpg",
     "static/media/Typescript.png": "/my-portfolio/static/media/Typescript.5929bb20944f0452ce05.png",
     "static/media/ablogo.png": "/my-portfolio/static/media/ablogo.211278089e3028ebda3d.png",
     "static/media/postgresql.svg": "/my-portfolio/static/media/postgresql.7bc394e86ea1f692d59a3d484ad156af.svg",
+    "static/media/sass.svg": "/my-portfolio/static/media/sass.fb123914eb0e5cc6e0a65e2928d89e2a.svg",
     "index.html": "/my-portfolio/index.html",
     "static/media/graphql.svg": "/my-portfolio/static/media/graphql.14267f2ddb307badb38d0804e8151bcd.svg",
     "static/media/vite.svg": "/my-portfolio/static/media/vite.b30f410b464ac887c73c06e31add7f64.svg",
     "static/media/express.svg": "/my-portfolio/static/media/express.4925c0127df8857c18b38329795ce88f.svg",
+    "static/media/pwa.svg": "/my-portfolio/static/media/pwa.8afee95d323047b244eaa44c2cb812fb.svg",
     "static/media/tailwind.svg": "/my-portfolio/static/media/tailwind.8b3f5baf8ad130d320c59560114d0684.svg",
-    "main.42fb8bc4.css.map": "/my-portfolio/static/css/main.42fb8bc4.css.map",
-    "main.3112513b.js.map": "/my-portfolio/static/js/main.3112513b.js.map"
+    "static/media/apollo.svg": "/my-portfolio/static/media/apollo.62b065057c477094ce6c2d0c63c71e25.svg",
+    "main.6e172871.css.map": "/my-portfolio/static/css/main.6e172871.css.map",
+    "main.d9ef1c86.js.map": "/my-portfolio/static/js/main.d9ef1c86.js.map"
   },
   "entrypoints": [
-    "static/css/main.42fb8bc4.css",
-    "static/js/main.3112513b.js"
+    "static/css/main.6e172871.css",
+    "static/js/main.d9ef1c86.js"
   ]
 }
