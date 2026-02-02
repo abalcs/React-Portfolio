@@ -45,7 +45,7 @@ export const projects: Project[] = [
       'A weather dashboard using the OpenWeather API to display current conditions and 5-day forecasts for any city worldwide.',
     image: weather,
     githubUrl: 'https://github.com/abalcs/Weather-Dashboard',
-    liveUrl: 'https://abalcs.github.io/Weather-Dashboard/',
+    liveUrl: '',
     technologies: ['JavaScript', 'HTML', 'CSS', 'OpenWeather API'],
   },
   {

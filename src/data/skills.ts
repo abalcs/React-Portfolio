@@ -8,13 +8,15 @@ import node from '../components/Skills/images/node.png';
 import css from '../components/Skills/images/CSS.png';
 import git from '../components/Skills/images/git.png';
 import mongodb from '../components/Skills/images/mongodb.png';
-import sql from '../components/Skills/images/sql.png';
 import bootstrap from '../components/Skills/images/bootstrap.png';
 import tailwind from '../components/Skills/images/tailwind.svg';
 import graphql from '../components/Skills/images/graphql.svg';
 import express from '../components/Skills/images/express.svg';
 import vite from '../components/Skills/images/vite.svg';
 import postgresql from '../components/Skills/images/postgresql.svg';
+import sass from '../components/Skills/images/sass.svg';
+import apollo from '../components/Skills/images/apollo.svg';
+import pwa from '../components/Skills/images/pwa.svg';
 
 export const skills: Skill[] = [
   {
@@ -117,9 +119,23 @@ export const skills: Skill[] = [
   },
   {
     id: 15,
-    name: 'SQL',
-    icon: sql,
-    url: 'https://en.wikipedia.org/wiki/SQL',
+    name: 'Sass',
+    icon: sass,
+    url: 'https://sass-lang.com/',
+    category: 'frontend',
+  },
+  {
+    id: 16,
+    name: 'Apollo',
+    icon: apollo,
+    url: 'https://www.apollographql.com/',
     category: 'backend',
+  },
+  {
+    id: 17,
+    name: 'PWA',
+    icon: pwa,
+    url: 'https://web.dev/progressive-web-apps/',
+    category: 'tools',
   },
 ];

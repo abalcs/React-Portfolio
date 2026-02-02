@@ -53,27 +53,25 @@ export default function About() {
             className="space-y-4 sm:space-y-6"
           >
             <h3 className="text-xl sm:text-2xl font-semibold text-accent">
-              It's Never Too Late To Start
+              Full-Stack Developer
             </h3>
 
             <p className="text-text-secondary leading-relaxed text-sm sm:text-base">
-              I'm a developer living in Andover, Massachusetts. I spend my
-              days coding, drinking coffee, and spending time with my wife and
-              daughter. My goal is to bring creativity and great user experience
-              to the projects I work on.
+              I'm a full-stack developer based in Andover, Massachusetts, with a
+              focus on building modern, user-centric web applications.
             </p>
 
             <p className="text-text-secondary leading-relaxed text-sm sm:text-base">
-              My main tech stack is React, Express, PostgreSQL, and NodeJS, and
-              I have also worked with other tech such as MongoDB, GraphQL, as
-              well as many NodeJS and React libraries.
+              My core stack is React, Node.js, Express, and PostgreSQL, with
+              additional experience in MongoDB, GraphQL, and a variety of
+              supporting tools and libraries. I enjoy working across the stack
+              and turning complex ideas into clean, usable products.
             </p>
 
             <p className="text-text-secondary leading-relaxed text-sm sm:text-base">
-              I have worked hard building my skillset and look to learn more
-              every day. My work is my passion and I put my heart into every
-              project I work on. If you're interested in contacting me, I am
-              available for freelance work.
+              I take pride in my craft, continuously sharpen my skills, and
+              approach every project with care and attention to detail. I'm open
+              to freelance and contract opportunities.
             </p>
 
             <div className="pt-4">

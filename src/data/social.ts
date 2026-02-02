@@ -21,9 +21,4 @@ export const navItems: NavItem[] = [
   { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
-  {
-    label: 'Resume',
-    href: 'https://drive.google.com/file/d/10Kz_z-1TEoUq3ICCFtBEyg_QAGj2uGsP/view?usp=share_link',
-    external: true,
-  },
 ];

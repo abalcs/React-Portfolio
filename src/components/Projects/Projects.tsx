@@ -120,15 +120,17 @@ export default function Projects() {
                           >
                             <FaGithub size={18} /> Code
                           </a>
-                          <a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 bg-accent hover:bg-accent-hover text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-accent/25"
-                            aria-label={`View ${project.title} live demo`}
-                          >
-                            <FaExternalLinkAlt size={16} /> Demo
-                          </a>
+{project.liveUrl && (
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 bg-accent hover:bg-accent-hover text-white px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 shadow-lg hover:shadow-accent/25"
+                              aria-label={`View ${project.title} live demo`}
+                            >
+                              <FaExternalLinkAlt size={16} /> Demo
+                            </a>
+                          )}
                         </div>
                       </div>
                     </div>
