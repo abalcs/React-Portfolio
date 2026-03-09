@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/my-portfolio/static/css/main.6e172871.css",
-    "main.js": "/my-portfolio/static/js/main.d9ef1c86.js",
+    "main.css": "/my-portfolio/static/css/main.8fadf983.css",
+    "main.js": "/my-portfolio/static/js/main.36b61a04.js",
     "static/media/weather.jpg": "/my-portfolio/static/media/weather.f2e81c38288ab0fccf3b.jpg",
     "static/media/sleeper.jpg": "/my-portfolio/static/media/sleeper.33b4a7953b42af2c60db.jpg",
     "static/media/profile.jpg": "/my-portfolio/static/media/profile.919d1107fa068f8e9dd5.jpg",
@@ -20,11 +20,11 @@
     "static/media/pwa.svg": "/my-portfolio/static/media/pwa.8afee95d323047b244eaa44c2cb812fb.svg",
     "static/media/tailwind.svg": "/my-portfolio/static/media/tailwind.8b3f5baf8ad130d320c59560114d0684.svg",
     "static/media/apollo.svg": "/my-portfolio/static/media/apollo.62b065057c477094ce6c2d0c63c71e25.svg",
-    "main.6e172871.css.map": "/my-portfolio/static/css/main.6e172871.css.map",
-    "main.d9ef1c86.js.map": "/my-portfolio/static/js/main.d9ef1c86.js.map"
+    "main.8fadf983.css.map": "/my-portfolio/static/css/main.8fadf983.css.map",
+    "main.36b61a04.js.map": "/my-portfolio/static/js/main.36b61a04.js.map"
   },
   "entrypoints": [
-    "static/css/main.6e172871.css",
-    "static/js/main.d9ef1c86.js"
+    "static/css/main.8fadf983.css",
+    "static/js/main.36b61a04.js"
   ]
 }
