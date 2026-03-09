@@ -9,6 +9,7 @@ jest.mock('framer-motion', () => ({
     h2: ({ children, ...props }: any) => <h2 {...props}>{children}</h2>,
     h3: ({ children, ...props }: any) => <h3 {...props}>{children}</h3>,
     p: ({ children, ...props }: any) => <p {...props}>{children}</p>,
+    span: ({ children, ...props }: any) => <span {...props}>{children}</span>,
   },
 }));
 
@@ -25,18 +26,31 @@ jest.mock('../UI/AnimatedCounter', () => ({ label }: { label: string }) => (
   <div data-testid="animated-counter">{label}</div>
 ));
 
+// Mock SpotlightCard
+jest.mock('../UI/SpotlightCard', () => ({ children, className }: any) => (
+  <div className={className}>{children}</div>
+));
+
+// Mock ScrollRevealText
+jest.mock('../UI/ScrollRevealText', () => ({ text, className }: any) => (
+  <p className={className}>{text}</p>
+));
+
 // Mock the profile image
 jest.mock('../About/images/profile.jpg', () => 'profile.jpg');
+
+// Mock the skills data
+jest.mock('../../data/skills', () => ({
+  skills: [
+    { id: 1, name: 'React', icon: 'react.png', url: 'https://reactjs.org/', category: 'frontend' },
+    { id: 2, name: 'TypeScript', icon: 'ts.png', url: 'https://www.typescriptlang.org/', category: 'frontend' },
+  ],
+}));
 
 describe('About', () => {
   it('renders the About Me heading', () => {
     render(<About />);
     expect(screen.getByText('About Me')).toBeInTheDocument();
-  });
-
-  it('renders the tagline', () => {
-    render(<About />);
-    expect(screen.getByText("It's Never Too Late To Start")).toBeInTheDocument();
   });
 
   it('renders the profile image', () => {
@@ -45,18 +59,16 @@ describe('About', () => {
     expect(image).toBeInTheDocument();
   });
 
-  it('renders all stat counters', () => {
+  it('renders stat counters', () => {
     render(<About />);
     const counters = screen.getAllByTestId('animated-counter');
-    expect(counters).toHaveLength(4);
+    expect(counters).toHaveLength(2);
   });
 
   it('renders the correct stats labels', () => {
     render(<About />);
     expect(screen.getByText('Years Coding')).toBeInTheDocument();
     expect(screen.getByText('Projects Built')).toBeInTheDocument();
-    expect(screen.getByText('Technologies')).toBeInTheDocument();
-    expect(screen.getByText('Passion')).toBeInTheDocument();
   });
 
   it('renders contact CTA link', () => {
@@ -72,13 +84,19 @@ describe('About', () => {
     expect(section).toBeInTheDocument();
   });
 
-  it('mentions the tech stack', () => {
-    render(<About />);
-    expect(screen.getByText(/react, express, postgresql, and nodejs/i)).toBeInTheDocument();
-  });
-
   it('mentions location', () => {
     render(<About />);
-    expect(screen.getByText(/andover, massachusetts/i)).toBeInTheDocument();
+    expect(screen.getByText('Andover, MA')).toBeInTheDocument();
+  });
+
+  it('renders availability status', () => {
+    render(<About />);
+    expect(screen.getByText('Available for Work')).toBeInTheDocument();
+  });
+
+  it('renders name and title in bio card', () => {
+    render(<About />);
+    expect(screen.getByText('Alan Balcom')).toBeInTheDocument();
+    expect(screen.getByText('Full-Stack Developer')).toBeInTheDocument();
   });
 });

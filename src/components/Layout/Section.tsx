@@ -1,5 +1,5 @@
-import React from 'react';
-import { useIntersectionObserver } from '../../hooks/useIntersectionObserver';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 interface SectionProps {
   id: string;
@@ -9,32 +9,33 @@ interface SectionProps {
 }
 
 export default function Section({ id, title, children, className = '' }: SectionProps) {
-  const { ref, isVisible } = useIntersectionObserver({ threshold: 0.1 });
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'start 0.3'],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [40, 0]);
 
   return (
     <section
       id={id}
-      ref={ref}
+      ref={sectionRef}
       className={`py-20 px-4 md:px-8 lg:px-16 ${className}`}
     >
-      <div className="max-w-6xl mx-auto">
+      <motion.div
+        className="max-w-6xl mx-auto"
+        style={{ opacity, y }}
+      >
         {title && (
-          <h2
-            className={`section-title transition-all duration-700 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-          >
+          <h2 className="section-title">
             {title}
           </h2>
         )}
-        <div
-          className={`transition-all duration-700 delay-200 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          {children}
-        </div>
-      </div>
+        {children}
+      </motion.div>
     </section>
   );
 }

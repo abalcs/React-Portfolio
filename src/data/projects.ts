@@ -17,6 +17,7 @@ export const projects: Project[] = [
     githubUrl: 'https://github.com/abalcs/Global-Travel-Hub',
     liveUrl: 'https://abalcs.github.io/Global-Travel-Hub/',
     technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts', 'Vite'],
+    featured: true,
   },
   {
     id: 2,

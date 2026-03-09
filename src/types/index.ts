@@ -6,6 +6,7 @@ export interface Project {
   githubUrl: string;
   liveUrl: string;
   technologies: string[];
+  featured?: boolean;
 }
 
 export interface Skill {

@@ -5,17 +5,17 @@
 @layer base {
   :root {
     /* Dark theme (default) - RGB values for opacity support */
-    --color-primary: 15 23 42;         /* #0f172a */
-    --color-secondary: 30 41 59;       /* #1e293b */
-    --color-text-primary: 255 255 255; /* white */
-    --color-text-secondary: 156 163 175; /* gray-400 */
+    --color-primary: 10 15 30;            /* #0a0f1e - cinematic depth */
+    --color-secondary: 20 27 50;          /* #141b32 */
+    --color-text-primary: 255 255 255;    /* white */
+    --color-text-secondary: 156 163 175;  /* gray-400 */
   }
 
   .light {
-    --color-primary: 248 250 252;      /* #f8fafc - slate-50 */
-    --color-secondary: 241 245 249;    /* #f1f5f9 - slate-100 */
-    --color-text-primary: 15 23 42;    /* #0f172a - slate-900 */
-    --color-text-secondary: 71 85 105; /* #475569 - slate-600 */
+    --color-primary: 248 250 252;         /* #f8fafc - slate-50 */
+    --color-secondary: 241 245 249;       /* #f1f5f9 - slate-100 */
+    --color-text-primary: 15 23 42;       /* #0f172a - slate-900 */
+    --color-text-secondary: 71 85 105;    /* #475569 - slate-600 */
   }
 
   html {
@@ -33,7 +33,11 @@
 
 @layer components {
   .section-title {
-    @apply text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12;
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12 font-display;
+  }
+
+  .heading-display {
+    @apply font-display tracking-tight;
   }
 
   .btn-primary {
@@ -55,6 +59,32 @@
   .nav-link {
     @apply text-text-secondary hover:text-accent transition-colors duration-300 font-medium;
   }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #22c55e, #14b8a6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shimmer-text {
+    background: linear-gradient(
+      90deg,
+      #22c55e 0%,
+      #14b8a6 40%,
+      #22c55e 80%,
+      #14b8a6 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 80px rgba(34, 197, 94, 0.15);
+  }
 }
 
 @layer utilities {
@@ -72,5 +102,218 @@
 
   .glass {
     @apply bg-secondary/80 backdrop-blur-lg;
+  }
+}
+
+/* Noise overlay for tactile depth */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Marquee animations */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===== Hero Background Animations ===== */
+
+/* Star twinkle */
+.star-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Aurora borealis ribbons */
+.aurora-ribbon {
+  position: absolute;
+  width: 200%;
+  height: 200px;
+  filter: blur(60px);
+  opacity: 0;
+  animation: aurora 8s ease-in-out infinite;
+}
+
+.aurora-1 {
+  top: 5%;
+  left: -20%;
+  background: linear-gradient(90deg, transparent, rgba(34,197,94,0.15), rgba(20,184,166,0.1), transparent);
+  animation-delay: 0s;
+}
+
+.aurora-2 {
+  top: 10%;
+  left: -40%;
+  background: linear-gradient(90deg, transparent, rgba(20,184,166,0.1), rgba(34,197,94,0.12), transparent);
+  animation-delay: 2.5s;
+}
+
+.aurora-3 {
+  top: 2%;
+  left: -10%;
+  background: linear-gradient(90deg, transparent, rgba(56,189,248,0.06), rgba(34,197,94,0.08), transparent);
+  animation-delay: 5s;
+}
+
+@keyframes aurora {
+  0% {
+    opacity: 0;
+    transform: translateX(-10%) scaleY(0.8);
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(10%) scaleY(1.2);
+  }
+}
+
+/* Shooting stars */
+.shooting-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  top: 2%;
+  left: 30%;
+  opacity: 0;
+  animation: shoot 20s ease-out infinite;
+}
+
+.shooting-star::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, white, transparent);
+  transform: rotate(-100deg);
+  transform-origin: left;
+}
+
+.shooting-star-2 {
+  top: 4%;
+  left: 72%;
+  animation-delay: 14s;
+  animation-duration: 24s;
+}
+
+.shooting-star-3 {
+  top: 1%;
+  left: 50%;
+  animation-delay: 6s;
+  animation-duration: 28s;
+}
+
+.shooting-star-4 {
+  top: 7%;
+  left: 15%;
+  animation-delay: 22s;
+  animation-duration: 22s;
+}
+
+@keyframes shoot {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  1% {
+    opacity: 1;
+  }
+  14% {
+    opacity: 0;
+    transform: translate(12px, 52px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(12px, 52px);
+  }
+}
+
+/* Drifting clouds */
+.cloud-drift {
+  position: absolute;
+  width: 400px;
+  height: 60px;
+  left: -200px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.6) 0%, transparent 70%);
+  filter: blur(20px);
+  animation: drift 45s linear infinite;
+}
+
+.cloud-drift-2 {
+  width: 300px;
+  height: 40px;
+  animation-duration: 60s;
+  animation-delay: 15s;
+}
+
+@keyframes drift {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(calc(100vw + 200px));
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-text {
+    animation: none;
+  }
+
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation: none;
+  }
+
+  .star-twinkle,
+  .shooting-star,
+  .shooting-star-2,
+  .shooting-star-3,
+  .shooting-star-4,
+  .aurora-ribbon,
+  .cloud-drift {
+    animation: none !important;
+  }
+
+  .star-twinkle {
+    opacity: 0.6;
+  }
+
+  .aurora-ribbon {
+    opacity: 0.5;
   }
 }
