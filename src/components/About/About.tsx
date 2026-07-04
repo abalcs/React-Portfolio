@@ -91,12 +91,6 @@ export default function About() {
                     approach every project with care and attention to detail.
                   </p>
                 </div>
-
-                <div className="pt-5">
-                  <a href="#contact" className="btn-primary inline-block">
-                    Let's Work Together
-                  </a>
-                </div>
               </div>
             </SpotlightCard>
           </motion.div>

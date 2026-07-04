@@ -3,11 +3,13 @@ import { Toaster } from 'react-hot-toast';
 
 interface LayoutProps {
   children: React.ReactNode;
+  /** Transparent lets the fixed 3D canvas behind the page show through */
+  transparent?: boolean;
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, transparent = false }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-primary">
+    <div className={`min-h-screen ${transparent ? '' : 'bg-primary'}`}>
       <Toaster
         position="top-right"
         toastOptions={{

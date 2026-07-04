@@ -12,8 +12,12 @@ import Footer from './components/Footer/Footer';
 import LoadingScreen from './components/UI/LoadingScreen';
 import BackToTop from './components/UI/BackToTop';
 import ScrollProgress from './components/UI/ScrollProgress';
+import AscentApp from './components/AscentApp';
+import { useCapabilities } from './hooks/useCapabilities';
 
-function App() {
+// Classic 2D experience — also the fallback when WebGL is unavailable
+// (including jsdom in tests) or the user prefers reduced motion.
+function ClassicApp() {
   return (
     <Layout>
       <LoadingScreen />
@@ -32,6 +36,16 @@ function App() {
       <BackToTop />
     </Layout>
   );
+}
+
+function App() {
+  const { webgl, reducedMotion } = useCapabilities();
+
+  if (!webgl || reducedMotion) {
+    return <ClassicApp />;
+  }
+
+  return <AscentApp />;
 }
 
 export default App;

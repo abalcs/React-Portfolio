@@ -71,11 +71,11 @@ describe('About', () => {
     expect(screen.getByText('Projects Built')).toBeInTheDocument();
   });
 
-  it('renders contact CTA link', () => {
+  it('does not render a contact CTA (removed for the 3D experience)', () => {
     render(<About />);
-    const link = screen.getByRole('link', { name: /let's work together/i });
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '#contact');
+    expect(
+      screen.queryByRole('link', { name: /let's work together/i })
+    ).not.toBeInTheDocument();
   });
 
   it('has correct section id for navigation', () => {

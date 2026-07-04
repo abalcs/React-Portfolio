@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HiMenu, HiX, HiSun, HiMoon } from 'react-icons/hi';
+import { HiMenu, HiX } from 'react-icons/hi';
 import { navItems } from '../../data/social';
-import { useTheme } from '../../hooks/useTheme';
 import ablogo from './images/ablogo.png';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,23 +44,9 @@ export default function Header() {
                 {item.label}
               </a>
             ))}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg bg-secondary/50 hover:bg-secondary text-text-secondary hover:text-accent transition-all duration-300"
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? <HiSun size={20} /> : <HiMoon size={20} />}
-            </button>
           </div>
 
           <div className="flex md:hidden items-center gap-2">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg bg-secondary/50 hover:bg-secondary text-text-primary hover:text-accent transition-all duration-300"
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? <HiSun size={20} /> : <HiMoon size={20} />}
-            </button>
             <button
               className="p-2 text-text-primary hover:text-accent transition-colors"
               onClick={toggleMenu}

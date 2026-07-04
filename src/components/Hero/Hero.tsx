@@ -13,13 +13,18 @@ const iconMap: Record<string, typeof FaGithub> = {
   linkedin: FaLinkedin,
 };
 
-export default function Hero() {
+interface HeroProps {
+  /** "ascent" renders over the 3D scene, so the SVG backdrop is omitted */
+  variant?: 'classic' | 'ascent';
+}
+
+export default function Hero({ variant = 'classic' }: HeroProps) {
   return (
     <section
       id="home"
       className="min-h-screen flex items-center justify-center relative overflow-hidden"
     >
-      <MountainBackground />
+      {variant === 'classic' && <MountainBackground />}
 
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         {/* Coordinate badge */}
@@ -60,7 +65,7 @@ export default function Hero() {
             className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-accent origin-right"
           />
           <h2 className="text-sm sm:text-base md:text-lg font-display tracking-[0.25em] uppercase text-white/70 dark:text-text-secondary/80">
-            Developer · Explorer
+            Developer · Traveler
           </h2>
           <motion.div
             initial={{ scaleX: 0 }}
@@ -80,7 +85,8 @@ export default function Hero() {
           Building digital trails through clean code and modern web experiences.
         </motion.p>
 
-        {/* CTAs */}
+        {/* CTAs — classic only; the 3D world's signs are the navigation */}
+        {variant === 'classic' && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -94,8 +100,10 @@ export default function Hero() {
             Get in Touch
           </MagneticButton>
         </motion.div>
+        )}
 
-        {/* Resume + Social row */}
+        {/* Resume + Social row — classic only */}
+        {variant === 'classic' && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -130,9 +138,11 @@ export default function Hero() {
             );
           })}
         </motion.div>
+        )}
       </div>
 
-      {/* Compass-inspired scroll indicator */}
+      {/* Compass-inspired scroll indicator — classic only */}
+      {variant === 'classic' && (
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -160,6 +170,7 @@ export default function Hero() {
           </motion.div>
         </a>
       </motion.div>
+      )}
     </section>
   );
 }
