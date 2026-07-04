@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
 import { gridHeight, TERRAIN_SIZE, LAKE } from './terrainHeight';
-import { trailCurve } from './curve';
+import { trailCurve, CAMP, CAMP_CLEARANCE } from './curve';
 
 const TRAIL_CLEARANCE = 6;
 
@@ -44,6 +44,9 @@ export default function Rocks({ count = 140 }: { count?: number }) {
       const ldx = x - LAKE.x;
       const ldz = z - LAKE.z;
       if (ldx * ldx + ldz * ldz < (LAKE.radius + 6) ** 2) continue;
+      const cdx = x - CAMP.x;
+      const cdz = z - CAMP.z;
+      if (cdx * cdx + cdz * cdz < CAMP_CLEARANCE ** 2) continue;
 
       let nearTrail = false;
       for (const p of trailPts) {

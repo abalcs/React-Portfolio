@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { HiEye, HiEyeOff, HiVolumeUp, HiVolumeOff } from 'react-icons/hi';
 import Layout from './Layout/Layout';
+import { useAmbientAudio } from '../hooks/useAmbientAudio';
 import Hero from './Hero/Hero';
 import LoadingScreen from './UI/LoadingScreen';
 import BackToTop from './UI/BackToTop';
@@ -53,6 +54,7 @@ function HeroOverlay() {
 export default function AscentApp() {
   const [openSection, setOpenSection] = useState<SectionId | null>(null);
   const [freeLook, setFreeLook] = useState(false);
+  const { enabled: soundOn, toggle: toggleSound } = useAmbientAudio();
 
   return (
     <Layout transparent>
@@ -65,19 +67,34 @@ export default function AscentApp() {
         />
       </Suspense>
       <HeroOverlay />
-      {/* free-look toggle */}
-      <button
-        onClick={() => setFreeLook((v) => !v)}
-        className={`fixed bottom-6 left-6 z-30 flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold backdrop-blur-md transition-all duration-300 ${
-          freeLook
-            ? 'border-accent bg-accent/90 text-white'
-            : 'border-white/20 bg-primary/60 text-text-primary hover:border-accent/60'
-        }`}
-        aria-pressed={freeLook}
-      >
-        {freeLook ? <HiEyeOff size={18} /> : <HiEye size={18} />}
-        {freeLook ? 'Resume Follow' : 'Look Around'}
-      </button>
+      {/* world controls */}
+      <div className="fixed bottom-6 left-6 z-30 flex flex-col items-start gap-2.5">
+        <button
+          onClick={toggleSound}
+          className={`flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold backdrop-blur-md transition-all duration-300 ${
+            soundOn
+              ? 'border-accent bg-accent/90 text-white'
+              : 'border-white/20 bg-primary/60 text-text-primary hover:border-accent/60'
+          }`}
+          aria-pressed={soundOn}
+          aria-label={soundOn ? 'Mute ambient sound' : 'Play ambient sound'}
+        >
+          {soundOn ? <HiVolumeUp size={18} /> : <HiVolumeOff size={18} />}
+          {soundOn ? 'Sound On' : 'Sound Off'}
+        </button>
+        <button
+          onClick={() => setFreeLook((v) => !v)}
+          className={`flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold backdrop-blur-md transition-all duration-300 ${
+            freeLook
+              ? 'border-accent bg-accent/90 text-white'
+              : 'border-white/20 bg-primary/60 text-text-primary hover:border-accent/60'
+          }`}
+          aria-pressed={freeLook}
+        >
+          {freeLook ? <HiEyeOff size={18} /> : <HiEye size={18} />}
+          {freeLook ? 'Resume Follow' : 'Look Around'}
+        </button>
+      </div>
       {/* scroll driver — invisible; anchors let #hash nav jump the journey */}
       <main
         className="relative z-10 pointer-events-none"

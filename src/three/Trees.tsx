@@ -2,7 +2,7 @@ import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { gridHeight, TERRAIN_SIZE, LAKE } from './terrainHeight';
-import { trailCurve } from './curve';
+import { trailCurve, CAMP, CAMP_CLEARANCE } from './curve';
 
 const TREELINE = 20; // pines only grow below this altitude
 const TRAIL_CLEARANCE = 7;
@@ -52,6 +52,9 @@ export default function Trees({ count = 260 }: TreesProps) {
       const ldx = x - LAKE.x;
       const ldz = z - LAKE.z;
       if (ldx * ldx + ldz * ldz < (LAKE.radius + 10) ** 2) continue;
+      const cdx = x - CAMP.x;
+      const cdz = z - CAMP.z;
+      if (cdx * cdx + cdz * cdz < CAMP_CLEARANCE ** 2) continue;
 
       let nearTrail = false;
       for (const p of trailPts) {

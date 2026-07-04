@@ -4,6 +4,7 @@ import { useFrame } from '@react-three/fiber';
 import { trailCurve } from './curve';
 import { gridHeight } from './terrainHeight';
 import { ACCENT } from './palette';
+import { emitStep } from '../lib/stepBus';
 import { ProgressRef } from './hooks/useScrollProgress';
 
 const SKIN = '#e8c39e';
@@ -26,6 +27,7 @@ export default function Hiker({ progress }: { progress: ProgressRef }) {
 
   const curveLength = useMemo(() => trailCurve.getLength(), []);
   const phase = useRef(0);
+  const lastStepIndex = useRef(0);
   const lastT = useRef(0);
   const facing = useRef(1); // 1 = up-trail, -1 = down-trail
   const yaw = useRef(0);
@@ -64,6 +66,13 @@ export default function Hiker({ progress }: { progress: ProgressRef }) {
     const stride = THREE.MathUtils.clamp(speed * 0.045, 0, 0.75);
     phase.current += speed * delta * 1.6;
 
+    // each half-cycle of the swing is one foot planting on the dirt
+    const stepIndex = Math.floor(phase.current / Math.PI);
+    if (stepIndex !== lastStepIndex.current && stride > 0.06) {
+      lastStepIndex.current = stepIndex;
+      emitStep(Math.min(1, stride / 0.75), (stepIndex % 2) as 0 | 1);
+    }
+
     const swing = Math.sin(phase.current) * stride;
     if (legL.current) legL.current.rotation.x = swing;
     if (legR.current) legR.current.rotation.x = -swing;
@@ -81,92 +90,123 @@ export default function Hiker({ progress }: { progress: ProgressRef }) {
   return (
     <group ref={group}>
       <group ref={body}>
-        {/* legs — pivot at hips */}
-        <group ref={legL} position={[0.14, 0.85, 0]}>
-          <mesh position={[0, -0.35, 0]}>
-            <boxGeometry args={[0.18, 0.7, 0.18]} />
-            <meshStandardMaterial color={PANTS} roughness={0.8} flatShading />
-          </mesh>
-          <mesh position={[0, -0.72, 0.05]}>
-            <boxGeometry args={[0.2, 0.16, 0.32]} />
-            <meshStandardMaterial color={BOOTS} roughness={0.9} flatShading />
-          </mesh>
-        </group>
-        <group ref={legR} position={[-0.14, 0.85, 0]}>
-          <mesh position={[0, -0.35, 0]}>
-            <boxGeometry args={[0.18, 0.7, 0.18]} />
-            <meshStandardMaterial color={PANTS} roughness={0.8} flatShading />
-          </mesh>
-          <mesh position={[0, -0.72, 0.05]}>
-            <boxGeometry args={[0.2, 0.16, 0.32]} />
-            <meshStandardMaterial color={BOOTS} roughness={0.9} flatShading />
-          </mesh>
-        </group>
+        {/* legs — rounded capsule limbs, pivot at hips */}
+        {[
+          { side: 0.13, ref: legL },
+          { side: -0.13, ref: legR },
+        ].map(({ side, ref }) => (
+          <group key={side} ref={ref} position={[side, 0.95, 0]}>
+            <mesh position={[0, -0.24, 0]}>
+              <capsuleGeometry args={[0.1, 0.34, 4, 10]} />
+              <meshStandardMaterial color={PANTS} roughness={0.85} />
+            </mesh>
+            <mesh position={[0, -0.62, 0.01]}>
+              <capsuleGeometry args={[0.08, 0.3, 4, 10]} />
+              <meshStandardMaterial color={PANTS} roughness={0.85} />
+            </mesh>
+            <mesh position={[0, -0.89, 0.06]}>
+              <capsuleGeometry args={[0.085, 0.14, 4, 8]} />
+              <meshStandardMaterial color={BOOTS} roughness={0.9} />
+            </mesh>
+          </group>
+        ))}
 
-        {/* torso — accent-green expedition jacket */}
-        <mesh position={[0, 1.25, 0]}>
-          <boxGeometry args={[0.52, 0.78, 0.32]} />
-          <meshStandardMaterial
-            color={ACCENT}
-            roughness={0.7}
-            flatShading
-            emissive={ACCENT}
-            emissiveIntensity={0.12}
-          />
+        {/* hips */}
+        <mesh position={[0, 0.98, 0]} scale={[1, 0.8, 0.82]}>
+          <sphereGeometry args={[0.23, 12, 10]} />
+          <meshStandardMaterial color={PANTS} roughness={0.85} />
         </mesh>
 
-        {/* backpack */}
-        <mesh position={[0, 1.32, -0.3]}>
-          <boxGeometry args={[0.38, 0.52, 0.24]} />
-          <meshStandardMaterial color={PACK} roughness={0.8} flatShading />
+        {/* torso — expedition jacket, shoulders wider than waist */}
+        <mesh position={[0, 1.32, 0]} scale={[1, 1, 0.76]}>
+          <capsuleGeometry args={[0.26, 0.36, 6, 14]} />
+          <meshStandardMaterial color={ACCENT} roughness={0.75} />
         </mesh>
-        <mesh position={[0, 1.62, -0.28]}>
-          <boxGeometry args={[0.26, 0.14, 0.18]} />
-          <meshStandardMaterial color="#b45309" roughness={0.8} flatShading />
+        {/* jacket zip line */}
+        <mesh position={[0, 1.32, 0.195]}>
+          <boxGeometry args={[0.025, 0.5, 0.015]} />
+          <meshStandardMaterial color="#15803d" roughness={0.7} />
+        </mesh>
+        {/* backpack straps over the shoulders */}
+        {[0.13, -0.13].map((x) => (
+          <mesh key={x} position={[x, 1.42, 0.19]} rotation={[0.08, 0, 0]}>
+            <boxGeometry args={[0.07, 0.44, 0.03]} />
+            <meshStandardMaterial color="#b45309" roughness={0.85} />
+          </mesh>
+        ))}
+
+        {/* backpack — rounded, with top roll */}
+        <mesh position={[0, 1.36, -0.31]} scale={[1, 1.25, 0.62]}>
+          <sphereGeometry args={[0.22, 12, 10]} />
+          <meshStandardMaterial color={PACK} roughness={0.85} />
+        </mesh>
+        <mesh position={[0, 1.68, -0.29]} rotation={[0, 0, Math.PI / 2]}>
+          <capsuleGeometry args={[0.09, 0.22, 4, 8]} />
+          <meshStandardMaterial color="#b45309" roughness={0.85} />
         </mesh>
 
-        {/* arms — pivot at shoulders */}
-        <group ref={armL} position={[0.34, 1.55, 0]}>
-          <mesh position={[0, -0.32, 0]}>
-            <boxGeometry args={[0.14, 0.64, 0.14]} />
-            <meshStandardMaterial color={ACCENT} roughness={0.7} flatShading />
+        {/* arms — capsules with hands, pivot at shoulders */}
+        <group ref={armL} position={[0.32, 1.56, 0]}>
+          <mesh position={[0, -0.2, 0]} rotation={[0, 0, 0.1]}>
+            <capsuleGeometry args={[0.075, 0.24, 4, 10]} />
+            <meshStandardMaterial color={ACCENT} roughness={0.75} />
           </mesh>
-          <mesh position={[0, -0.68, 0]}>
-            <boxGeometry args={[0.12, 0.12, 0.12]} />
-            <meshStandardMaterial color={SKIN} roughness={0.6} flatShading />
+          <mesh position={[0.02, -0.52, 0.04]} rotation={[-0.18, 0, 0.06]}>
+            <capsuleGeometry args={[0.065, 0.22, 4, 10]} />
+            <meshStandardMaterial color={ACCENT} roughness={0.75} />
+          </mesh>
+          <mesh position={[0.04, -0.7, 0.08]}>
+            <sphereGeometry args={[0.065, 8, 7]} />
+            <meshStandardMaterial color={SKIN} roughness={0.6} />
           </mesh>
         </group>
-        <group ref={armR} position={[-0.34, 1.55, 0]}>
-          <mesh position={[0, -0.32, 0]}>
-            <boxGeometry args={[0.14, 0.64, 0.14]} />
-            <meshStandardMaterial color={ACCENT} roughness={0.7} flatShading />
+        <group ref={armR} position={[-0.32, 1.56, 0]}>
+          <mesh position={[0, -0.2, 0]} rotation={[0, 0, -0.1]}>
+            <capsuleGeometry args={[0.075, 0.24, 4, 10]} />
+            <meshStandardMaterial color={ACCENT} roughness={0.75} />
           </mesh>
-          <mesh position={[0, -0.68, 0]}>
-            <boxGeometry args={[0.12, 0.12, 0.12]} />
-            <meshStandardMaterial color={SKIN} roughness={0.6} flatShading />
+          <mesh position={[-0.02, -0.52, 0.04]} rotation={[-0.18, 0, -0.06]}>
+            <capsuleGeometry args={[0.065, 0.22, 4, 10]} />
+            <meshStandardMaterial color={ACCENT} roughness={0.75} />
+          </mesh>
+          <mesh position={[-0.04, -0.7, 0.08]}>
+            <sphereGeometry args={[0.065, 8, 7]} />
+            <meshStandardMaterial color={SKIN} roughness={0.6} />
           </mesh>
           {/* trekking pole — gripped in the right hand, swings with it */}
-          <mesh position={[0, -1.1, 0.16]} rotation={[0.22, 0, 0]}>
-            <cylinderGeometry args={[0.035, 0.05, 1.75, 5]} />
-            <meshStandardMaterial color="#7a5b3a" roughness={0.85} flatShading />
-          </mesh>
-          <mesh position={[0, -0.66, 0.06]}>
-            <sphereGeometry args={[0.07, 6, 5]} />
-            <meshStandardMaterial color="#3f3128" roughness={0.9} flatShading />
+          <mesh position={[-0.04, -1.1, 0.18]} rotation={[0.22, 0, 0]}>
+            <cylinderGeometry args={[0.03, 0.045, 1.7, 8]} />
+            <meshStandardMaterial color="#7a5b3a" roughness={0.85} />
           </mesh>
         </group>
 
-        {/* head + beanie + headlamp */}
-        <mesh position={[0, 1.87, 0]}>
-          <sphereGeometry args={[0.19, 8, 6]} />
-          <meshStandardMaterial color={SKIN} roughness={0.6} flatShading />
+        {/* neck, head, face, beanie, headlamp */}
+        <mesh position={[0, 1.63, 0]}>
+          <cylinderGeometry args={[0.06, 0.075, 0.1, 8]} />
+          <meshStandardMaterial color={SKIN} roughness={0.6} />
         </mesh>
-        <mesh position={[0, 2.0, 0]}>
-          <cylinderGeometry args={[0.2, 0.21, 0.12, 8]} />
-          <meshStandardMaterial color="#334155" roughness={0.8} flatShading />
+        <mesh position={[0, 1.79, 0]} scale={[0.92, 1, 0.94]}>
+          <sphereGeometry args={[0.165, 14, 12]} />
+          <meshStandardMaterial color={SKIN} roughness={0.55} />
         </mesh>
-        <mesh position={[0, 1.9, 0.19]}>
-          <boxGeometry args={[0.1, 0.07, 0.06]} />
+        {[0.055, -0.055].map((x) => (
+          <mesh key={x} position={[x, 1.8, 0.14]}>
+            <sphereGeometry args={[0.017, 6, 6]} />
+            <meshStandardMaterial color="#2a2620" roughness={0.4} />
+          </mesh>
+        ))}
+        {/* beanie */}
+        <mesh position={[0, 1.88, 0]} scale={[1, 0.72, 1]}>
+          <sphereGeometry args={[0.165, 12, 8]} />
+          <meshStandardMaterial color="#334155" roughness={0.85} />
+        </mesh>
+        <mesh position={[0, 1.845, 0]}>
+          <cylinderGeometry args={[0.168, 0.172, 0.055, 12]} />
+          <meshStandardMaterial color="#26343f" roughness={0.85} />
+        </mesh>
+        {/* headlamp */}
+        <mesh position={[0, 1.86, 0.16]}>
+          <cylinderGeometry args={[0.035, 0.035, 0.04, 8]} />
           <meshStandardMaterial
             color="#fff7cc"
             emissive="#ffeda0"
@@ -175,7 +215,7 @@ export default function Hiker({ progress }: { progress: ProgressRef }) {
           />
         </mesh>
         <pointLight
-          position={[0, 1.9, 1.1]}
+          position={[0, 1.86, 1.1]}
           intensity={0.85}
           distance={14}
           color="#ffe9b8"

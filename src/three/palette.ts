@@ -23,8 +23,8 @@ export interface ScenePalette {
 export const DAY: ScenePalette = {
   skyTop: '#2f74d0',
   skyBottom: '#cfe5f7',
-  fog: '#d6e4f0',
-  fogDensityNear: 0.0021,
+  fog: '#bed8f0',
+  fogDensityNear: 0.0018,
   fogDensityFar: 0.0009,
   sun: '#fff3dd',
   hemiSky: '#9cc4ec',

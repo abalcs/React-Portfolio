@@ -59,3 +59,7 @@ export function besideTrail(t: number, side: number): THREE.Vector3 {
 }
 
 export { WAYPOINT_T } from './journey';
+
+// The basecamp anchor near the trailhead — vegetation keeps clear of it.
+export const CAMP = besideTrail(0.018, 8);
+export const CAMP_CLEARANCE = 8;

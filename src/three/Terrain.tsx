@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
-import { terrainHeight, TERRAIN_SIZE } from './terrainHeight';
+import { terrainHeight, TERRAIN_SIZE, TERRAIN_SEGMENTS } from './terrainHeight';
 import { ScenePalette } from './palette';
 
 // altitude bands (jittered per-vertex for natural transitions)
@@ -87,7 +87,10 @@ function buildGeometry(segments: number, palette: ScenePalette) {
   return geometry;
 }
 
-export default function Terrain({ palette, segments = 220 }: TerrainProps) {
+export default function Terrain({
+  palette,
+  segments = TERRAIN_SEGMENTS,
+}: TerrainProps) {
   const geometry = useMemo(
     () => buildGeometry(segments, palette),
     [segments, palette]
@@ -95,12 +98,9 @@ export default function Terrain({ palette, segments = 220 }: TerrainProps) {
 
   return (
     <mesh geometry={geometry} receiveShadow>
-      <meshStandardMaterial
-        vertexColors
-        flatShading
-        roughness={0.96}
-        metalness={0}
-      />
+      {/* smooth shading + dense mesh: reads as real terrain relief while
+          props keep their stylized flat-shaded look */}
+      <meshStandardMaterial vertexColors roughness={0.96} metalness={0} />
     </mesh>
   );
 }

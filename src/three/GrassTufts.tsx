@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
 import { gridHeight, LAKE } from './terrainHeight';
-import { trailCurve } from './curve';
+import { trailCurve, CAMP, CAMP_CLEARANCE } from './curve';
 
 function mulberry32(seed: number) {
   let a = seed;
@@ -44,6 +44,9 @@ export default function GrassTufts({ count = 480 }: { count?: number }) {
       const ldx = x - LAKE.x;
       const ldz = z - LAKE.z;
       if (ldx * ldx + ldz * ldz < (LAKE.radius + 4) ** 2) continue;
+      const cdx = x - CAMP.x;
+      const cdz = z - CAMP.z;
+      if (cdx * cdx + cdz * cdz < CAMP_CLEARANCE ** 2) continue;
 
       const s = 0.5 + rand() * 0.9;
       q.setFromAxisAngle(up, rand() * Math.PI * 2);

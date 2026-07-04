@@ -1,9 +1,67 @@
 import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { Sky } from '@react-three/drei';
 
 export const SUN_POSITION: [number, number, number] = [260, 380, 200];
+
+const SKY_RADIUS = 1400;
+// Bluebird day — exact colors, no atmospheric model to wash them out
+const ZENITH = '#1c64cf';
+const HORIZON = '#b7d7f2';
+
+const skyVertex = /* glsl */ `
+  varying vec3 vWorldPosition;
+  void main() {
+    vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+    vWorldPosition = worldPosition.xyz;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const skyFragment = /* glsl */ `
+  uniform vec3 uTop;
+  uniform vec3 uBottom;
+  uniform vec3 uSunDir;
+  varying vec3 vWorldPosition;
+  void main() {
+    vec3 dir = normalize(vWorldPosition);
+    float h = max(dir.y, 0.0);
+    // deep blue overhead, pale blue (never white) at the horizon
+    vec3 col = mix(uBottom, uTop, pow(h, 0.62));
+    // warm halo hugging the sun
+    float sunAmt = pow(max(dot(dir, uSunDir), 0.0), 180.0);
+    col += vec3(1.0, 0.95, 0.82) * sunAmt * 0.9;
+    float wideGlow = pow(max(dot(dir, uSunDir), 0.0), 7.0);
+    col += vec3(0.75, 0.78, 0.72) * wideGlow * 0.10;
+    gl_FragColor = vec4(col, 1.0);
+  }
+`;
+
+function SkyDome() {
+  const uniforms = useMemo(
+    () => ({
+      uTop: { value: new THREE.Color(ZENITH) },
+      uBottom: { value: new THREE.Color(HORIZON) },
+      uSunDir: { value: new THREE.Vector3(...SUN_POSITION).normalize() },
+    }),
+    []
+  );
+
+  return (
+    <mesh>
+      <sphereGeometry args={[SKY_RADIUS, 32, 24]} />
+      <shaderMaterial
+        side={THREE.BackSide}
+        depthWrite={false}
+        fog={false}
+        vertexShader={skyVertex}
+        fragmentShader={skyFragment}
+        uniforms={uniforms}
+        toneMapped={false}
+      />
+    </mesh>
+  );
+}
 
 function mulberry32(seed: number) {
   let a = seed;
@@ -89,20 +147,18 @@ interface DaySkyProps {
 }
 
 /**
- * Physically-based day sky (Preetham atmospheric scattering via drei)
- * with drifting low-poly clouds whose shadows sweep the terrain.
+ * Bluebird-day sky: exact-color gradient dome with a warm sun halo, and
+ * drifting low-poly clouds whose shadows sweep the terrain.
  */
 export default function DaySky({ cloudCount }: DaySkyProps) {
   return (
     <>
-      <Sky
-        sunPosition={SUN_POSITION}
-        distance={3000}
-        turbidity={3}
-        rayleigh={1.6}
-        mieCoefficient={0.0032}
-        mieDirectionalG={0.85}
-      />
+      <SkyDome />
+      {/* the sun disc */}
+      <mesh position={SUN_POSITION}>
+        <sphereGeometry args={[26, 16, 12]} />
+        <meshBasicMaterial color="#fffdf2" toneMapped={false} fog={false} />
+      </mesh>
       <Clouds count={cloudCount} />
     </>
   );

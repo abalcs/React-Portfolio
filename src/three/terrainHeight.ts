@@ -16,7 +16,7 @@ function mulberry32(seed: number) {
 const noise2D = createNoise2D(mulberry32(4217));
 
 export const TERRAIN_SIZE = 900;
-export const TERRAIN_SEGMENTS = 220;
+export const TERRAIN_SEGMENTS = 360;
 export const PEAK = { x: 0, z: -60, height: 78, sigma: 62 };
 // Alpine lake in the valley east of the trailhead approach.
 // Constants verified numerically (scratchpad/lakecheck.mjs): shoreline
@@ -29,7 +29,7 @@ function ridgedFbm(x: number, z: number): number {
   let frequency = 1;
   let sum = 0;
   let max = 0;
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     const n = 1 - Math.abs(noise2D(x * frequency, z * frequency));
     sum += n * n * amplitude;
     max += amplitude;

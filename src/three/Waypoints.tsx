@@ -374,11 +374,330 @@ function SummitFlag({ position }: { position: THREE.Vector3 }) {
   );
 }
 
-/** Basecamp at the trailhead — the hiker's journey starts here. */
+/** Animated campfire: flickering flame + dancing warm light. */
+function Campfire() {
+  const flame = useRef<THREE.Mesh>(null);
+  const inner = useRef<THREE.Mesh>(null);
+  const light = useRef<THREE.PointLight>(null);
+
+  useFrame(({ clock }) => {
+    const t = clock.elapsedTime;
+    const f = 1 + Math.sin(t * 9.3) * 0.14 + Math.sin(t * 23.7) * 0.07;
+    if (flame.current) {
+      flame.current.scale.set(f, 1.1 * f, f);
+      flame.current.rotation.y = t * 1.6;
+    }
+    if (inner.current) inner.current.rotation.y = -t * 2.3;
+    if (light.current) {
+      light.current.intensity =
+        0.9 + Math.sin(t * 11.4) * 0.2 + Math.sin(t * 28.9) * 0.09;
+    }
+  });
+
+  return (
+    <group>
+      {/* stone ring */}
+      {Array.from({ length: 7 }, (_, i) => {
+        const a = (i / 7) * Math.PI * 2;
+        return (
+          <mesh
+            key={i}
+            position={[Math.cos(a) * 0.62, 0.13, Math.sin(a) * 0.62]}
+            rotation={[a, a * 2, 0]}
+          >
+            <dodecahedronGeometry args={[0.19, 0]} />
+            <meshStandardMaterial color="#6f7278" roughness={0.95} flatShading />
+          </mesh>
+        );
+      })}
+      {/* charred logs */}
+      {[0.4, 1.9].map((rot, i) => (
+        <mesh key={i} position={[0, 0.12, 0]} rotation={[0, rot, Math.PI / 2]}>
+          <cylinderGeometry args={[0.07, 0.08, 0.85, 5]} />
+          <meshStandardMaterial color="#33261a" roughness={1} flatShading />
+        </mesh>
+      ))}
+      {/* flame */}
+      <mesh ref={flame} position={[0, 0.42, 0]}>
+        <coneGeometry args={[0.24, 0.62, 5]} />
+        <meshStandardMaterial
+          color="#ff9a3c"
+          emissive="#ff7a1c"
+          emissiveIntensity={2.2}
+          toneMapped={false}
+          transparent
+          opacity={0.9}
+          flatShading
+        />
+      </mesh>
+      <mesh ref={inner} position={[0, 0.34, 0]}>
+        <coneGeometry args={[0.13, 0.4, 4]} />
+        <meshStandardMaterial
+          color="#ffd98a"
+          emissive="#ffc95c"
+          emissiveIntensity={3}
+          toneMapped={false}
+          flatShading
+        />
+      </mesh>
+      <pointLight ref={light} position={[0, 0.9, 0]} distance={11} color="#ffb45c" />
+    </group>
+  );
+}
+
+/** Rounded, human-proportioned seated figure — facing +Z. */
+function SeatedFigure({
+  position,
+  rotationY,
+  seatHeight,
+  scale = 1,
+  jacket,
+  jacketDark,
+  pants,
+  hair,
+  pigtails = false,
+  marshmallowStick = false,
+}: {
+  position: [number, number, number];
+  rotationY: number;
+  seatHeight: number;
+  scale?: number;
+  jacket: string;
+  jacketDark: string;
+  pants: string;
+  hair: string;
+  pigtails?: boolean;
+  marshmallowStick?: boolean;
+}) {
+  const h = seatHeight;
+  const SKIN = '#e8c39e';
+  return (
+    <group position={position} rotation={[0, rotationY, 0]} scale={scale}>
+      {/* thighs (horizontal) + shins (down) + shoes */}
+      {[0.11, -0.11].map((x, i) => (
+        <group key={i}>
+          <mesh position={[x, h + 0.05, 0.19]} rotation={[Math.PI / 2, 0, 0]}>
+            <capsuleGeometry args={[0.085, 0.26, 4, 10]} />
+            <meshStandardMaterial color={pants} roughness={0.85} />
+          </mesh>
+          <mesh position={[x, Math.max(h / 2 - 0.03, 0.09), 0.38]}>
+            <capsuleGeometry
+              args={[0.07, Math.max(h - 0.18, 0.06), 4, 10]}
+            />
+            <meshStandardMaterial color={pants} roughness={0.85} />
+          </mesh>
+          <mesh position={[x, 0.07, 0.45]}>
+            <capsuleGeometry args={[0.07, 0.1, 4, 8]} />
+            <meshStandardMaterial color="#2b2b30" roughness={0.9} />
+          </mesh>
+        </group>
+      ))}
+      {/* hips + torso */}
+      <mesh position={[0, h + 0.06, 0]} scale={[1, 0.75, 0.8]}>
+        <sphereGeometry args={[0.2, 12, 10]} />
+        <meshStandardMaterial color={pants} roughness={0.85} />
+      </mesh>
+      <mesh position={[0, h + 0.38, 0]} scale={[1, 1, 0.74]}>
+        <capsuleGeometry args={[0.22, 0.28, 6, 14]} />
+        <meshStandardMaterial color={jacket} roughness={0.78} />
+      </mesh>
+      <mesh position={[0, h + 0.38, 0.155]}>
+        <boxGeometry args={[0.02, 0.4, 0.012]} />
+        <meshStandardMaterial color={jacketDark} roughness={0.7} />
+      </mesh>
+      {/* arms resting toward the lap, small hands */}
+      {[0.24, -0.24].map((x, i) => (
+        <group key={i} position={[x, h + 0.52, 0.02]} rotation={[0.65, 0, x > 0 ? 0.12 : -0.12]}>
+          <mesh position={[0, -0.18, 0]}>
+            <capsuleGeometry args={[0.062, 0.2, 4, 10]} />
+            <meshStandardMaterial color={jacket} roughness={0.78} />
+          </mesh>
+          <mesh position={[0, -0.4, 0.02]}>
+            <capsuleGeometry args={[0.055, 0.16, 4, 10]} />
+            <meshStandardMaterial color={jacket} roughness={0.78} />
+          </mesh>
+          <mesh position={[0, -0.54, 0.04]}>
+            <sphereGeometry args={[0.055, 8, 7]} />
+            <meshStandardMaterial color={SKIN} roughness={0.6} />
+          </mesh>
+        </group>
+      ))}
+      {/* neck + head + face */}
+      <mesh position={[0, h + 0.66, 0]}>
+        <cylinderGeometry args={[0.05, 0.065, 0.08, 8]} />
+        <meshStandardMaterial color={SKIN} roughness={0.6} />
+      </mesh>
+      <mesh position={[0, h + 0.8, 0]} scale={[0.92, 1, 0.94]}>
+        <sphereGeometry args={[0.145, 14, 12]} />
+        <meshStandardMaterial color={SKIN} roughness={0.55} />
+      </mesh>
+      {[0.05, -0.05].map((x) => (
+        <mesh key={x} position={[x, h + 0.81, 0.125]}>
+          <sphereGeometry args={[0.015, 6, 6]} />
+          <meshStandardMaterial color="#2a2620" roughness={0.4} />
+        </mesh>
+      ))}
+      {/* hair: soft cap; bun for mom, pigtails for the kid */}
+      <mesh position={[0, h + 0.85, -0.02]} scale={[1, 0.85, 1.02]}>
+        <sphereGeometry args={[0.15, 12, 10]} />
+        <meshStandardMaterial color={hair} roughness={0.9} />
+      </mesh>
+      {pigtails ? (
+        [0.15, -0.15].map((x, i) => (
+          <group key={i}>
+            <mesh position={[x, h + 0.82, -0.03]}>
+              <sphereGeometry args={[0.06, 8, 7]} />
+              <meshStandardMaterial color={hair} roughness={0.9} />
+            </mesh>
+            <mesh position={[x * 1.15, h + 0.72, -0.04]}>
+              <capsuleGeometry args={[0.035, 0.09, 4, 8]} />
+              <meshStandardMaterial color={hair} roughness={0.9} />
+            </mesh>
+          </group>
+        ))
+      ) : (
+        <mesh position={[0, h + 0.84, -0.15]}>
+          <sphereGeometry args={[0.075, 8, 7]} />
+          <meshStandardMaterial color={hair} roughness={0.9} />
+        </mesh>
+      )}
+      {marshmallowStick && (
+        <group position={[0.24, h + 0.16, 0.35]} rotation={[-0.55, 0, 0.1]}>
+          <mesh position={[0, 0.45, 0]}>
+            <cylinderGeometry args={[0.018, 0.028, 0.95, 6]} />
+            <meshStandardMaterial color="#7a5b3a" roughness={0.9} />
+          </mesh>
+          <mesh position={[0, 0.94, 0]}>
+            <capsuleGeometry args={[0.045, 0.05, 4, 8]} />
+            <meshStandardMaterial color="#fff4e0" roughness={0.7} />
+          </mesh>
+        </group>
+      )}
+    </group>
+  );
+}
+
+/** Taut line from tent apex to a ground stake. */
+function GuyLine({ from, to }: { from: [number, number, number]; to: [number, number, number] }) {
+  const { mid, quat, len } = useMemo(() => {
+    const f = new THREE.Vector3(...from);
+    const t = new THREE.Vector3(...to);
+    const dir = t.clone().sub(f);
+    const len = dir.length();
+    const quat = new THREE.Quaternion().setFromUnitVectors(
+      new THREE.Vector3(0, 1, 0),
+      dir.normalize()
+    );
+    return { mid: f.add(t).multiplyScalar(0.5), quat, len };
+  }, [from, to]);
+  return (
+    <group>
+      <mesh position={mid} quaternion={quat}>
+        <cylinderGeometry args={[0.012, 0.012, len, 4]} />
+        <meshStandardMaterial color="#ded7c2" roughness={0.8} />
+      </mesh>
+      <mesh position={[to[0], to[1] + 0.08, to[2]]} rotation={[0.3, 0, 0.2]}>
+        <cylinderGeometry args={[0.025, 0.035, 0.22, 5]} />
+        <meshStandardMaterial color="#5d4429" roughness={0.9} />
+      </mesh>
+    </group>
+  );
+}
+
+/** Worn dirt patch under the camp, draped on the terrain, feathered edge. */
+function CampFloor({
+  groundAt,
+  center,
+  radius,
+}: {
+  groundAt: (lx: number, lz: number) => number;
+  center: [number, number];
+  radius: number;
+}) {
+  const geometry = useMemo(() => {
+    const SEG = 22;
+    const RINGS = [0, 0.5, 1];
+    const ALPHA = [0.5, 0.4, 0];
+    const positions: number[] = [];
+    const colors: number[] = [];
+    const indices: number[] = [];
+    for (let r = 0; r < RINGS.length; r++) {
+      for (let s = 0; s < SEG; s++) {
+        const a = (s / SEG) * Math.PI * 2;
+        const lx = center[0] + Math.cos(a) * RINGS[r] * radius;
+        const lz = center[1] + Math.sin(a) * RINGS[r] * radius;
+        positions.push(lx, groundAt(lx, lz) + 0.1, lz);
+        colors.push(1, 1, 1, ALPHA[r]);
+      }
+    }
+    for (let r = 0; r < RINGS.length - 1; r++) {
+      for (let s = 0; s < SEG; s++) {
+        const a = r * SEG + s;
+        const b = r * SEG + ((s + 1) % SEG);
+        const c = (r + 1) * SEG + s;
+        const d = (r + 1) * SEG + ((s + 1) % SEG);
+        indices.push(a, c, b, b, c, d);
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
+    g.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 4));
+    g.setIndex(indices);
+    g.computeVertexNormals();
+    return g;
+  }, [groundAt, center, radius]);
+
+  return (
+    <mesh geometry={geometry}>
+      <meshStandardMaterial
+        color="#9c7f5f"
+        vertexColors
+        transparent
+        depthWrite={false}
+        roughness={1}
+        polygonOffset
+        polygonOffsetFactor={-2}
+        polygonOffsetUnits={-2}
+      />
+    </mesh>
+  );
+}
+
+/** Basecamp at the trailhead — the hiker's family sees him off. */
 function Campsite({ position, yaw }: { position: THREE.Vector3; yaw: number }) {
+  // seat every prop on the rendered terrain at ITS OWN spot — the camp
+  // spans ~5 units of sloping meadow, one shared height floats things
+  const groundAt = useMemo(() => {
+    const cos = Math.cos(yaw);
+    const sin = Math.sin(yaw);
+    return (lx: number, lz: number) => {
+      const wx = position.x + lx * cos + lz * sin;
+      const wz = position.z - lx * sin + lz * cos;
+      return gridHeight(wx, wz) - position.y;
+    };
+  }, [position, yaw]);
+
+  const g = useMemo(
+    () => ({
+      fire: groundAt(3.4, 1.6),
+      log: groundAt(3.2, 3.3),
+      kid: groundAt(4.7, 2.1),
+      wood: groundAt(1.9, 3.1),
+      pack: groundAt(-1.7, 1.1),
+      cooler: groundAt(-0.6, 2.4),
+      bedroll: groundAt(1.2, -1.6),
+      stakeA: groundAt(2.3, 0.9),
+      stakeB: groundAt(-2.3, 0.9),
+      stakeC: groundAt(0, -2.6),
+    }),
+    [groundAt]
+  );
+
   return (
     <group position={position} rotation={[0, yaw, 0]}>
-      {/* canvas tent — squat pyramid, door facing the fire */}
+      <CampFloor groundAt={groundAt} center={[1.7, 1.4]} radius={4.8} />
+
+      {/* canvas tent — pyramid, door facing the fire, guy-lines staked */}
       <mesh position={[0, 1.05, 0]} rotation={[0, Math.PI / 4, 0]} scale={[1, 0.72, 1]}>
         <coneGeometry args={[2.3, 3, 4]} />
         <meshStandardMaterial color="#c9a15e" roughness={0.9} flatShading />
@@ -391,43 +710,78 @@ function Campsite({ position, yaw }: { position: THREE.Vector3; yaw: number }) {
         <cylinderGeometry args={[0.05, 0.05, 0.7, 5]} />
         <meshStandardMaterial color="#7a5b3a" roughness={0.9} flatShading />
       </mesh>
+      <GuyLine from={[0, 2.15, 0]} to={[2.3, g.stakeA, 0.9]} />
+      <GuyLine from={[0, 2.15, 0]} to={[-2.3, g.stakeB, 0.9]} />
+      <GuyLine from={[0, 2.15, 0]} to={[0, g.stakeC, -2.6]} />
 
-      {/* campfire ring */}
-      <group position={[3.4, 0, 1.6]}>
-        {Array.from({ length: 6 }, (_, i) => {
-          const a = (i / 6) * Math.PI * 2;
-          return (
-            <mesh
-              key={i}
-              position={[Math.cos(a) * 0.6, 0.14, Math.sin(a) * 0.6]}
-              rotation={[a, a * 2, 0]}
-            >
-              <dodecahedronGeometry args={[0.2, 0]} />
-              <meshStandardMaterial color="#6f7278" roughness={0.95} flatShading />
-            </mesh>
-          );
-        })}
-        <mesh position={[0, 0.22, 0]}>
-          <icosahedronGeometry args={[0.28, 0]} />
-          <meshStandardMaterial
-            color="#ffb45c"
-            emissive="#ff8a2c"
-            emissiveIntensity={2.4}
-            toneMapped={false}
-            flatShading
-          />
-        </mesh>
-        <pointLight position={[0, 0.9, 0]} intensity={0.8} distance={9} color="#ffb45c" />
+      <group position={[3.4, g.fire, 1.6]}>
+        <Campfire />
       </group>
 
-      {/* sitting log */}
-      <mesh position={[3.2, 0.22, 3.4]} rotation={[0, 0.5, Math.PI / 2]}>
-        <cylinderGeometry args={[0.22, 0.24, 1.9, 6]} />
+      {/* sitting log by the fire */}
+      <mesh position={[3.2, g.log + 0.2, 3.3]} rotation={[0, 0.35, Math.PI / 2]}>
+        <cylinderGeometry args={[0.22, 0.24, 2.1, 6]} />
         <meshStandardMaterial color="#6b4a2f" roughness={0.95} flatShading />
       </mesh>
 
+      {/* mom on the log, watching the fire */}
+      <SeatedFigure
+        position={[3.3, g.log, 3.12]}
+        rotationY={Math.PI + 0.1}
+        seatHeight={0.43}
+        jacket="#b13a5e"
+        jacketDark="#8a2c49"
+        pants="#3b4256"
+        hair="#5b4232"
+      />
+      {/* the seven-year-old, cross from mom, roasting a marshmallow */}
+      <SeatedFigure
+        position={[4.7, g.kid, 2.1]}
+        rotationY={Math.atan2(3.4 - 4.7, 1.6 - 2.1)}
+        seatHeight={0.16}
+        scale={0.62}
+        jacket="#eab308"
+        jacketDark="#b8880a"
+        pants="#7c3aed"
+        hair="#6b4a2f"
+        pigtails
+        marshmallowStick
+      />
+
+      {/* firewood — two on the ground, one stacked across */}
+      <mesh position={[1.9, g.wood + 0.1, 3.1]} rotation={[0, 1.25, Math.PI / 2]}>
+        <cylinderGeometry args={[0.09, 0.1, 0.9, 6]} />
+        <meshStandardMaterial color="#7a5b3a" roughness={0.95} flatShading />
+      </mesh>
+      <mesh position={[1.9, g.wood + 0.1, 3.35]} rotation={[0, 1.15, Math.PI / 2]}>
+        <cylinderGeometry args={[0.09, 0.1, 0.9, 6]} />
+        <meshStandardMaterial color="#6b4a2f" roughness={0.95} flatShading />
+      </mesh>
+      <mesh position={[1.9, g.wood + 0.27, 3.22]} rotation={[0, 2.75, Math.PI / 2]}>
+        <cylinderGeometry args={[0.085, 0.095, 0.85, 6]} />
+        <meshStandardMaterial color="#8a6a45" roughness={0.95} flatShading />
+      </mesh>
+
+      {/* cooler by the tent */}
+      <group position={[-0.6, g.cooler + 0.21, 2.4]} rotation={[0, -0.4, 0]}>
+        <mesh>
+          <boxGeometry args={[0.56, 0.38, 0.36]} />
+          <meshStandardMaterial color="#4d7ea8" roughness={0.6} />
+        </mesh>
+        <mesh position={[0, 0.21, 0]}>
+          <boxGeometry args={[0.58, 0.06, 0.38]} />
+          <meshStandardMaterial color="#e8eef2" roughness={0.5} />
+        </mesh>
+      </group>
+
+      {/* rolled sleeping bag beside the tent */}
+      <mesh position={[1.2, g.bedroll + 0.17, -1.6]} rotation={[0, 0.9, Math.PI / 2]}>
+        <capsuleGeometry args={[0.17, 0.5, 4, 10]} />
+        <meshStandardMaterial color="#7c3aed" roughness={0.85} />
+      </mesh>
+
       {/* stowed pack leaning on the tent */}
-      <mesh position={[-1.7, 0.35, 1.1]} rotation={[0.15, 0.4, -0.12]}>
+      <mesh position={[-1.7, g.pack + 0.32, 1.1]} rotation={[0.15, 0.4, -0.12]}>
         <boxGeometry args={[0.5, 0.7, 0.32]} />
         <meshStandardMaterial color="#d97706" roughness={0.85} flatShading />
       </mesh>
