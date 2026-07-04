@@ -23,17 +23,17 @@ export interface ScenePalette {
 export const DAY: ScenePalette = {
   skyTop: '#2f74d0',
   skyBottom: '#cfe5f7',
-  fog: '#dbe7f2',
-  fogDensityNear: 0.0024,
+  fog: '#d6e4f0',
+  fogDensityNear: 0.0021,
   fogDensityFar: 0.0009,
   sun: '#fff3dd',
   hemiSky: '#9cc4ec',
-  hemiGround: '#75855e',
-  grass: '#557d3f',
-  grassAlt: '#6b9152',
-  rock: '#8d8f94',
-  rockDeep: '#66686e',
-  snow: '#f7fafd',
+  hemiGround: '#6d7c57',
+  grass: '#4e7638',
+  grassAlt: '#628a48',
+  rock: '#8f8a82',
+  rockDeep: '#6b665f',
+  snow: '#ffffff',
 };
 
 // Night palette — kept for a future night mode.

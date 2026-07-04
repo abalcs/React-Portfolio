@@ -32,15 +32,17 @@ function Clouds({ count = 9 }: { count?: number }) {
     const rand = mulberry32(777);
     return Array.from({ length: count }, () => ({
       x: (rand() - 0.5) * 800,
-      y: 105 + rand() * 70,
+      y: 135 + rand() * 75,
       z: (rand() - 0.5) * 800,
-      scale: 8 + rand() * 12,
+      scale: 10 + rand() * 10,
       speed: 1.2 + rand() * 1.8,
-      puffs: Array.from({ length: 4 + Math.floor(rand() * 3) }, () => [
-        (rand() - 0.5) * 2.4,
-        (rand() - 0.5) * 0.5,
-        (rand() - 0.5) * 1.2,
-        0.55 + rand() * 0.5,
+      // many small overlapping puffs in a flat wide layout — reads as
+      // cumulus rather than a faceted boulder
+      puffs: Array.from({ length: 7 + Math.floor(rand() * 4) }, () => [
+        (rand() - 0.5) * 3.2,
+        (rand() - 0.5) * 0.35,
+        (rand() - 0.5) * 1.4,
+        0.38 + rand() * 0.42,
       ]),
     }));
   }, [count]);
@@ -62,15 +64,16 @@ function Clouds({ count = 9 }: { count?: number }) {
               key={j}
               castShadow
               position={[p[0], p[1], p[2]]}
-              scale={[1.6, 0.8, 1]}
+              scale={[1.8, 0.55, 1.1]}
             >
-              <icosahedronGeometry args={[p[3], 0]} />
+              <icosahedronGeometry args={[p[3], 1]} />
               <meshStandardMaterial
                 color="#ffffff"
+                emissive="#ffffff"
+                emissiveIntensity={0.55}
                 roughness={1}
                 transparent
-                opacity={0.92}
-                flatShading
+                opacity={0.96}
                 fog={false}
               />
             </mesh>
@@ -95,9 +98,9 @@ export default function DaySky({ cloudCount }: DaySkyProps) {
       <Sky
         sunPosition={SUN_POSITION}
         distance={3000}
-        turbidity={4.5}
-        rayleigh={1.1}
-        mieCoefficient={0.004}
+        turbidity={3}
+        rayleigh={1.6}
+        mieCoefficient={0.0032}
         mieDirectionalG={0.85}
       />
       <Clouds count={cloudCount} />

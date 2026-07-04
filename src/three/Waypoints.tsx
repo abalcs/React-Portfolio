@@ -5,7 +5,6 @@ import { Html } from '@react-three/drei';
 import { FaGithub, FaEnvelope } from 'react-icons/fa';
 import { besideTrail, trailCurve, WAYPOINT_T } from './curve';
 import { gridHeight } from './terrainHeight';
-import { ACCENT } from './palette';
 import { projects } from '../data/projects';
 import { skills } from '../data/skills';
 import { experiences } from '../data/experience';
@@ -288,20 +287,87 @@ function Cairn({ position }: { position: THREE.Vector3 }) {
   );
 }
 
+const FLAG_W = 3.2;
+const FLAG_H = 1.7;
+const POLE_H = 8;
+
+/** Old Glory at the summit — canvas-drawn texture, cloth-wave animated. */
 function SummitFlag({ position }: { position: THREE.Vector3 }) {
+  const flagRef = useRef<THREE.Mesh>(null);
+
+  const texture = useMemo(() => {
+    const c = document.createElement('canvas');
+    c.width = 380;
+    c.height = 200;
+    const ctx = c.getContext('2d');
+    if (ctx) {
+      const stripe = c.height / 13;
+      for (let i = 0; i < 13; i++) {
+        ctx.fillStyle = i % 2 === 0 ? '#B22234' : '#FFFFFF';
+        ctx.fillRect(0, Math.floor(i * stripe), c.width, Math.ceil(stripe) + 1);
+      }
+      const cantonW = c.width * 0.4;
+      const cantonH = stripe * 7;
+      ctx.fillStyle = '#3C3B6E';
+      ctx.fillRect(0, 0, cantonW, cantonH);
+      // 50 stars: 9 rows alternating 6 and 5
+      ctx.fillStyle = '#FFFFFF';
+      for (let row = 0; row < 9; row++) {
+        const cols = row % 2 === 0 ? 6 : 5;
+        for (let col = 0; col < cols; col++) {
+          const x = (cantonW * ((row % 2 === 0 ? 1 : 2) + col * 2)) / 12;
+          const y = (cantonH * (row + 1)) / 10;
+          ctx.beginPath();
+          ctx.arc(x, y, 4.6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+    const tex = new THREE.CanvasTexture(c);
+    tex.anisotropy = 8;
+    return tex;
+  }, []);
+
+  useFrame(({ clock }) => {
+    const mesh = flagRef.current;
+    if (!mesh) return;
+    const geo = mesh.geometry as THREE.PlaneGeometry;
+    const posAttr = geo.attributes.position;
+    const time = clock.elapsedTime;
+    for (let i = 0; i < posAttr.count; i++) {
+      const x = posAttr.getX(i);
+      const u = x / FLAG_W + 0.5; // 0 at the pole, 1 at the fly end
+      posAttr.setZ(
+        i,
+        Math.sin(u * 5 - time * 3.2) * 0.22 * u +
+          Math.sin(u * 11 - time * 5.1) * 0.05 * u
+      );
+    }
+    posAttr.needsUpdate = true;
+    geo.computeVertexNormals();
+  });
+
   return (
-    <group position={position} scale={1.5}>
-      <mesh position={[0, 5, 0]}>
-        <cylinderGeometry args={[0.09, 0.12, 10, 5]} />
-        <meshStandardMaterial color="#8a94a8" roughness={0.6} />
+    <group position={position}>
+      {/* pole */}
+      <mesh position={[0, POLE_H / 2, 0]}>
+        <cylinderGeometry args={[0.06, 0.09, POLE_H, 6]} />
+        <meshStandardMaterial color="#9aa3b2" roughness={0.45} metalness={0.5} />
       </mesh>
-      <mesh position={[0.7, 9.45, 0]} rotation={[0, 0, -Math.PI / 2]}>
-        <coneGeometry args={[0.55, 1.4, 4]} />
+      <mesh position={[0, POLE_H + 0.12, 0]}>
+        <sphereGeometry args={[0.13, 8, 6]} />
+        <meshStandardMaterial color="#d8b544" roughness={0.35} metalness={0.6} />
+      </mesh>
+      {/* the flag — hoist at the pole, waving in the summit wind */}
+      <mesh
+        ref={flagRef}
+        position={[FLAG_W / 2 + 0.08, POLE_H - FLAG_H / 2 - 0.15, 0]}
+      >
+        <planeGeometry args={[FLAG_W, FLAG_H, 18, 8]} />
         <meshStandardMaterial
-          color={ACCENT}
-          emissive={ACCENT}
-          emissiveIntensity={0.6}
-          flatShading
+          map={texture}
+          side={THREE.DoubleSide}
+          roughness={0.85}
         />
       </mesh>
     </group>

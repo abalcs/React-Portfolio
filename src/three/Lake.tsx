@@ -41,13 +41,13 @@ export default function Lake({ tier, progress }: LakeProps) {
           depthScale={0.6}
           minDepthThreshold={0.4}
           maxDepthThreshold={1.4}
-          color="#5e88a6"
+          color="#6f9cbf"
           metalness={0.05}
           roughness={0.6}
         />
       ) : (
         <meshStandardMaterial
-          color="#3f7397"
+          color="#4d86ad"
           roughness={0.12}
           metalness={0.3}
           transparent

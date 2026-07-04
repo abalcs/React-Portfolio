@@ -6,8 +6,8 @@ import { ScenePalette } from './palette';
 // altitude bands (jittered per-vertex for natural transitions)
 const GRASS_TOP = 16;
 const ROCK_BLEND = 12;
-const SNOW_LINE = 42;
-const SNOW_BLEND = 10;
+const SNOW_LINE = 38;
+const SNOW_BLEND = 9;
 
 function hash2(x: number, z: number): number {
   const s = Math.sin(x * 12.9898 + z * 78.233) * 43758.5453;
@@ -69,10 +69,11 @@ function buildGeometry(segments: number, palette: ScenePalette) {
     );
     tmp.lerp(rockMix, rockAmt);
 
-    // snow near the summit — but it slides off steep faces
+    // snow near the summit — thinning on the steepest faces so the cap
+    // still reads clearly white from the valley
     const snowAmt =
       THREE.MathUtils.clamp((h + jitter - SNOW_LINE) / SNOW_BLEND, 0, 1) *
-      THREE.MathUtils.clamp(1 - steep * 1.6, 0, 1);
+      THREE.MathUtils.clamp(1 - steep * 1.1, 0.15, 1);
     tmp.lerp(snow, snowAmt);
 
     // baked ambient occlusion: crevices and steep faces sit in shade
