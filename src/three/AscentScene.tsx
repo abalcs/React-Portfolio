@@ -17,9 +17,14 @@ import CameraRig from './CameraRig';
 import Trail from './Trail';
 import Waypoints, { SectionId } from './Waypoints';
 import Hiker from './Hiker';
+import Suv, { createSuvState, SuvState } from './Suv';
+import Billboards from './Billboards';
+import Deer from './Deer';
+import NameLetters from './NameLetters';
 import Effects from './Effects';
 import { DAY } from './palette';
 import { trailCurve } from './curve';
+import { gridHeight } from './terrainHeight';
 import { ProgressDriver } from './hooks/useScrollProgress';
 import { usePerfTier } from './hooks/usePerfTier';
 
@@ -106,12 +111,76 @@ function FreeLook({ progress }: { progress: ProgressRef }) {
   );
 }
 
+/** Chase camera for Drive mode — snappier than the hiking follow-cam. */
+function DriveCamera({ state }: { state: React.MutableRefObject<SuvState> }) {
+  const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
+  const desired = useRef(new THREE.Vector3());
+  const look = useRef(new THREE.Vector3());
+  const groundClamp = useRef(0);
+  const initialized = useRef(false);
+
+  useFrame((_, delta) => {
+    const s = state.current;
+    const sinH = Math.sin(s.heading);
+    const cosH = Math.cos(s.heading);
+
+    desired.current.set(
+      s.pos.x - sinH * 9.5,
+      s.pos.y + 4.2,
+      s.pos.z - cosH * 9.5
+    );
+
+    // same smoothed asymmetric terrain clamp as the hiking camera
+    const gHere = gridHeight(desired.current.x, desired.current.z);
+    const gMid = gridHeight(
+      (desired.current.x + s.pos.x) / 2,
+      (desired.current.z + s.pos.z) / 2
+    );
+    const clampTarget = Math.max(gHere, gMid) + 2.4;
+    if (!initialized.current) groundClamp.current = clampTarget;
+    groundClamp.current = THREE.MathUtils.damp(
+      groundClamp.current,
+      clampTarget,
+      clampTarget > groundClamp.current ? 16 : 2.5,
+      delta
+    );
+    if (desired.current.y < groundClamp.current) {
+      desired.current.y = groundClamp.current;
+    }
+
+    if (!initialized.current) {
+      camera.position.copy(desired.current);
+      initialized.current = true;
+    } else {
+      camera.position.lerp(desired.current, 1 - Math.exp(-5.5 * delta));
+    }
+
+    look.current.set(
+      s.pos.x + sinH * 5,
+      s.pos.y + 1.4,
+      s.pos.z + cosH * 5
+    );
+    camera.lookAt(look.current);
+
+    // subtle speed-FOV for the sensation of pace
+    const fov = THREE.MathUtils.lerp(58, 68, Math.abs(s.speed) / 19);
+    if (Math.abs(camera.fov - fov) > 0.05) {
+      camera.fov = fov;
+      camera.updateProjectionMatrix();
+    }
+  });
+
+  return null;
+}
+
 interface AscentSceneProps {
   onSelect: (section: SectionId) => void;
   /** a content panel is open — suspend camera mouse tracking */
   paused?: boolean;
   /** free camera orbit around the hiker instead of follow-cam */
   freeLook?: boolean;
+  /** free-roam Drive mode — user controls the SUV */
+  driving?: boolean;
 }
 
 /**
@@ -123,12 +192,15 @@ export default function AscentScene({
   onSelect,
   paused = false,
   freeLook = false,
+  driving = false,
 }: AscentSceneProps) {
   const tier = usePerfTier();
   const palette = DAY;
 
   // single damped scroll value shared by hiker/camera/fog/signs
   const progress = useRef(0);
+  const suvState = useRef<SuvState | null>(null);
+  if (!suvState.current) suvState.current = createSuvState();
   // adaptive resolution: step down under sustained load, back up when free
   const [dpr, setDpr] = React.useState(tier === 'high' ? 1.5 : 1);
 
@@ -164,7 +236,9 @@ export default function AscentScene({
           progress={progress}
         />
         <VisibilityPause />
-        {freeLook ? (
+        {driving ? (
+          <DriveCamera state={suvState as React.MutableRefObject<SuvState>} />
+        ) : freeLook ? (
           <FreeLook progress={progress} />
         ) : (
           <CameraRig progress={progress} frozen={paused} />
@@ -192,6 +266,16 @@ export default function AscentScene({
           <Birds />
           <Trail />
           <Hiker progress={progress} />
+          <Suv
+            driving={driving}
+            state={suvState as React.MutableRefObject<SuvState>}
+          />
+          <Billboards />
+          <NameLetters suvState={suvState as React.MutableRefObject<SuvState>} />
+          <Deer
+            progress={progress}
+            suvState={suvState as React.MutableRefObject<SuvState>}
+          />
           <Waypoints progress={progress} onSelect={onSelect} />
           <Lighting palette={palette} shadows={tier === 'high'} />
           <Effects tier={tier} />

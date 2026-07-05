@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { onStep } from '../lib/stepBus';
+import { engineState } from '../lib/vehicleBus';
 
 /**
  * Procedural outdoor ambience (zero audio assets): a soft bed of filtered
@@ -177,6 +178,43 @@ export function useAmbientAudio() {
       );
     };
     timersRef.current.push(window.setTimeout(phrase, 900));
+
+    /* ---- SUV engine: saw + sub oscillators pitched by speed ---- */
+    const engineOsc = ctx.createOscillator();
+    engineOsc.type = 'sawtooth';
+    engineOsc.frequency.value = 46;
+    const engineSub = ctx.createOscillator();
+    engineSub.type = 'sine';
+    engineSub.frequency.value = 23;
+    const engineFilter = ctx.createBiquadFilter();
+    engineFilter.type = 'lowpass';
+    engineFilter.frequency.value = 260;
+    engineFilter.Q.value = 0.7;
+    const engineGain = ctx.createGain();
+    engineGain.gain.value = 0;
+    engineOsc.connect(engineFilter);
+    engineSub.connect(engineFilter);
+    engineFilter.connect(engineGain);
+    engineGain.connect(master);
+    engineOsc.start();
+    engineSub.start();
+
+    const engineTick = window.setInterval(() => {
+      if (ctxRef.current !== ctx || ctx.state !== 'running') return;
+      const t = ctx.currentTime;
+      const on = engineState.active;
+      const rpm = engineState.intensity;
+      // idle burble ~46Hz rising toward ~130Hz at full speed, with a
+      // slight wobble so it doesn't sound like a pure tone
+      const wobble = Math.sin(t * 7.3) * 2.2;
+      const freq = 46 + rpm * 84 + (on ? wobble : 0);
+      engineOsc.frequency.setTargetAtTime(freq, t, 0.09);
+      engineSub.frequency.setTargetAtTime(freq / 2, t, 0.09);
+      engineFilter.frequency.setTargetAtTime(220 + rpm * 480, t, 0.12);
+      engineGain.gain.setTargetAtTime(on ? 0.045 + rpm * 0.075 : 0, t, 0.14);
+    }, 80);
+    timersRef.current.push(engineTick as unknown as number);
+    cleanupsRef.current.push(() => window.clearInterval(engineTick));
 
     /* ---- footsteps: crunch per foot plant from the hiker ---- */
     const unsubscribe = onStep((strength, foot) => {
