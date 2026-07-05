@@ -32,6 +32,7 @@ export default function CameraRig({
   const desired = useRef(new THREE.Vector3());
   const look = useRef(new THREE.Vector3());
   const initialized = useRef(false);
+  const groundClamp = useRef(0);
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -68,10 +69,26 @@ export default function CameraRig({
     desired.current.y +=
       FOLLOW_HEIGHT - my * 2.5 + Math.sin(time * 0.18) * 0.5;
 
-    // never sink into a hillside on tight switchbacks
-    const ground =
-      gridHeight(desired.current.x, desired.current.z) + 2.8;
-    if (desired.current.y < ground) desired.current.y = ground;
+    // never sink into a hillside — but a hard max() snaps the camera on
+    // sharp ridges, so the clamp itself is smoothed: it RISES quickly
+    // (can't clip into rock) and RELEASES slowly (no drop-off jolt).
+    // Look-ahead samples anticipate the ridge instead of reacting to it.
+    const gHere = gridHeight(desired.current.x, desired.current.z);
+    const gMid = gridHeight(
+      (desired.current.x + hiker.current.x) / 2,
+      (desired.current.z + hiker.current.z) / 2
+    );
+    const clampTarget = Math.max(gHere, gMid) + 2.8;
+    if (!initialized.current) groundClamp.current = clampTarget;
+    groundClamp.current = THREE.MathUtils.damp(
+      groundClamp.current,
+      clampTarget,
+      clampTarget > groundClamp.current ? 16 : 2.5,
+      delta
+    );
+    if (desired.current.y < groundClamp.current) {
+      desired.current.y = groundClamp.current;
+    }
 
     if (!initialized.current) {
       camera.position.copy(desired.current);

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
+import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { MeshReflectorMaterial } from '@react-three/drei';
+import { MeshReflectorMaterial, useTexture } from '@react-three/drei';
 import { LAKE } from './terrainHeight';
 import { ProgressRef } from './hooks/useScrollProgress';
 
@@ -10,17 +11,29 @@ interface LakeProps {
 }
 
 /**
- * A still alpine tarn in the valley. Real planar reflections are only
- * rendered while the lake is actually in view (the early journey) — the
- * reflection pass re-renders the whole scene, so it's the single most
- * expensive effect and gets unmounted once the hiker climbs past it.
+ * An alpine tarn with drifting ripple normals. True planar reflections
+ * render only while the lake is in view (the early journey) — that pass
+ * re-renders the whole scene, so it unmounts once the hiker climbs past.
  */
 export default function Lake({ tier, progress }: LakeProps) {
   const [inView, setInView] = useState(true);
 
-  useFrame(() => {
+  const ripples = useTexture(
+    `${process.env.PUBLIC_URL}/assets/pbr/waternormals.jpg`
+  );
+  useMemo(() => {
+    ripples.wrapS = ripples.wrapT = THREE.RepeatWrapping;
+    ripples.repeat.set(6, 6);
+    ripples.needsUpdate = true;
+  }, [ripples]);
+
+  const drift = useRef(0);
+  useFrame((_, delta) => {
     const visible = progress.current < 0.45;
     if (visible !== inView) setInView(visible);
+    // slow diagonal drift of the ripple field
+    drift.current += delta;
+    ripples.offset.set(drift.current * 0.012, drift.current * 0.008);
   });
 
   const reflective = tier === 'high' && inView;
@@ -33,25 +46,29 @@ export default function Lake({ tier, progress }: LakeProps) {
       <circleGeometry args={[LAKE.radius + 4, 48]} />
       {reflective ? (
         <MeshReflectorMaterial
-          mirror={0.55}
+          mirror={0.6}
           resolution={256}
-          mixBlur={1}
-          blur={[320, 100]}
-          mixStrength={2.2}
+          mixBlur={0.6}
+          blur={[220, 60]}
+          mixStrength={1.8}
           depthScale={0.6}
           minDepthThreshold={0.4}
           maxDepthThreshold={1.4}
-          color="#6f9cbf"
+          color="#88a8bf"
           metalness={0.05}
-          roughness={0.6}
+          roughness={0.25}
+          normalMap={ripples}
+          normalScale={new THREE.Vector2(0.35, 0.35)}
         />
       ) : (
         <meshStandardMaterial
           color="#4d86ad"
-          roughness={0.12}
+          roughness={0.15}
           metalness={0.3}
+          normalMap={ripples}
+          normalScale={new THREE.Vector2(0.4, 0.4)}
           transparent
-          opacity={0.94}
+          opacity={0.95}
         />
       )}
     </mesh>

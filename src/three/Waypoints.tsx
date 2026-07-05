@@ -1,21 +1,26 @@
 import React, { useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
+import { Html, useTexture } from '@react-three/drei';
 import { FaGithub, FaEnvelope } from 'react-icons/fa';
 import { besideTrail, trailCurve, WAYPOINT_T } from './curve';
 import { gridHeight } from './terrainHeight';
+import { makeBoulderGeometry } from './Rocks';
 import { projects } from '../data/projects';
 import { skills } from '../data/skills';
 import { experiences } from '../data/experience';
 import { ProgressRef } from './hooks/useScrollProgress';
+import {
+  ANIMS_BASE,
+  MODELS_BASE,
+  RpmFigure,
+  useAssetAvailable,
+} from './rpm';
 import profileImg from '../components/About/images/profile.jpg';
 
 import type { SectionId } from './journey';
 export type { SectionId } from './journey';
 
-const WOOD = '#7a5b3a';
-const WOOD_DARK = '#5d4429';
 
 /* ---------- preview card contents (plain HTML, shown on the sign) ---------- */
 
@@ -167,6 +172,18 @@ function TrailSign({
   const [hovered, setHovered] = useState(false);
   const inner = useRef<THREE.Group>(null);
 
+  const { map: planks, normalMap: planksN } = useTexture({
+    map: `${process.env.PUBLIC_URL}/assets/pbr/brown_planks_07_diff_1k.jpg`,
+    normalMap: `${process.env.PUBLIC_URL}/assets/pbr/brown_planks_07_nor_gl_1k.jpg`,
+  });
+  useMemo(() => {
+    [planks, planksN].forEach((tex) => {
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.needsUpdate = true;
+    });
+    planks.colorSpace = THREE.SRGBColorSpace;
+  }, [planks, planksN]);
+
   const { position, yaw } = useMemo(() => {
     const p = besideTrail(t, side);
     const tangent = trailCurve.getTangentAt(Math.min(t, 0.999));
@@ -182,70 +199,142 @@ function TrailSign({
     return { position: p, yaw: facing };
   }, [t, side]);
 
-  useFrame((_, delta) => {
+  const boardMat = useRef<THREE.MeshStandardMaterial>(null);
+  const [occluded, setOccluded] = useState(false);
+  const camPos = useRef(new THREE.Vector3());
+
+  useFrame(({ camera }, delta) => {
     const isNear = Math.abs(progress.current - t) < 0.14;
     if (isNear !== near) setNear(isNear);
     // title chips are DOM nodes repositioned every frame — only keep the
     // ones within eyeshot mounted
-    const showTitle = Math.abs(progress.current - t) < 0.38;
+    const showTitle = Math.abs(progress.current - t) < 0.22;
     if (showTitle !== titleVisible) setTitleVisible(showTitle);
+
+    // DOM labels don't depth-test — hide them when a ridge blocks the
+    // sightline (cheap: sample terrain height along the camera→sign line)
+    if (showTitle || isNear) {
+      camera.getWorldPosition(camPos.current);
+      const bx = position.x;
+      const by = position.y + 2.6;
+      const bz = position.z;
+      let blocked = false;
+      for (let i = 1; i <= 8; i++) {
+        const f = (i / 9) * 0.92 + 0.04;
+        const sx = camPos.current.x + (bx - camPos.current.x) * f;
+        const sy = camPos.current.y + (by - camPos.current.y) * f;
+        const sz = camPos.current.z + (bz - camPos.current.z) * f;
+        if (gridHeight(sx, sz) > sy + 0.4) {
+          blocked = true;
+          break;
+        }
+      }
+      if (blocked !== occluded) setOccluded(blocked);
+    }
     if (inner.current) {
+      // prominent pop: springy scale-up + lift toward the viewer
       const s = THREE.MathUtils.damp(
         inner.current.scale.x,
-        hovered ? 1.09 : 1,
-        10,
+        hovered ? 1.2 : 1,
+        14,
         delta
       );
       inner.current.scale.setScalar(s);
+      inner.current.position.y = THREE.MathUtils.damp(
+        inner.current.position.y,
+        hovered ? 0.28 : 0,
+        14,
+        delta
+      );
+      inner.current.position.z = THREE.MathUtils.damp(
+        inner.current.position.z,
+        hovered ? 0.35 : 0,
+        14,
+        delta
+      );
+    }
+    if (boardMat.current) {
+      boardMat.current.emissiveIntensity = THREE.MathUtils.damp(
+        boardMat.current.emissiveIntensity,
+        hovered ? 0.32 : 0,
+        12,
+        delta
+      );
     }
   });
 
   return (
-    <group
-      position={position}
-      rotation={[0, yaw, 0]}
-      onClick={(e) => {
-        e.stopPropagation();
-        onSelect(id);
-      }}
-      onPointerOver={(e) => {
-        e.stopPropagation();
-        setHovered(true);
-        document.body.style.cursor = 'pointer';
-      }}
-      onPointerOut={() => {
-        setHovered(false);
-        document.body.style.cursor = 'auto';
-      }}
-    >
+    <group position={position} rotation={[0, yaw, 0]}>
+      {/* STATIC invisible hitbox carries all pointer events — the visible
+          sign animates on hover, and an animated hit surface shifting
+          under a stationary cursor causes enter/leave flicker */}
+      <mesh
+        position={[0, 2.5, 0]}
+        onClick={(e) => {
+          e.stopPropagation();
+          onSelect(id);
+        }}
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          setHovered(true);
+          document.body.style.cursor = 'pointer';
+        }}
+        onPointerOut={() => {
+          setHovered(false);
+          document.body.style.cursor = 'auto';
+        }}
+      >
+        <boxGeometry args={[4.2, 5.4, 2.2]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} />
+      </mesh>
       <group ref={inner}>
       {/* posts — run well below grade so they stay planted on slopes */}
       <mesh position={[-1.15, 0.75, 0]}>
         <cylinderGeometry args={[0.09, 0.13, 3.7, 6]} />
-        <meshStandardMaterial color={WOOD} roughness={0.9} flatShading />
+        <meshStandardMaterial map={planks} normalMap={planksN} roughness={0.9} />
       </mesh>
       <mesh position={[1.15, 0.75, 0]}>
         <cylinderGeometry args={[0.09, 0.13, 3.7, 6]} />
-        <meshStandardMaterial color={WOOD} roughness={0.9} flatShading />
+        <meshStandardMaterial map={planks} normalMap={planksN} roughness={0.9} />
       </mesh>
       {/* board */}
       <mesh position={[0, 2.6, 0]}>
         <boxGeometry args={[3.2, 2.05, 0.14]} />
-        <meshStandardMaterial color={WOOD_DARK} roughness={0.85} flatShading />
+        <meshStandardMaterial
+          ref={boardMat}
+          map={planks}
+          normalMap={planksN}
+          color="#8a7358"
+          roughness={0.85}
+          emissive="#ffd9a0"
+          emissiveIntensity={0}
+        />
       </mesh>
+      {/* corner bolts */}
+      {[
+        [-1.35, 3.4],
+        [1.35, 3.4],
+        [-1.35, 1.85],
+        [1.35, 1.85],
+      ].map(([bx, by], i) => (
+        <mesh key={i} position={[bx, by, 0.08]} rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.035, 0.035, 0.05, 8]} />
+          <meshStandardMaterial color="#3c3c42" metalness={0.7} roughness={0.35} />
+        </mesh>
+      ))}
       {/* little roof cap */}
       <mesh position={[0, 3.75, 0]} rotation={[0, 0, Math.PI / 2]}>
         <cylinderGeometry args={[0.22, 0.22, 3.5, 3]} />
-        <meshStandardMaterial color={WOOD} roughness={0.9} flatShading />
+        <meshStandardMaterial map={planks} normalMap={planksN} roughness={0.9} />
       </mesh>
       {/* carved title plank */}
-      {titleVisible && (
+      {titleVisible && !occluded && (
         <Html
           transform
           position={[0, 4.45, 0]}
           scale={0.78}
           zIndexRange={[30, 0]}
-          style={{ pointerEvents: 'none' }}
+          style={{ pointerEvents: 'none', backfaceVisibility: 'hidden' }}
         >
           <div className="select-none whitespace-nowrap rounded-md border-2 border-[#4a3722] bg-[#7a5b3a] px-4 py-1 font-display text-lg font-bold uppercase tracking-[0.2em] text-[#f5eeda] shadow-md">
             {SIGN_TITLES[id]}
@@ -253,14 +342,22 @@ function TrailSign({
         </Html>
       )}
       {/* live preview pinned to the board face */}
-      {near && (
+      {near && !occluded && (
         <Html
           transform
           position={[0, 2.6, 0.09]}
           scale={0.4}
           zIndexRange={[30, 0]}
+          style={{ backfaceVisibility: 'hidden' }}
         >
-          {previewFor(id, () => onSelect(id))}
+          {/* keep the pop alive while the cursor is on the DOM card —
+              the canvas fires pointerout the moment the DOM captures it */}
+          <div
+            onPointerEnter={() => setHovered(true)}
+            onPointerLeave={() => setHovered(false)}
+          >
+            {previewFor(id, () => onSelect(id))}
+          </div>
         </Html>
       )}
       </group>
@@ -271,16 +368,42 @@ function TrailSign({
 /* ------------------------------- scenery -------------------------------- */
 
 function Cairn({ position }: { position: THREE.Vector3 }) {
+  const { map, normalMap } = useTexture({
+    map: `${process.env.PUBLIC_URL}/assets/pbr/rock_face_diff_1k.jpg`,
+    normalMap: `${process.env.PUBLIC_URL}/assets/pbr/rock_face_nor_gl_1k.jpg`,
+  });
+  useMemo(() => {
+    [map, normalMap].forEach((tex) => {
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.needsUpdate = true;
+    });
+    map.colorSpace = THREE.SRGBColorSpace;
+  }, [map, normalMap]);
+  const geometry = useMemo(makeBoulderGeometry, []);
+
+  // stacked weathered stones, each with its own tumble and squash
+  const stones: Array<{ s: number; y: number; rot: [number, number, number] }> = [
+    { s: 1.55, y: 0.55, rot: [0.3, 0.4, 0.1] },
+    { s: 1.05, y: 1.6, rot: [1.2, 2.2, 0.5] },
+    { s: 0.62, y: 2.35, rot: [2.1, 0.9, 1.3] },
+  ];
+
   return (
     <group position={position} scale={1.5}>
-      {[
-        [1.1, 0.5],
-        [0.8, 1.25],
-        [0.5, 1.85],
-      ].map(([r, y], i) => (
-        <mesh key={i} position={[0, y, 0]}>
-          <dodecahedronGeometry args={[r, 0]} />
-          <meshStandardMaterial color="#8d8f94" roughness={0.9} flatShading />
+      {stones.map((st, i) => (
+        <mesh
+          key={i}
+          geometry={geometry}
+          position={[0, st.y, 0]}
+          rotation={st.rot}
+          scale={[st.s, st.s * 0.72, st.s]}
+        >
+          <meshStandardMaterial
+            map={map}
+            normalMap={normalMap}
+            normalScale={new THREE.Vector2(1.1, 1.1)}
+            roughness={0.95}
+          />
         </mesh>
       ))}
     </group>
@@ -665,6 +788,22 @@ function CampFloor({
 
 /** Basecamp at the trailhead — the hiker's family sees him off. */
 function Campsite({ position, yaw }: { position: THREE.Vector3; yaw: number }) {
+  const momAvailable = useAssetAvailable(`${MODELS_BASE}/mom.glb`);
+  const kidAvailable = useAssetAvailable(`${MODELS_BASE}/kid.glb`);
+
+  const { map: tentFabric, normalMap: tentFabricN } = useTexture({
+    map: `${process.env.PUBLIC_URL}/assets/pbr/fabric_pattern_07_col_1_1k.jpg`,
+    normalMap: `${process.env.PUBLIC_URL}/assets/pbr/fabric_pattern_07_nor_gl_1k.jpg`,
+  });
+  useMemo(() => {
+    [tentFabric, tentFabricN].forEach((tex) => {
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(3, 2);
+      tex.needsUpdate = true;
+    });
+    tentFabric.colorSpace = THREE.SRGBColorSpace;
+  }, [tentFabric, tentFabricN]);
+
   // seat every prop on the rendered terrain at ITS OWN spot — the camp
   // spans ~5 units of sloping meadow, one shared height floats things
   const groundAt = useMemo(() => {
@@ -697,10 +836,17 @@ function Campsite({ position, yaw }: { position: THREE.Vector3; yaw: number }) {
     <group position={position} rotation={[0, yaw, 0]}>
       <CampFloor groundAt={groundAt} center={[1.7, 1.4]} radius={4.8} />
 
-      {/* canvas tent — pyramid, door facing the fire, guy-lines staked */}
+      {/* canvas tent — woven fabric with real weave normal detail */}
       <mesh position={[0, 1.05, 0]} rotation={[0, Math.PI / 4, 0]} scale={[1, 0.72, 1]}>
         <coneGeometry args={[2.3, 3, 4]} />
-        <meshStandardMaterial color="#c9a15e" roughness={0.9} flatShading />
+        <meshStandardMaterial
+          map={tentFabric}
+          normalMap={tentFabricN}
+          normalScale={new THREE.Vector2(0.8, 0.8)}
+          color="#d8c092"
+          roughness={0.95}
+          flatShading
+        />
       </mesh>
       <mesh position={[0, 0.62, 1.35]} rotation={[0, Math.PI / 4, 0]} scale={[1, 0.7, 1]}>
         <coneGeometry args={[0.55, 1.25, 4]} />
@@ -724,29 +870,48 @@ function Campsite({ position, yaw }: { position: THREE.Vector3; yaw: number }) {
         <meshStandardMaterial color="#6b4a2f" roughness={0.95} flatShading />
       </mesh>
 
-      {/* mom on the log, watching the fire */}
-      <SeatedFigure
-        position={[3.3, g.log, 3.12]}
-        rotationY={Math.PI + 0.1}
-        seatHeight={0.43}
-        jacket="#b13a5e"
-        jacketDark="#8a2c49"
-        pants="#3b4256"
-        hair="#5b4232"
-      />
-      {/* the seven-year-old, cross from mom, roasting a marshmallow */}
-      <SeatedFigure
-        position={[4.7, g.kid, 2.1]}
-        rotationY={Math.atan2(3.4 - 4.7, 1.6 - 2.1)}
-        seatHeight={0.16}
-        scale={0.62}
-        jacket="#eab308"
-        jacketDark="#b8880a"
-        pants="#7c3aed"
-        hair="#6b4a2f"
-        pigtails
-        marshmallowStick
-      />
+      {/* mom by the fire (RPM avatar when mom.glb exists) */}
+      {momAvailable ? (
+        <RpmFigure
+          modelUrl={`${MODELS_BASE}/mom.glb`}
+          clipUrl={`${ANIMS_BASE}/F_Standing_Idle_001.glb`}
+          position={[2.7, g.log, 2.9]}
+          rotationY={Math.atan2(3.4 - 2.7, 1.6 - 2.9)}
+        />
+      ) : (
+        <SeatedFigure
+          position={[3.3, g.log, 3.12]}
+          rotationY={Math.PI + 0.1}
+          seatHeight={0.43}
+          jacket="#b13a5e"
+          jacketDark="#8a2c49"
+          pants="#3b4256"
+          hair="#5b4232"
+        />
+      )}
+      {/* the seven-year-old (RPM avatar when kid.glb exists) */}
+      {kidAvailable ? (
+        <RpmFigure
+          modelUrl={`${MODELS_BASE}/kid.glb`}
+          clipUrl={`${ANIMS_BASE}/F_Standing_Idle_Variations_001.glb`}
+          position={[4.6, g.kid, 2.3]}
+          rotationY={Math.atan2(3.4 - 4.6, 1.6 - 2.3)}
+          scale={0.72}
+        />
+      ) : (
+        <SeatedFigure
+          position={[4.7, g.kid, 2.1]}
+          rotationY={Math.atan2(3.4 - 4.7, 1.6 - 2.1)}
+          seatHeight={0.16}
+          scale={0.62}
+          jacket="#eab308"
+          jacketDark="#b8880a"
+          pants="#7c3aed"
+          hair="#6b4a2f"
+          pigtails
+          marshmallowStick
+        />
+      )}
 
       {/* firewood — two on the ground, one stacked across */}
       <mesh position={[1.9, g.wood + 0.1, 3.1]} rotation={[0, 1.25, Math.PI / 2]}>

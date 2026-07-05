@@ -1,15 +1,17 @@
 import React, { Suspense, useEffect, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, PerformanceMonitor } from '@react-three/drei';
+import { OrbitControls, PerformanceMonitor, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 import { ProgressRef } from './hooks/useScrollProgress';
 import Terrain from './Terrain';
-import DaySky from './DaySky';
+import ShadowClouds from './DaySky';
 import Trees from './Trees';
+import Grass from './Grass';
+import Undergrowth from './Undergrowth';
+import TrailScatter from './TrailScatter';
 import Rocks from './Rocks';
 import Birds from './Birds';
 import Lake from './Lake';
-import GrassTufts from './GrassTufts';
 import Lighting from './Lighting';
 import CameraRig from './CameraRig';
 import Trail from './Trail';
@@ -65,6 +67,7 @@ function VisibilityPause() {
 function FreeLook({ progress }: { progress: ProgressRef }) {
   const controls = useRef<any>(null);
   const target = useRef(new THREE.Vector3());
+  const initialized = useRef(false);
 
   useFrame(() => {
     if (!controls.current) return;
@@ -72,10 +75,21 @@ function FreeLook({ progress }: { progress: ProgressRef }) {
       THREE.MathUtils.clamp(progress.current, 0.0005, 0.9995),
       target.current
     );
-    controls.current.target.lerp(
-      { x: target.current.x, y: target.current.y + 2, z: target.current.z },
-      0.12
-    );
+    if (!initialized.current) {
+      // snap the orbit target to the hiker BEFORE the first update —
+      // otherwise controls lerp from world origin and the camera lurches
+      initialized.current = true;
+      controls.current.target.set(
+        target.current.x,
+        target.current.y + 2,
+        target.current.z
+      );
+    } else {
+      controls.current.target.lerp(
+        { x: target.current.x, y: target.current.y + 2, z: target.current.z },
+        0.12
+      );
+    }
     controls.current.update();
   });
 
@@ -156,12 +170,24 @@ export default function AscentScene({
           <CameraRig progress={progress} frozen={paused} />
         )}
         <Suspense fallback={null}>
-          <DaySky cloudCount={tier === 'high' ? 9 : 5} />
+          {/* photographed sky with mountain skyline: visible background +
+              image-based lighting — the world no longer ends at a haze ring */}
+          <Environment
+            files={`${process.env.PUBLIC_URL}/assets/hdri/horizon_2k.hdr`}
+            background
+          />
+          <ShadowClouds count={tier === 'high' ? 8 : 5} />
           {/* segment count must stay in lockstep with gridHeight() */}
           <Terrain palette={palette} />
-          <Trees count={tier === 'high' ? 260 : 100} />
+          <Trees count={tier === 'high' ? 380 : 150} />
+          <Grass count={tier === 'high' ? 9000 : 3000} />
+          <Undergrowth
+            flowerCount={tier === 'high' ? 2400 : 800}
+            bushCount={tier === 'high' ? 220 : 80}
+            logCount={30}
+          />
+          <TrailScatter />
           <Rocks count={tier === 'high' ? 140 : 60} />
-          <GrassTufts count={tier === 'high' ? 480 : 160} />
           <Lake tier={tier} progress={progress} />
           <Birds />
           <Trail />

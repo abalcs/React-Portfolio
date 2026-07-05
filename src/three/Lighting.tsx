@@ -13,9 +13,10 @@ export default function Lighting({ palette, shadows }: LightingProps) {
       {/* warm sun key light */}
       <directionalLight
         position={SUN_POSITION}
-        intensity={1.85}
+        intensity={2.4}
         color={palette.sun}
         castShadow={shadows}
+        // clouds are the only casters — soft blobs need no fine detail
         shadow-mapSize={[2048, 2048]}
         shadow-camera-left={-260}
         shadow-camera-right={260}
@@ -23,13 +24,14 @@ export default function Lighting({ palette, shadows }: LightingProps) {
         shadow-camera-bottom={-260}
         shadow-camera-near={50}
         shadow-camera-far={900}
-        shadow-bias={-0.0004}
-        shadow-radius={4}
+        // near-zero depth bias + normal offset = shadows attach at the
+        // contact point instead of floating away (peter-panning)
+        shadow-bias={-0.00005}
+        shadow-normalBias={0.9}
+        shadow-radius={5}
       />
-      {/* blue-sky / meadow bounce — generous so unlit sides read as
-          "shade" rather than "shadow" */}
-      <hemisphereLight args={[palette.hemiSky, palette.hemiGround, 1.05]} />
-      <ambientLight intensity={0.26} />
+      {/* small fill only — the HDRI environment supplies sky/bounce light */}
+      <hemisphereLight args={[palette.hemiSky, palette.hemiGround, 0.3]} />
     </>
   );
 }

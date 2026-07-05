@@ -23,9 +23,10 @@ export interface ScenePalette {
 export const DAY: ScenePalette = {
   skyTop: '#2f74d0',
   skyBottom: '#cfe5f7',
-  fog: '#bed8f0',
-  fogDensityNear: 0.0018,
-  fogDensityFar: 0.0009,
+  // thin haze tinted to the HDRI's horizon — distance cue, not overcast
+  fog: '#c3d2e2',
+  fogDensityNear: 0.0011,
+  fogDensityFar: 0.0004,
   sun: '#fff3dd',
   hemiSky: '#9cc4ec',
   hemiGround: '#6d7c57',

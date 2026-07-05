@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
+import { useTexture } from '@react-three/drei';
 import { gridHeight, TERRAIN_SIZE, LAKE } from './terrainHeight';
 import { trailCurve, CAMP, CAMP_CLEARANCE } from './curve';
 
@@ -16,11 +17,61 @@ function mulberry32(seed: number) {
   };
 }
 
+/** Noise-displaced sphere with spherical UVs — a believable boulder shape. */
+export function makeBoulderGeometry(): THREE.BufferGeometry {
+  const geo = new THREE.IcosahedronGeometry(1, 3);
+  const pos = geo.attributes.position;
+  const v = new THREE.Vector3();
+  const rand = mulberry32(555);
+  // random plane "facets" chopping the sphere + per-vertex noise
+  const cuts = Array.from({ length: 3 }, () =>
+    new THREE.Vector3(rand() - 0.5, rand() - 0.5, rand() - 0.5).normalize()
+  );
+  for (let i = 0; i < pos.count; i++) {
+    v.fromBufferAttribute(pos, i);
+    const n =
+      Math.sin(v.x * 5.1) * Math.sin(v.y * 4.3) * Math.sin(v.z * 6.2) * 0.12 +
+      Math.sin(v.x * 11 + 3.0) * 0.05;
+    let r = 1 + n;
+    for (const c of cuts) {
+      const d = v.dot(c);
+      if (d > 0.72) r *= 1 - (d - 0.72) * 0.55; // flatten facet
+    }
+    v.multiplyScalar(r);
+    pos.setXYZ(i, v.x, v.y, v.z);
+  }
+  // spherical UVs for the rock texture
+  const uvs = new Float32Array(pos.count * 2);
+  for (let i = 0; i < pos.count; i++) {
+    v.fromBufferAttribute(pos, i).normalize();
+    uvs[i * 2] = Math.atan2(v.z, v.x) / (Math.PI * 2) + 0.5;
+    uvs[i * 2 + 1] = Math.acos(THREE.MathUtils.clamp(v.y, -1, 1)) / Math.PI;
+  }
+  geo.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+  geo.computeVertexNormals();
+  return geo;
+}
+
 /**
  * Weathered boulders strewn across the slopes (one instanced draw call),
  * denser up high where the grass gives way to scree.
  */
 export default function Rocks({ count = 140 }: { count?: number }) {
+  const { map, normalMap } = useTexture({
+    map: `${process.env.PUBLIC_URL}/assets/pbr/rock_face_diff_1k.jpg`,
+    normalMap: `${process.env.PUBLIC_URL}/assets/pbr/rock_face_nor_gl_1k.jpg`,
+  });
+  useMemo(() => {
+    [map, normalMap].forEach((tex) => {
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.anisotropy = 8;
+      tex.needsUpdate = true;
+    });
+    map.colorSpace = THREE.SRGBColorSpace;
+  }, [map, normalMap]);
+
+  const geometry = useMemo(makeBoulderGeometry, []);
+
   const { matrices, colors, placed } = useMemo(() => {
     const rand = mulberry32(4242);
     const trailPts = trailCurve.getSpacedPoints(160);
@@ -29,8 +80,8 @@ export default function Rocks({ count = 140 }: { count?: number }) {
     const m = new THREE.Matrix4();
     const q = new THREE.Quaternion();
     const e = new THREE.Euler();
-    const c1 = new THREE.Color('#7d8087');
-    const c2 = new THREE.Color('#9a9da3');
+    const c1 = new THREE.Color('#9a948c');
+    const c2 = new THREE.Color('#c9c4bc');
     const tmp = new THREE.Color();
 
     let attempts = 0;
@@ -82,9 +133,17 @@ export default function Rocks({ count = 140 }: { count?: number }) {
   };
 
   return (
-    <instancedMesh ref={ref} args={[undefined, undefined, placed]}>
-      <dodecahedronGeometry args={[1, 0]} />
-      <meshStandardMaterial roughness={0.95} flatShading />
+    <instancedMesh
+      ref={ref}
+      args={[undefined, undefined, placed]}
+      geometry={geometry}
+    >
+      <meshStandardMaterial
+        map={map}
+        normalMap={normalMap}
+        normalScale={new THREE.Vector2(1.1, 1.1)}
+        roughness={0.95}
+      />
     </instancedMesh>
   );
 }

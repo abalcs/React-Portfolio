@@ -2,66 +2,9 @@ import React, { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 
+// Matches the visible sun in the HDRI (kloofendal 48d puresky) closely
+// enough for coherent shadows — refine against screenshots.
 export const SUN_POSITION: [number, number, number] = [260, 380, 200];
-
-const SKY_RADIUS = 1400;
-// Bluebird day — exact colors, no atmospheric model to wash them out
-const ZENITH = '#1c64cf';
-const HORIZON = '#b7d7f2';
-
-const skyVertex = /* glsl */ `
-  varying vec3 vWorldPosition;
-  void main() {
-    vec4 worldPosition = modelMatrix * vec4(position, 1.0);
-    vWorldPosition = worldPosition.xyz;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-  }
-`;
-
-const skyFragment = /* glsl */ `
-  uniform vec3 uTop;
-  uniform vec3 uBottom;
-  uniform vec3 uSunDir;
-  varying vec3 vWorldPosition;
-  void main() {
-    vec3 dir = normalize(vWorldPosition);
-    float h = max(dir.y, 0.0);
-    // deep blue overhead, pale blue (never white) at the horizon
-    vec3 col = mix(uBottom, uTop, pow(h, 0.62));
-    // warm halo hugging the sun
-    float sunAmt = pow(max(dot(dir, uSunDir), 0.0), 180.0);
-    col += vec3(1.0, 0.95, 0.82) * sunAmt * 0.9;
-    float wideGlow = pow(max(dot(dir, uSunDir), 0.0), 7.0);
-    col += vec3(0.75, 0.78, 0.72) * wideGlow * 0.10;
-    gl_FragColor = vec4(col, 1.0);
-  }
-`;
-
-function SkyDome() {
-  const uniforms = useMemo(
-    () => ({
-      uTop: { value: new THREE.Color(ZENITH) },
-      uBottom: { value: new THREE.Color(HORIZON) },
-      uSunDir: { value: new THREE.Vector3(...SUN_POSITION).normalize() },
-    }),
-    []
-  );
-
-  return (
-    <mesh>
-      <sphereGeometry args={[SKY_RADIUS, 32, 24]} />
-      <shaderMaterial
-        side={THREE.BackSide}
-        depthWrite={false}
-        fog={false}
-        vertexShader={skyVertex}
-        fragmentShader={skyFragment}
-        uniforms={uniforms}
-        toneMapped={false}
-      />
-    </mesh>
-  );
-}
 
 function mulberry32(seed: number) {
   let a = seed;
@@ -83,7 +26,11 @@ interface CloudSpec {
   puffs: Array<[number, number, number, number]>;
 }
 
-function Clouds({ count = 9 }: { count?: number }) {
+/**
+ * Invisible drifting cloud volumes that exist only to cast the moving
+ * shadows sweeping the terrain — the visible sky itself is the HDRI.
+ */
+export default function ShadowClouds({ count = 8 }: { count?: number }) {
   const group = useRef<THREE.Group>(null);
 
   const clouds = useMemo<CloudSpec[]>(() => {
@@ -94,8 +41,6 @@ function Clouds({ count = 9 }: { count?: number }) {
       z: (rand() - 0.5) * 800,
       scale: 10 + rand() * 10,
       speed: 1.2 + rand() * 1.8,
-      // many small overlapping puffs in a flat wide layout — reads as
-      // cumulus rather than a faceted boulder
       puffs: Array.from({ length: 7 + Math.floor(rand() * 4) }, () => [
         (rand() - 0.5) * 3.2,
         (rand() - 0.5) * 0.35,
@@ -125,41 +70,12 @@ function Clouds({ count = 9 }: { count?: number }) {
               scale={[1.8, 0.55, 1.1]}
             >
               <icosahedronGeometry args={[p[3], 1]} />
-              <meshStandardMaterial
-                color="#ffffff"
-                emissive="#ffffff"
-                emissiveIntensity={0.55}
-                roughness={1}
-                transparent
-                opacity={0.96}
-                fog={false}
-              />
+              {/* never rendered — only the shadow pass sees this */}
+              <meshBasicMaterial transparent opacity={0} depthWrite={false} />
             </mesh>
           ))}
         </group>
       ))}
     </group>
-  );
-}
-
-interface DaySkyProps {
-  cloudCount?: number;
-}
-
-/**
- * Bluebird-day sky: exact-color gradient dome with a warm sun halo, and
- * drifting low-poly clouds whose shadows sweep the terrain.
- */
-export default function DaySky({ cloudCount }: DaySkyProps) {
-  return (
-    <>
-      <SkyDome />
-      {/* the sun disc */}
-      <mesh position={SUN_POSITION}>
-        <sphereGeometry args={[26, 16, 12]} />
-        <meshBasicMaterial color="#fffdf2" toneMapped={false} fog={false} />
-      </mesh>
-      <Clouds count={cloudCount} />
-    </>
   );
 }

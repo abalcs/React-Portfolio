@@ -1,73 +1,11 @@
 import React, { useMemo } from 'react';
 import * as THREE from 'three';
+import { useTexture } from '@react-three/drei';
 import { trailCurve } from './curve';
 import { gridHeight } from './terrainHeight';
 
 const LIFT = 0.12; // just above the terrain triangles it drapes over
-const TEX_REPEAT_LEN = 7; // world units of path per texture repeat
-
-/** Procedurally-drawn dirt: mottled earth, pebbles, worn foot-lines. */
-function makeDirtTexture(): THREE.CanvasTexture {
-  const c = document.createElement('canvas');
-  c.width = 256;
-  c.height = 256;
-  const ctx = c.getContext('2d');
-  if (ctx) {
-    ctx.fillStyle = '#a08260';
-    ctx.fillRect(0, 0, 256, 256);
-
-    // multi-scale mottling
-    const earthTones = ['#8a6f50', '#b3946e', '#96795a', '#a98c66', '#7e654a'];
-    for (let i = 0; i < 380; i++) {
-      ctx.fillStyle = earthTones[Math.floor(Math.random() * earthTones.length)];
-      ctx.globalAlpha = 0.10 + Math.random() * 0.14;
-      ctx.beginPath();
-      ctx.ellipse(
-        Math.random() * 256,
-        Math.random() * 256,
-        2 + Math.random() * 13,
-        1.5 + Math.random() * 9,
-        Math.random() * Math.PI,
-        0,
-        Math.PI * 2
-      );
-      ctx.fill();
-    }
-
-    // twin worn foot-lines running along the path (v axis)
-    ctx.globalAlpha = 0.13;
-    ctx.fillStyle = '#6f5940';
-    for (const u of [0.34, 0.66]) {
-      for (let y = 0; y < 256; y += 4) {
-        const wobble = Math.sin(y * 0.05 + u * 20) * 6;
-        ctx.fillRect(u * 256 - 11 + wobble, y, 22, 4);
-      }
-    }
-
-    // pebbles
-    ctx.globalAlpha = 1;
-    for (let i = 0; i < 90; i++) {
-      const shade = 100 + Math.floor(Math.random() * 90);
-      ctx.fillStyle = `rgb(${shade},${shade - 8},${shade - 18})`;
-      ctx.globalAlpha = 0.5 + Math.random() * 0.5;
-      ctx.beginPath();
-      ctx.arc(
-        Math.random() * 256,
-        Math.random() * 256,
-        0.7 + Math.random() * 1.8,
-        0,
-        Math.PI * 2
-      );
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-  }
-  const tex = new THREE.CanvasTexture(c);
-  tex.wrapS = THREE.ClampToEdgeWrapping;
-  tex.wrapT = THREE.RepeatWrapping;
-  tex.anisotropy = 8;
-  return tex;
-}
+const TEX_REPEAT_LEN = 6; // world units of path per texture repeat
 
 /**
  * A worn dirt footpath draped flush onto the rendered terrain — textured,
@@ -75,7 +13,20 @@ function makeDirtTexture(): THREE.CanvasTexture {
  * of ending in a hard brown stripe.
  */
 export default function Trail() {
-  const texture = useMemo(makeDirtTexture, []);
+  const { map, normalMap } = useTexture({
+    map: `${process.env.PUBLIC_URL}/assets/pbr/dirt_floor_diff_1k.jpg`,
+    normalMap: `${process.env.PUBLIC_URL}/assets/pbr/dirt_floor_nor_gl_1k.jpg`,
+  });
+
+  useMemo(() => {
+    [map, normalMap].forEach((tex) => {
+      tex.wrapS = THREE.ClampToEdgeWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      tex.anisotropy = 8;
+      tex.needsUpdate = true;
+    });
+    map.colorSpace = THREE.SRGBColorSpace;
+  }, [map, normalMap]);
 
   const geometry = useMemo(() => {
     const N = 700;
@@ -148,7 +99,9 @@ export default function Trail() {
   return (
     <mesh geometry={geometry} receiveShadow>
       <meshStandardMaterial
-        map={texture}
+        map={map}
+        normalMap={normalMap}
+        normalScale={new THREE.Vector2(0.7, 0.7)}
         vertexColors
         transparent
         depthWrite={false}
