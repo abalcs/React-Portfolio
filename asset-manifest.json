@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.css": "/my-portfolio/static/css/main.72e6b5fc.css",
-    "main.js": "/my-portfolio/static/js/main.404a8ab3.js",
-    "static/js/209.2770d37f.chunk.js": "/my-portfolio/static/js/209.2770d37f.chunk.js",
-    "static/js/833.6068dcc3.chunk.js": "/my-portfolio/static/js/833.6068dcc3.chunk.js",
+    "main.css": "/my-portfolio/static/css/main.6cb859d3.css",
+    "main.js": "/my-portfolio/static/js/main.f3abd3a5.js",
+    "static/js/743.aa83e5dd.chunk.js": "/my-portfolio/static/js/743.aa83e5dd.chunk.js",
+    "static/js/776.547b5b6d.chunk.js": "/my-portfolio/static/js/776.547b5b6d.chunk.js",
     "static/media/weather.jpg": "/my-portfolio/static/media/weather.f2e81c38288ab0fccf3b.jpg",
     "static/media/sleeper.jpg": "/my-portfolio/static/media/sleeper.33b4a7953b42af2c60db.jpg",
     "static/media/profile.jpg": "/my-portfolio/static/media/profile.919d1107fa068f8e9dd5.jpg",
@@ -22,13 +22,13 @@
     "static/media/pwa.svg": "/my-portfolio/static/media/pwa.8afee95d323047b244eaa44c2cb812fb.svg",
     "static/media/tailwind.svg": "/my-portfolio/static/media/tailwind.8b3f5baf8ad130d320c59560114d0684.svg",
     "static/media/apollo.svg": "/my-portfolio/static/media/apollo.62b065057c477094ce6c2d0c63c71e25.svg",
-    "main.72e6b5fc.css.map": "/my-portfolio/static/css/main.72e6b5fc.css.map",
-    "main.404a8ab3.js.map": "/my-portfolio/static/js/main.404a8ab3.js.map",
-    "209.2770d37f.chunk.js.map": "/my-portfolio/static/js/209.2770d37f.chunk.js.map",
-    "833.6068dcc3.chunk.js.map": "/my-portfolio/static/js/833.6068dcc3.chunk.js.map"
+    "main.6cb859d3.css.map": "/my-portfolio/static/css/main.6cb859d3.css.map",
+    "main.f3abd3a5.js.map": "/my-portfolio/static/js/main.f3abd3a5.js.map",
+    "743.aa83e5dd.chunk.js.map": "/my-portfolio/static/js/743.aa83e5dd.chunk.js.map",
+    "776.547b5b6d.chunk.js.map": "/my-portfolio/static/js/776.547b5b6d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.72e6b5fc.css",
-    "static/js/main.404a8ab3.js"
+    "static/css/main.6cb859d3.css",
+    "static/js/main.f3abd3a5.js"
   ]
 }
